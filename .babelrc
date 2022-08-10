@@ -1,0 +1,21 @@
+{
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "extensions": [".ios.js", ".android.js", ".js", ".json"],
+        "alias": {
+          "@assets": "./assets",
+          "@styles": "./src/styles",
+          "@common": "./src/components/common",
+          "@utils": "./src/utils",
+          "@icons": "./src/styles/icons",
+          "@colors": "./src/styles/colors",
+          "@actions": "./src/store/actions",
+          "@services": "./src/services"
+        }
+      }
+    ]
+  ]
+}
