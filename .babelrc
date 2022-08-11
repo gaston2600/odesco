@@ -13,7 +13,9 @@
           "@icons": "./src/styles/icons",
           "@colors": "./src/styles/colors",
           "@actions": "./src/store/actions",
-          "@services": "./src/services"
+          "@services": "./src/services",
+          "@translation": "./src/translation",
+
         }
       }
     ]
