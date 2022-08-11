@@ -5,15 +5,21 @@ import LoginScreen from './src/components/modules/Auth/LoginScreen'
 import { store } from './src/store'
 import { NavigationContainer } from '@react-navigation/native'
 import I18n from './src/translation/I18n';
+import fonts from './src/theme/fonts'
+import AppNavigation from './src/navigation/AppNavigation'
 
 const App = () => {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <View style={styles.containerStyle}>
-          <Text>{I18n.t('greeting')}</Text>
+        <AppNavigation />
+        {/* <View style={styles.containerStyle}>
+          <Text style={{
+            fontFamily :fonts.type.NunitoBold,
+            fontSize : fonts.size.font12
+          }}>{I18n.t('greeting')}</Text>
           <LoginScreen />
-        </View>
+        </View> */}
       </Provider>
     </NavigationContainer>
   )

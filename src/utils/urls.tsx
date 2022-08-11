@@ -7,6 +7,8 @@ export const urls = {
     apiURL: baseURL,
 
     root: baseURL,
-    users: "/users",
+    login: "/api/users/login",
+    users: "/api/users",
+    postsList :"/api/posts/list"
 
 };

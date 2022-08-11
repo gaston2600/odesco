@@ -35,7 +35,6 @@ export default (state = INITIAL_STATE, action: { type: any; payload: any }) => {
             };
         case LOGIN_USER_SUCCESS:
             const { user, token } = action.payload;
-
             return {
                 ...state,
                 user,
