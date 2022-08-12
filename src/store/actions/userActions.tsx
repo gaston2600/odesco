@@ -25,7 +25,7 @@ export const login = (
         authSrv
             .login(email, password)
             .then(async (response: any) => {
-                console.log({ response });
+                
 
                 const { token, user } = response.data;
 

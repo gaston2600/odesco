@@ -9,9 +9,7 @@ import { urls } from '../../../../utils'
 const HeaderHomeCmp = () => {
     const [searchText, setSearchText] = useState("")
     const { user } = useSelector((state: any) => state?.User)
-console.log('====================================');
-console.log(`${urls.baseURL}/${user?.avatar?.path}`);
-console.log('====================================');
+    
     return (
         <View style={styles.containerStyle}>
             <View style={{

@@ -27,10 +27,10 @@ const LoginScreen = () => {
     }
 
     const submit = ({ email, password }: any) => {
-        console.log({ email, password })
+        
 
         dispatch(login(email, password, (res: any) => {
-            console.log({ res });
+            
 
         }, (err: any) => {
             console.log({ err });

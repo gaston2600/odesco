@@ -13,12 +13,8 @@ import CommentPostCmp from './components/CommentPostCmp';
 import { Divider } from '@rneui/base';
 import I18n from "react-native-i18n";
 import Icons from '../../../styles/icons';
-
 const PostCmp = (props: any) => {
-    const { data, index } = props;
-    console.log('====================================');
-    console.log({ data, index });
-    console.log('====================================');
+    const { navigation, data, index, openCommentModalize, closeCommentModalize } = props;
     return (
         <View style={styles.containerStyle}>
             <HeaderPostCmp data={data} />
@@ -45,16 +41,16 @@ const PostCmp = (props: any) => {
                 />
 
             </View> : null}
-            <View style={[styles.footerContainerStyle, {paddingHorizontal :10}]}>
+            <View style={[styles.footerContainerStyle, { paddingHorizontal: 10 }]}>
                 <View
-                style={{
-                    flexDirection :"row",
-                    alignItems :"center",
-                    justifyContent:"space-between"
-                }}
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between"
+                    }}
                 >
                     <Icons.AntDesign name={data?.is_liked ? "heart" : "hearto"} size={12} color={colors.primary} />
-                    <Text style={[styles.commentsTextStyle ,{marginLeft : 3}]}>{data?.likes?.length}</Text>
+                    <Text style={[styles.commentsTextStyle, { marginLeft: 3 }]}>{data?.likes?.length}</Text>
                 </View>
                 <View>
                     <Text style={styles.commentsTextStyle}>{`${data?.comments?.length || 0} ${I18n.t("comments")}`}</Text>
@@ -72,7 +68,12 @@ const PostCmp = (props: any) => {
             >
 
                 <LikePostCmp />
-                <CommentPostCmp />
+                <CommentPostCmp
+                navigation={navigation}
+                post={data?._id}
+                    openCommentModalize={openCommentModalize}
+                    closeCommentModalize={closeCommentModalize}
+                />
             </View>
         </View>
     )
@@ -100,9 +101,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 5
     },
-    commentsTextStyle:{
-        fontFamily :fonts.type.NunitoMedium,
-        fontSize : fonts.size.font10,
-        color : colors.black
+    commentsTextStyle: {
+        fontFamily: fonts.type.NunitoMedium,
+        fontSize: fonts.size.font10,
+        color: colors.black
     }
 })

@@ -1,11 +1,13 @@
 import {
 } from "../types";
-import { GET_POSTS_LIST, GET_POSTS_LIST_FAILED, GET_POSTS_LIST_SUCCESS } from "../types/postsActionsTypes";
+import { GET_POSTS_COMMENTS_LIST, GET_POSTS_COMMENTS_LIST_FAILED, GET_POSTS_COMMENTS_LIST_SUCCESS, GET_POSTS_LIST, GET_POSTS_LIST_FAILED, GET_POSTS_LIST_SUCCESS } from "../types/postsActionsTypes";
 
 const INITIAL_STATE = {
     posts: [],
-    count : 0,
-    loadingPosts: false
+    count: 0,
+    loadingPosts: false,
+    comments :[],
+    loadingComments : false
 };
 
 export default (state = INITIAL_STATE, action: { type: any; payload: any }) => {
@@ -28,7 +30,6 @@ export default (state = INITIAL_STATE, action: { type: any; payload: any }) => {
                 ...state,
                 loadingPosts: false
             };
-
 
         //NOTHING TO DO
         default:

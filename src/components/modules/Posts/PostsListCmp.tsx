@@ -5,8 +5,10 @@ import PostCmp from './PostCmp'
 import { useIsFocused } from '@react-navigation/native'
 import { getPostsList } from '../../../store/actions/postsActions'
 import colors from '../../../styles/colors'
+import ImagesViewModal from '../../modals/ImagesViewModal'
 
-const PostsListCmp = () => {
+const PostsListCmp = (props: any) => {
+    const { navigation, openCommentModalize, closeCommentModalize } = props;
     const { posts, count, loadingPosts } = useSelector((state: any) => state.Posts)
     const dispatch = useDispatch()
 
@@ -68,10 +70,15 @@ const PostsListCmp = () => {
     }, [isFocused])
     return (
         <View style={styles.containerStyle}>
+
             <FlatList
                 data={posts}
                 renderItem={({ item, index }) => {
-                    return <PostCmp data={item} index={index} />
+                    return <PostCmp data={item} index={index}
+                        navigation={navigation}
+                        openCommentModalize={openCommentModalize}
+                        closeCommentModalize={closeCommentModalize}
+                    />
                 }}
                 keyExtractor={item => `posts_${item?._id}`}
                 refreshControl={
@@ -80,6 +87,7 @@ const PostsListCmp = () => {
                         colors={[colors.primary]}
                         refreshing={loadingPosts}
                         onRefresh={() => {
+                            dispatch(getPostsList({ limit, offset: 0, filters: null }, null, null))
                         }}
                     />
                 }
@@ -93,6 +101,11 @@ const PostsListCmp = () => {
                     }
                 }}
             />
+            {/* <ImagesViewModal visible={true} close={() => {
+                console.log('====================================');
+                console.log("close modal");
+                console.log('====================================');
+            }} /> */}
         </View>
     )
 }
