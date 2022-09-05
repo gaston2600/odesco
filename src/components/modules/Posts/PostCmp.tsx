@@ -14,7 +14,16 @@ import { Divider } from '@rneui/base';
 import I18n from "react-native-i18n";
 import Icons from '../../../styles/icons';
 const PostCmp = (props: any) => {
-    const { navigation, data, index, openCommentModalize, closeCommentModalize } = props;
+    const {
+        navigation,
+        data,
+        index,
+        showImages,
+        openCommentModalize,
+        closeCommentModalize
+    } = props;
+    // console.log({ data });
+
     return (
         <View style={styles.containerStyle}>
             <HeaderPostCmp data={data} />
@@ -37,7 +46,9 @@ const PostCmp = (props: any) => {
             >
                 <FbGrid
                     images={data?.gallery?.map((v: any) => extractImage(v?.img?.path))}
-                    onPress={() => null}
+                    onPress={(res: string) => {
+                        showImages(data?.gallery?.map((v: any) => ({ url: extractImage(v?.img?.path) })))
+                    }}
                 />
 
             </View> : null}
@@ -67,10 +78,13 @@ const PostCmp = (props: any) => {
                 style={styles.footerContainerStyle}
             >
 
-                <LikePostCmp />
+                <LikePostCmp
+                    post={data?._id}
+                    data={data}
+                />
                 <CommentPostCmp
-                navigation={navigation}
-                post={data?._id}
+                    navigation={navigation}
+                    post={data?._id}
                     openCommentModalize={openCommentModalize}
                     closeCommentModalize={closeCommentModalize}
                 />

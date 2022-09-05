@@ -9,7 +9,9 @@ export const urls = {
     root: baseURL,
     login: "/api/users/login",
     users: "/api/users",
-    postsList :"/api/posts/list",
-    comments :"/api/comments"
+    postsList: "/api/posts/list",
+    comments: "/api/comments",
+    mesInstitutions: "api/config/institutions/me",
+    likes: "api/likes",
 
 };

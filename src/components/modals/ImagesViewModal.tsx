@@ -1,40 +1,47 @@
-import { Modal, StyleSheet, Text, View } from 'react-native'
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import PhotoBrowser from 'react-native-photo-browser';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import Icons from '../../styles/icons';
+import colors from '../../styles/colors';
 
 const ImagesViewModal = (props: any) => {
-    const { visible, close } = props
-    const mediaList = [{
-        photo:
-            'http://farm3.static.flickr.com/2667/4072710001_f36316ddc7_b.jpg',
-        selected: true,
-        caption: 'Grotto of the Madonna',
-    },
-    {
-        photo:
-            'http://farm3.static.flickr.com/2449/4052876281_6e068ac860_b.jpg',
-        thumb:
-            'http://farm3.static.flickr.com/2449/4052876281_6e068ac860_q.jpg',
-        selected: false,
-        caption: 'Beautiful Eyes',
-    },]
+    const { visible, close, images } = props
+    // const images = [{
+    //     // Simplest usage.
+    //     url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
+
+    //     // width: number
+    //     // height: number
+    //     // Optional, if you know the image size, you can set the optimization performance
+
+    //     // You can pass props to <Image />.
+    //     props: {
+    //         // headers: ...
+    //     }
+
+    // }]
     return (
-        <Modal>
-            {/* <PhotoBrowser
-                onBack={close}
-                mediaList={mediaList}
-                initialIndex={0}
-                displayNavArrows={true}
-                displaySelectionButtons={true}
-                displayActionButton={true}
-                startOnGrid={true}
-                enableGrid={true}
-                useCircleProgress
-                onSelectionChanged={()=>null}
-                onActionButton={()=>null}
-                alwaysDisplayStatusBar={true}
-                // customTitle={(index, rowCount) => `${index} sur ${rowCount}`}
-            /> */}
+        <Modal
+            visible={visible}
+        // transparent={true}
+        >
+
+            <ImageViewer imageUrls={images} />
+            <Pressable
+                onPress={close}
+                style={{
+                    position: "absolute",
+                    top: 30,
+                    right: 20,
+                    backgroundColor: colors.black,
+                    borderRadius : 100,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 10
+                }}
+            >
+                <Icons.AntDesign name="close" size={20} color={colors.white} />
+            </Pressable>
         </Modal>
     )
 }

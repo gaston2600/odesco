@@ -14,6 +14,14 @@ const PostsListCmp = (props: any) => {
 
     const isFocused = useIsFocused()
 
+    const [isVisibleImageModal, setIsVisibleImageModal] = useState(false)
+    const [imagesModalList, setImagesModalList] = useState([])
+    const showImages = (images: any) => {
+        setIsVisibleImageModal(true)
+        setImagesModalList(images)
+    }
+    const hiddeImageModal = () => setIsVisibleImageModal(false)
+
     const [loading, setLoading] = useState(false)
     const [posts_list, setPosts_list] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -66,7 +74,7 @@ const PostsListCmp = (props: any) => {
     };
 
     useEffect(() => {
-        dispatch(getPostsList({ limit, offset: 0, filters: null }, null, null))
+        dispatch(getPostsList({ limit, offset: 0, filters: null }, () => null, () => null))
     }, [isFocused])
     return (
         <View style={styles.containerStyle}>
@@ -76,6 +84,7 @@ const PostsListCmp = (props: any) => {
                 renderItem={({ item, index }) => {
                     return <PostCmp data={item} index={index}
                         navigation={navigation}
+                        showImages={showImages}
                         openCommentModalize={openCommentModalize}
                         closeCommentModalize={closeCommentModalize}
                     />
@@ -87,7 +96,7 @@ const PostsListCmp = (props: any) => {
                         colors={[colors.primary]}
                         refreshing={loadingPosts}
                         onRefresh={() => {
-                            dispatch(getPostsList({ limit, offset: 0, filters: null }, null, null))
+                            dispatch(getPostsList({ limit, offset: 0, filters: null }, () => null, () => null))
                         }}
                     />
                 }
@@ -101,11 +110,11 @@ const PostsListCmp = (props: any) => {
                     }
                 }}
             />
-            {/* <ImagesViewModal visible={true} close={() => {
-                console.log('====================================');
-                console.log("close modal");
-                console.log('====================================');
-            }} /> */}
+            <ImagesViewModal
+                visible={isVisibleImageModal}
+                close={hiddeImageModal}
+                images={imagesModalList}
+            />
         </View>
     )
 }

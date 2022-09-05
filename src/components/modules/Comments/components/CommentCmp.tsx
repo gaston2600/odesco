@@ -17,18 +17,6 @@ const CommentCmp = (props: any) => {
                 uri={extractImage(data?.institution ? data?.institution?.logo?.path : data?.partner?.avatar?.path)}
                 size={40}
             />
-            {/* <Avatar
-                size={40}
-                rounded
-                // title={String(data?.partner ? `${data?.partner?.first_name?.[0]}${data?.partner?.last_name[1]}` : data?.institution?.name?.slice(0, 2))?.toUpperCase()}
-                source={{ uri: extractImage(data?.partner?.avatar?.path ? data?.partner?.avatar?.path : data?.institution?.logo?.path) }}
-                containerStyle={{
-                    backgroundColor: colors.primary,
-                    borderWidth: 0.5,
-                    borderColor: `${colors.primaryLight}`,
-                    marginTop: 10
-                }}
-            /> */}
             <View style={styles.bodyContainerStyle}>
                 <Text style={styles.titleTextStyle}>{data?.partner?.first_name ? `${data?.partner?.first_name} ${data?.partner?.last_name}` : data?.institution?.name}</Text>
                 <Text style={styles.timeTextStyle}>{getTimeAgo(data?._id)}</Text>
@@ -45,7 +33,7 @@ const styles = StyleSheet.create({
     containerStyle: {
         flex: 1,
         marginVertical: 5,
-        padding: 10,
+        paddingHorizontal: 10,
         flexDirection: "row",
         justifyContent: "space-between"
     },

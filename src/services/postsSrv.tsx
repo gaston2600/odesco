@@ -13,6 +13,16 @@ const postsSrv = {
                 .catch((e) => reject(e));
         });
     },
+    likePost: ({ post, data }: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .post(`${urls.likes}/${post}`, data)
+                .then((resp) => {
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
 };
 
 export default postsSrv;

@@ -2,12 +2,11 @@ import axios from "axios";
 import { extractFilters } from "../helpers/extractFilters";
 import { urls } from "../utils";
 
-const commentsSrv = {
-    getPostComments: (data: any) => {
+const institutionSvr = {
+    my: (data: any) => {
         return new Promise(async (resolve, reject) => {
             return axios
-                .get(`${urls.comments}/${data?.post}`)
-                // .get(`${urls.comments}/${offset || 0}/${limit || 10}?${extractFilters({ filters })}`)
+                .get(`${urls.mesInstitutions}?${extractFilters({ filters: data?.filters })}`)
                 .then((resp) => {
                     console.log({ resp });
 
@@ -16,13 +15,13 @@ const commentsSrv = {
                 .catch((e) => reject(e));
         });
     },
-    post: (data: any) => {
-        console.log({ data });
-
+    myPartners: (data: any) => {
         return new Promise(async (resolve, reject) => {
             return axios
-                .post(`${urls.comments}/${data?.post}`, data?.data)
+                .get(`${urls.users}/${data?.user}/partners`)
                 .then((resp) => {
+                    console.log({ resp });
+
                     resolve(resp);
                 })
                 .catch((e) => reject(e));
@@ -30,4 +29,4 @@ const commentsSrv = {
     },
 };
 
-export default commentsSrv;
+export default institutionSvr;

@@ -13,9 +13,9 @@ import fonts from '../theme/fonts';
 const AppNavigation = () => {
     const { auth, token } = useSelector((state: any) => state.User)
     const state = useSelector((state: any) => state)
-    console.log('====================================');
-    console.log({ state });
-    console.log('====================================');
+    // console.log('====================================');
+    // console.log({ state });
+    // console.log('====================================');
     const Stack = createNativeStackNavigator();
     useEffect(() => {
         configAxios(token);

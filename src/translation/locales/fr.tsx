@@ -8,6 +8,8 @@ const fr = {
     Student: "Étudiant",
     Teacher: "Enseignant",
     Parent: "Parent",
+    partners: "Partenaires",
+    institutions : "Institutions",
 
 
 
@@ -17,13 +19,12 @@ const fr = {
 
 
 
-
-    seeMore : "Voir plus ...",
-    seeLess : "Voir moins ...",
-    like :"J'aime",
-    comment :"Commenter",
-    comments :"Commentaires"
-
+    seeMore: "Voir plus ...",
+    seeLess: "Voir moins ...",
+    like: "J'aime",
+    comment: "Commenter",
+    comments: "Commentaires",
+    select_inst: "Selectionner une institution"
 }
 
 export default fr;
