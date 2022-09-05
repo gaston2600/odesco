@@ -5,6 +5,7 @@ import HomeScreen from '../../components/modules/Home/HomeScreen';
 import CommentsScreen from '../../components/modules/Comments/CommentsScreen';
 import I18n from "react-native-i18n"
 import fonts from '../../theme/fonts';
+import NewPostScreen from '../../components/modules/Home/components/NewPostScreen';
 
 const HomeStack = () => {
     const Stack = createNativeStackNavigator();
@@ -24,6 +25,15 @@ const HomeStack = () => {
                     }
                 }}
             />
+            {/* <Stack.Screen name="NewPostScreen" component={NewPostScreen}
+                options={{
+                    headerTitle: I18n.t("new_post"),
+                    headerTitleStyle: {
+                        fontFamily: fonts.type.NunitoSemiBold,
+                        fontSize: fonts.size.font16
+                    }
+                }}
+            /> */}
         </Stack.Navigator>
     )
 }

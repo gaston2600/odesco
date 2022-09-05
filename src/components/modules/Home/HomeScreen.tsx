@@ -8,6 +8,7 @@ import ImageViewer from 'react-native-image-zoom-viewer'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyInstitutions } from '../../../store/actions/institutionsActions'
 import { getMyPartners } from '../../../store/actions'
+import NewPostCmp from './components/NewPostCmp'
 // import YoutubePlayer from "react-native-youtube-iframe";
 
 const HomeScreen = (props: any) => {
@@ -28,7 +29,7 @@ const HomeScreen = (props: any) => {
 
   function getMyInsitutions() {
     dispatch(getMyInstitutions({}))
-    dispatch(getMyPartners({user : user?._id}))
+    dispatch(getMyPartners({ user: user?._id }))
   }
   const state = useSelector(s => s)
   console.log({ state })
@@ -40,6 +41,9 @@ const HomeScreen = (props: any) => {
     <View style={styles.containerStyle}>
       <StatusBar barStyle={'default'} backgroundColor={colors.primary} />
       <HeaderHomeCmp />
+      <NewPostCmp
+        navigation={navigation}
+      />
       <PostsListCmp
         navigation={navigation}
         openCommentModalize={openCommentModalize}

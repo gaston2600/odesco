@@ -56,7 +56,7 @@ const TabNavigator = () => {
         // }}
 
         >
-            <Tab.Screen name="HomeScreen" component={HomeScreen} options={{
+            <Tab.Screen name="HomeScreen" component={HomeStack} options={{
                 headerShown: false
             }} />
             <Tab.Screen name="Network" component={NetworkScreen} />

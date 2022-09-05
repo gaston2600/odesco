@@ -24,7 +24,8 @@ const fr = {
     like: "J'aime",
     comment: "Commenter",
     comments: "Commentaires",
-    select_inst: "Selectionner une institution"
+    select_inst: "Selectionner une institution",
+    new_post :"Rédiger une publication"
 }
 
 export default fr;
