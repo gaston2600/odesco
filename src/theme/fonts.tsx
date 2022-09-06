@@ -10,7 +10,7 @@ const size = {
     font20: Metrics.screenWidth * (20 / 365),
 }
 
-const wheight = {
+const weight = {
     full: "900",
     semi: "600",
     low: "400",
@@ -19,14 +19,14 @@ const wheight = {
 }
 
 const type = {
-    NunitoMedium: "Nunito-Medium.ttf",
-    NunitoRegular: "Nunito-Regular.ttf",
-    NunitoSemiBold: "Nunito-SemiBold.ttf",
-    NunitoBold: "NunitoBold.ttf",
+    NunitoMedium: "Nunito-Medium",
+    NunitoRegular: "Nunito-Regular",
+    NunitoSemiBold: "Nunito-SemiBold",
+    NunitoBold: "Nunito-Bold",
 
 }
 export default {
     size,
-    wheight,
+    weight,
     type
 }

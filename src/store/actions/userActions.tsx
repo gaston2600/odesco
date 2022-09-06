@@ -25,9 +25,9 @@ export const login = (
         authSrv
             .login(email, password)
             .then(async (response: any) => {
-                console.log({ response });
+                
 
-                const { token, user } = response.data.data;
+                const { token, user } = response.data;
 
                 dispatch({
                     type: LOGIN_USER_SUCCESS,
@@ -36,7 +36,7 @@ export const login = (
                 callback({ token, user });
             })
             .catch((e) => {
-                console.log("login error === ", e.response);
+                console.log("login error === ", e);
                 dispatch({
                     type: LOGIN_USER_FAILED,
                     payload: e,
@@ -44,6 +44,4 @@ export const login = (
                 callbackError(e.response);
             });
     };
-};
-
 };

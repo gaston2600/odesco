@@ -1,4 +1,5 @@
 import axios from "axios";
+import { urls } from "../utils";
 
 const authSrv = {
     login: (
@@ -7,7 +8,7 @@ const authSrv = {
     ) => {
         return new Promise((resolve, reject) => {
             return axios
-                .post("/login", { email, password })
+                .post(`${urls.login}`, { email, pass :password })
                 .then((resp) => {
                     resolve(resp);
                 })
