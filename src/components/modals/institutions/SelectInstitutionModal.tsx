@@ -17,7 +17,7 @@ const SelectInstitutionModal = (props: any) => {
 
 
     const { visible, setVisible, confirm, selectedList } = props;
-    console.log({ selectedList });
+    // console.log({ selectedList });
 
 
     const { myInstitutions, myPartners, loading } = useSelector((state: any) => state?.Inst)

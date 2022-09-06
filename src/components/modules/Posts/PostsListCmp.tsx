@@ -74,7 +74,10 @@ const PostsListCmp = (props: any) => {
     };
 
     useEffect(() => {
-        dispatch(getPostsList({ limit, offset: 0, filters: null }, () => null, () => null))
+        setTimeout(() => {
+            dispatch(getPostsList({ limit, offset: 0, filters: null }, () => null, () => null))
+        }, 500);
+
     }, [isFocused])
     return (
         <View style={styles.containerStyle}>
