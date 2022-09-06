@@ -68,6 +68,8 @@ buck-out/
 # CocoaPods
 /ios/Pods/
 
+android/.gradle/7.3.3
+
 android/app/src/main/java/com/odesco/generated/
 
 android/app/build/outputs/apk/debug/
