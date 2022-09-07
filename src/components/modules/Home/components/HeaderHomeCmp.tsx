@@ -9,10 +9,11 @@ import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-m
 import MenuContextCmp from './MenuContextCmp'
 import globalStyles from '../../../../styles/globalStyles'
 
-const HeaderHomeCmp = () => {
-    const [searchText, setSearchText] = useState("")
+const HeaderHomeCmp = (props: any) => {
+    const { navigation } = props;
     const { user } = useSelector((state: any) => state?.User)
     const menuRef = useRef(null)
+    const [searchText, setSearchText] = useState("")
     return (
         <View style={styles.containerStyle}>
             <View style={{
@@ -65,6 +66,7 @@ const HeaderHomeCmp = () => {
                     >
                         <MenuContextCmp
                             close={() => menuRef?.current?.close()}
+                            navigation={navigation}
                         />
                     </MenuOptions>
                 </Menu>

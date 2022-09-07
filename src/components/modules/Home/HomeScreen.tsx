@@ -40,7 +40,9 @@ const HomeScreen = (props: any) => {
   return (
     <View style={styles.containerStyle}>
       <StatusBar barStyle={'default'} backgroundColor={colors.primary} />
-      <HeaderHomeCmp />
+      <HeaderHomeCmp
+        navigation={navigation}
+      />
       <NewPostCmp
         navigation={navigation}
       />

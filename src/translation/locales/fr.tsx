@@ -11,14 +11,28 @@ const fr = {
     partners: "Partenaires",
     institutions: "Institutions",
     add_new: "Nouveau",
-    save :"Enregistrer",
+    save: "Enregistrer",
+    cancel: "Annuler",
+    add_new_inst: "Ajouter Un Établissement",
+
+
+
+    inst_name: "Nom de l'établissement",
+    type: "Type",
+    phone: "Téléphone",
+    webSite: "Site Web",
+    address: "Adresse",
+    description: "Déscription",
+
+    required: "Champ obligatoire",
+    min_3: "Minimum 3 carachtère",
 
 
 
 
 
 
-    code_access :"Code D'accés",
+    code_access: "Code D'accés",
     myInsts: "Mes Établissement",
     myPartners: "Mes Espaces",
     seeMore: "Voir plus ...",

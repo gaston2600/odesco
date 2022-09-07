@@ -13,5 +13,6 @@ export const urls = {
     comments: "/api/comments",
     mesInstitutions: "api/config/institutions/me",
     likes: "api/likes",
+    configInst :"/api/config/institutions",
 
 };

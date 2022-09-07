@@ -7,9 +7,10 @@ import { useSelector } from 'react-redux';
 import Icons from '../../../../styles/icons';
 import { Button, Divider } from '@rneui/themed';
 import { extractImage } from '../../../../helpers/extractImage';
+import { navigate } from '../../../../navigation/NavigationService';
 
 const MenuContextCmp = (props: any) => {
-    const { close } = props
+    const { close, navigation } = props
     const { myInstitutions, myPartners, loading } = useSelector((state: any) => state?.Inst)
 
     const [showAddPartner, setShowAddPartner] = useState(false)
@@ -23,7 +24,14 @@ const MenuContextCmp = (props: any) => {
 
     function renderInst(params: any, empty: boolean = false) {
         return (
-            <View style={styles.instContainerStyle}>
+            <Pressable
+                onPress={() => {
+                    if (empty) {
+                        navigation?.navigate("AddNewInstScreen", {})
+                        close()
+                    }
+                }}
+                style={styles.instContainerStyle}>
                 <View style={{
                     flex: 2
                 }}>
@@ -52,7 +60,7 @@ const MenuContextCmp = (props: any) => {
                     </Text>
                 </View>
 
-            </View>
+            </Pressable>
         )
     }
     function renderPartners(params: any, empty: boolean = false) {
