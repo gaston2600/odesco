@@ -9,16 +9,18 @@ const fr = {
     Teacher: "Enseignant",
     Parent: "Parent",
     partners: "Partenaires",
-    institutions : "Institutions",
+    institutions: "Institutions",
+    add_new: "Nouveau",
+    save :"Enregistrer",
 
 
 
 
 
 
-
-
-
+    code_access :"Code D'accés",
+    myInsts: "Mes Établissement",
+    myPartners: "Mes Espaces",
     seeMore: "Voir plus ...",
     seeLess: "Voir moins ...",
     like: "J'aime",
@@ -26,7 +28,7 @@ const fr = {
     comments: "Commentaires",
     publish: "Publier",
     select_inst: "Selectionner une institution",
-    new_post :"Rédiger une publication"
+    new_post: "Rédiger une publication"
 }
 
 export default fr;
