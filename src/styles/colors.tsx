@@ -25,6 +25,7 @@ const colors = {
     orange: "#f80",
     purple: "#8E104B",
     darkBlue: "#062342",
+    sereneBlue: "#1f85a2",
 };
 
 export default colors;

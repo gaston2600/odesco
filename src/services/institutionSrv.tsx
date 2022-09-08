@@ -8,7 +8,7 @@ const institutionSvr = {
             return axios
                 .get(`${urls.mesInstitutions}?${extractFilters({ filters: data?.filters })}`)
                 .then((resp) => {
-                    console.log({ resp });
+                    // console.log({ resp });
 
                     resolve(resp);
                 })
@@ -20,7 +20,7 @@ const institutionSvr = {
             return axios
                 .get(`${urls.users}/${data?.user}/partners`)
                 .then((resp) => {
-                    console.log({ resp });
+                    // console.log({ resp });
 
                     resolve(resp);
                 })
