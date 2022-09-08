@@ -8,8 +8,6 @@ import globalStyles from '../../../../styles/globalStyles'
 
 const NewPostCmp = (props: any) => {
     const { navigation } = props
-    console.log( navigation?.navigate);
-
 
     return (
         <Pressable

@@ -27,6 +27,18 @@ const institutionSvr = {
                 .catch((e) => reject(e));
         });
     },
+    post: (data: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .post(`${urls.configInst}`, data)
+                .then((resp) => {
+                    console.log({ resp });
+
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
 };
 
 export default institutionSvr;

@@ -30,3 +30,25 @@ export const getMyInstitutions = (
             });
     };
 };
+
+export const postInst = (
+    data: any,
+    callback :any,
+    callbackError : any
+) => {
+    return (dispatch: (arg0: { type: string; payload?: any }) => any) => {
+        dispatch({
+            type: GET_MY_INSTITUTIONS,
+        });
+
+        institutionSvr
+            .post(data)
+            .then((response: any) => {
+                callback(response?.data);
+            })
+            .catch((e) => {
+                console.log("postInst error === ", e);
+                callbackError(e.response);
+            });
+    };
+};

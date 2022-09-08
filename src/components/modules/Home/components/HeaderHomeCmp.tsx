@@ -1,15 +1,19 @@
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import { Alert, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useRef, useState } from 'react'
 import colors from '../../../../styles/colors'
 import Icons from '../../../../styles/icons'
 import SearchCmp from '../../../common/SearchCmp'
 import { useSelector } from 'react-redux'
 import { urls } from '../../../../utils'
+import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
+import MenuContextCmp from './MenuContextCmp'
+import globalStyles from '../../../../styles/globalStyles'
 
-const HeaderHomeCmp = () => {
-    const [searchText, setSearchText] = useState("")
+const HeaderHomeCmp = (props: any) => {
+    const { navigation } = props;
     const { user } = useSelector((state: any) => state?.User)
-    
+    const menuRef = useRef(null)
+    const [searchText, setSearchText] = useState("")
     return (
         <View style={styles.containerStyle}>
             <View style={{
@@ -36,13 +40,36 @@ const HeaderHomeCmp = () => {
                     setValue={setSearchText}
                 />
             </View>
-            <View style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-            }}>
-                <Icons.Entypo name="dots-three-vertical" size={20} color={colors.white} />
 
+            <View>
+                <Pressable
+                    onPress={() => {
+                        menuRef?.current?.open()
+                    }}
+                    style={{
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}>
+                    <Icons.MCI name="dots-grid" size={40} color={colors.white} />
+                </Pressable>
+                <Menu
+                    ref={menuRef}
+                >
+                    <MenuTrigger />
+                    <MenuOptions
+                        optionsContainerStyle={[{
+                            width: "80%",
+                            padding: 10,
+                            shadowColor: colors.primary
+                        }, globalStyles.shadow]}
+                    >
+                        <MenuContextCmp
+                            close={() => menuRef?.current?.close()}
+                            navigation={navigation}
+                        />
+                    </MenuOptions>
+                </Menu>
             </View>
 
         </View>

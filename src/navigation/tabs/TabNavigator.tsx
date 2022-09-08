@@ -9,6 +9,7 @@ import MenuScreen from '../../components/modules/Menu/MenuScreen';
 import Icons from '../../styles/icons';
 import colors from '../../styles/colors';
 import HomeStack from '../stacks/HomeStack';
+import MenuStack from '../stacks/MenuStack';
 
 const TabNavigator = () => {
     const Tab = createBottomTabNavigator();
@@ -17,7 +18,7 @@ const TabNavigator = () => {
 
     return (
         <Tab.Navigator
-        initialRouteName='HomeStack'
+            initialRouteName='HomeStack'
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName;
@@ -33,6 +34,13 @@ const TabNavigator = () => {
                             iconName = focused
                                 ? 'call'
                                 : 'call-outline';
+                            iconColor = focused ? colors.primary : colors.grey;
+
+                            break;
+                        case "Menu":
+                            iconName = focused
+                                ? 'menu'
+                                : 'menu';
                             iconColor = focused ? colors.primary : colors.grey;
 
                             break;
@@ -62,7 +70,9 @@ const TabNavigator = () => {
             <Tab.Screen name="Network" component={NetworkScreen} />
             <Tab.Screen name="Chat" component={ChatScreen} />
             <Tab.Screen name="Notification" component={NotificationScreen} />
-            <Tab.Screen name="Menu" component={MenuScreen} />
+            <Tab.Screen options={{
+                headerShown: false,
+            }} name="Menu" component={MenuStack} />
         </Tab.Navigator>
     )
 }
