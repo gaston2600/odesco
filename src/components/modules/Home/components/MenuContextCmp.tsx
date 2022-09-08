@@ -1,20 +1,24 @@
-import { FlatList, Image, Pressable, RefreshControl, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Pressable, RefreshControl, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import fonts from '../../../../theme/fonts'
 import colors from '../../../../styles/colors'
 import I18n from "react-native-i18n";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Icons from '../../../../styles/icons';
 import { Button, Divider } from '@rneui/themed';
 import { extractImage } from '../../../../helpers/extractImage';
 import { navigate } from '../../../../navigation/NavigationService';
+import { editUser, getMyPartners } from '../../../../store/actions';
 
 const MenuContextCmp = (props: any) => {
     const { close, navigation } = props
+    const dispatch = useDispatch()
     const { myInstitutions, myPartners, loading } = useSelector((state: any) => state?.Inst)
+    const { user } = useSelector((state: any) => state?.User)
 
     const [showAddPartner, setShowAddPartner] = useState(false)
     const [ref_code, setRef_code] = useState("")
+    const [loadingAddPartner, setLoadingAddPartner] = useState(false)
 
     const toogleAddPartner = () => {
         setShowAddPartner(!showAddPartner)
@@ -31,7 +35,7 @@ const MenuContextCmp = (props: any) => {
                         close()
                     }
                 }}
-                style={styles.instContainerStyle}>
+                style={[styles.instContainerStyle, !params?.institute?.active && !empty && { backgroundColor: colors.grey }]}>
                 <View style={{
                     flex: 2
                 }}>
@@ -54,7 +58,7 @@ const MenuContextCmp = (props: any) => {
                     <Text
                         adjustsFontSizeToFit
                         style={[styles.instTitleTextStyle, {
-                            color: empty ? colors.primary : colors.grey
+                            color: empty ? colors.primary : (!params?.institute?.active ? colors.white : colors.grey)
                         }]}>
                         {empty ? I18n.t("add_new") : params?.institute?.name}
                     </Text>
@@ -104,6 +108,25 @@ const MenuContextCmp = (props: any) => {
         )
     }
 
+    function addPartner(params: any) {
+        if (params?.length) {
+            setLoadingAddPartner(true)
+            dispatch(
+                editUser({
+                    id: user?._id,
+                    data: { ref_code }
+                }, (res: any) => {
+                    setLoadingAddPartner(false)
+                    dispatch(getMyPartners({ user: user?._id }))
+                },
+                    (err: any) => {
+                        setLoadingAddPartner(false)
+                    }
+                )
+            )
+        }
+    }
+
     return (
         <View>
             <View>
@@ -133,20 +156,25 @@ const MenuContextCmp = (props: any) => {
                             placeholder={I18n.t("code_access")}
                         />
                         <Pressable
+                            onPress={() => {
+                                addPartner(ref_code)
+                            }}
                             style={{
                                 backgroundColor: colors.primary,
                                 padding: 5,
                                 borderRadius: 5
                             }}
                         >
-                            <Text
-                                style={{
-                                    fontFamily: fonts.type.NunitoMedium,
-                                    fontSize: fonts.size.font10,
-                                    color: colors.white
-                                }}>
-                                {I18n.t("save")}
-                            </Text>
+                            {loadingAddPartner ?
+                                <ActivityIndicator color={colors.white} size="small" /> :
+                                <Text
+                                    style={{
+                                        fontFamily: fonts.type.NunitoMedium,
+                                        fontSize: fonts.size.font10,
+                                        color: colors.white
+                                    }}>
+                                    {I18n.t("save")}
+                                </Text>}
                         </Pressable>
                     </View>
                 }

@@ -90,7 +90,7 @@ const SelectInstitutionModal = (props: any) => {
             <Text style={styles.titleTextStyle}>
                 {I18n.t("institutions")}
             </Text>
-            {myInstitutions?.map((item: any) => renderInstitution(item))}
+            {myInstitutions?.filter((v: any) => v?.institute?.active)?.map((item: any) => renderInstitution(item))}
         </Overlay>
     )
 }

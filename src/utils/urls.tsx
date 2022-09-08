@@ -14,5 +14,4 @@ export const urls = {
     mesInstitutions: "api/config/institutions/me",
     likes: "api/likes",
     configInst :"/api/config/institutions",
-
 };

@@ -6,10 +6,12 @@ import { useIsFocused } from '@react-navigation/native'
 import { getPostsList } from '../../../store/actions/postsActions'
 import colors from '../../../styles/colors'
 import ImagesViewModal from '../../modals/ImagesViewModal'
+import { getMyInstitutions, getMyPartners } from '../../../store/actions'
 
 const PostsListCmp = (props: any) => {
     const { navigation, openCommentModalize, closeCommentModalize } = props;
     const { posts, count, loadingPosts } = useSelector((state: any) => state.Posts)
+    const { user } = useSelector((state: any) => state?.User)
     const dispatch = useDispatch()
 
     const isFocused = useIsFocused()
@@ -100,6 +102,8 @@ const PostsListCmp = (props: any) => {
                         refreshing={loadingPosts}
                         onRefresh={() => {
                             dispatch(getPostsList({ limit, offset: 0, filters: null }, () => null, () => null))
+                            dispatch(getMyInstitutions({}))
+                            dispatch(getMyPartners({ user: user?._id }))
                         }}
                     />
                 }
