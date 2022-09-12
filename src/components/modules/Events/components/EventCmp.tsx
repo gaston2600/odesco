@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Image, Linking, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import colors from '../../../../styles/colors'
 import metrics from "../../../../theme/metrics";
@@ -15,9 +15,9 @@ import SelectInstitutionModal from '../../../modals/institutions/SelectInstituti
 const { screenWidth, screenHeight } = metrics
 const EventCmp = (props: any) => {
     const dispatch = useDispatch()
-    const { data } = props;
+    const { data, isInvitation, status } = props;
     const { user } = useSelector((state: any) => state?.User)
-    // console.log({ data });
+    console.log({ data });
 
     const [visibleSelectInst, setVisibleSelectInst] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -30,12 +30,12 @@ const EventCmp = (props: any) => {
                     id: data?._id,
                     data: params
                 },
-                (res) => {
+                () => {
                     setLoading(false)
                     dispatch(getEvents({}, () => null, () => null))
 
                 },
-                (err) => {
+                (_err: any) => {
                     setLoading(false)
                 }
             )
@@ -75,11 +75,16 @@ const EventCmp = (props: any) => {
                     <Text style={styles.instTitleTextStyle}>{data?.institution?.name ? data?.institution?.name : `${data?.partner?.first_name} ${data?.partner?.last_name} `}</Text>
                 </View>
 
-                <View style={styles.rowContainer} >
+                {data?.address && <View style={styles.rowContainer} >
                     <Icons.FontAwesome name="map-marker" size={15} color={colors.grey} />
                     <Text style={styles.instTitleTextStyle}>{data?.address}</Text>
-                </View>
-
+                </View>}
+                {data?.link && <Pressable
+                    onPress={async () => await Linking.openURL(data?.link)}
+                    style={styles.rowContainer} >
+                    <Icons.FontAwesome name="link" size={15} color={colors.grey} />
+                    <Text style={[styles.instTitleTextStyle, { color: colors.sereneBlue }]}>{data?.link}</Text>
+                </Pressable>}
                 <View style={styles.rowContainer}>
                     <Icons.FontAwesome name="calendar" size={15} color={colors.grey} />
                     <Text style={styles.instTitleTextStyle}>{`${moment(data?.date_start).format("ll")} - ${moment(data?.date_end).format("ll")}`}</Text>
@@ -102,7 +107,7 @@ const EventCmp = (props: any) => {
                         style={[styles.buttonContainerStyle, styles.rowContainer]}
                     >
                         <Icons.FontAwesome name="star-o" size={15} color={colors.white} />
-                        {loading ? <ActivityIndicator size={"small"} color={colors.white} /> : <Text style={styles.buttonTextStyle}>{I18n.t("subscribe")}</Text>}
+                        {loading ? <ActivityIndicator size={"small"} color={colors.white} /> : <Text style={styles.buttonTextStyle}>{I18n.t(isInvitation ? "accept" : "subscribe")}</Text>}
                     </Pressable>
                 </View>
 
@@ -114,6 +119,10 @@ const EventCmp = (props: any) => {
                     left: -10
                 }}
             >
+                {isInvitation ? <View style={[styles.statusContainerStyle, { backgroundColor: colors.orange }]}>
+                    {/* <Text style={styles.statusTextStyle}>{status}</Text> */}
+                    <Text style={styles.statusTextStyle}>{I18n.t(status)}</Text>
+                </View> : null}
                 {data?.is_online || data?.is_hybrid ? <View style={styles.statusContainerStyle}>
                     <Text style={styles.statusTextStyle}>{I18n.t("onligne")}</Text>
                 </View> : null}

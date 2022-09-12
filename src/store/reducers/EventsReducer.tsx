@@ -1,7 +1,8 @@
-import { GET_EVENTS_LIST, GET_EVENTS_LIST_FAILED, GET_EVENTS_LIST_SUCCESS } from "../types/eventsActionsType";
+import { GET_EVENTS_LIST, GET_EVENTS_LIST_FAILED, GET_EVENTS_LIST_SUCCESS, GET_MY_EVENTS_LIST, GET_MY_EVENTS_LIST_FAILED, GET_MY_EVENTS_LIST_SUCCESS } from "../types/eventsActionsType";
 
 const INITIAL_STATE = {
     events: [],
+    myEvents: [],
     loading: false
 };
 
@@ -25,7 +26,23 @@ export default (state = INITIAL_STATE, action: { type: any; payload: any }) => {
                 ...state,
                 loading: false
             };
-
+        //GET COMMENTS LIST
+        case GET_MY_EVENTS_LIST:
+            return {
+                ...state,
+                loading: true
+            };
+        case GET_MY_EVENTS_LIST_SUCCESS:
+            return {
+                ...state,
+                myEvents: action?.payload?.events,
+                loading: false
+            };
+        case GET_MY_EVENTS_LIST_FAILED:
+            return {
+                ...state,
+                loading: false
+            };
         //NOTHING TO DO
         default:
             return {

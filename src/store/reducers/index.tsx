@@ -4,6 +4,7 @@ import UserReducer from "./UserReducer";
 import CommentsReducer from "./CommentsReducer";
 import InstitutionsReducer from "./InstitutionsReducer";
 import EventsReducer from "./EventsReducer";
+import InvitationReducer from "./InvitationReducer";
 
 
 const appReducer = combineReducers({
@@ -11,7 +12,8 @@ const appReducer = combineReducers({
   Posts: PostsReducer,
   Comment: CommentsReducer,
   Inst: InstitutionsReducer,
-  Events: EventsReducer
+  Events: EventsReducer,
+  Invitations: InvitationReducer
 });
 export default appReducer;
 

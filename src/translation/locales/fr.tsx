@@ -13,6 +13,9 @@ const fr = {
     cultural: "Culturel",
     athletic: "Athletic",
 
+    pending: "En Attente",
+    accept :"Accepter",
+
 
     add_new: "Nouveau",
     save: "Enregistrer",
@@ -20,9 +23,11 @@ const fr = {
     add_new_inst: "Ajouter Un Établissement",
     subscribe: "Souscrire",
     subscribed: "Abonné",
-    onligne :"En ligne",
+    onligne: "En ligne",
 
     events: "Évenements",
+    myEvents: "Mes évenements",
+    invitations: "Invitaions",
 
 
 

@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import MenuScreen from '../../components/modules/Menu/MenuScreen';
-import EventsScreen from '../../components/modules/Events/EventsScreen';
 import I18n from "react-native-i18n"
 import fonts from '../../theme/fonts';
+import AllEventsScreen from '../../components/modules/Events/Screens/AllEventsScreen';
+import EventsScreen from '../../components/modules/Events/EventsScreen';
 const EventsStack = () => {
     const Stack = createNativeStackNavigator();
     return (

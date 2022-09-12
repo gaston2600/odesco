@@ -15,6 +15,18 @@ const eventsSrv = {
                 .catch((e) => reject(e));
         });
     },
+    me: (data: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .get(`${urls.events}/me?${extractFilters(data)}`)
+                // .get(`${urls.comments}/${offset || 0}/${limit || 10}?${extractFilters({ filters })}`)
+                .then((resp) => {
+                    console.log({ resp });
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
     subscribe: (data: any) => {
         return new Promise(async (resolve, reject) => {
             return axios

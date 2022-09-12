@@ -36,6 +36,7 @@ export default (state = INITIAL_STATE, action: { type: any; payload: any }) => {
             return {
                 ...state,
                 myPartners: action?.payload?.partners,
+                defaultPartner : action?.payload?.partners?.filter((v: any) => String(v?.ref_code)?.startsWith("partner"))?.[0]?._id ,
                 loading: false
             };
         case GET_MY_PARTNERS_FAILED:

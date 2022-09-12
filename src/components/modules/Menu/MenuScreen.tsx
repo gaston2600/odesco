@@ -93,7 +93,7 @@ const MenuScreen = (props: any) => {
         style={styles.instContainerStyle}>
 
         <AvatarCmp
-          // name={String(data?.institute?.name)?.slice(0, 2)}
+          name={String(data?.first_name)?.slice(0, 2)}
           uri={extractImage(data?.avatar?.path)}
           size={60}
           inversed={inversed}
