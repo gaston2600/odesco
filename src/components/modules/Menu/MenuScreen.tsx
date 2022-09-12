@@ -20,9 +20,10 @@ const MenuScreen = (props: any) => {
       route: "EventsScreen"
     },
     {
-      name: "Groupe",
+      name: "Enseignants",
       icon: require("../../../../assets/icons/menu/groupe.png"),
-      desc: "description Groupe"
+      desc: "description Groupe",
+      route: "TeachersScreen"
     },
     {
       name: "Membres",

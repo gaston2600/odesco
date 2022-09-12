@@ -2,7 +2,7 @@ import {
 } from "../types";
 
 import authSrv from "../../services/authSrv";
-import { GET_POSTS_COMMENTS_LIST, GET_POSTS_COMMENTS_LIST_FAILED, GET_POSTS_COMMENTS_LIST_SUCCESS, GET_POSTS_LIST, GET_POSTS_LIST_FAILED, GET_POSTS_LIST_SUCCESS, LIKE_POST, LIKE_POST_FAILED, LIKE_POST_SUCCESS } from "../types/postsActionsTypes";
+import { GET_POSTS_COMMENTS_LIST, GET_POSTS_COMMENTS_LIST_FAILED, GET_POSTS_COMMENTS_LIST_SUCCESS, GET_POSTS_LIST, GET_POSTS_LIST_FAILED, GET_POSTS_LIST_SUCCESS, GET_TEACHER_POSTS, GET_TEACHER_POSTS_FAILED, GET_TEACHER_POSTS_SUCCESS, LIKE_POST, LIKE_POST_FAILED, LIKE_POST_SUCCESS } from "../types/postsActionsTypes";
 import postsSrv from "../../services/postsSrv";
 import commentsSrv from "../../services/commentsSrv";
 
@@ -26,7 +26,7 @@ export const getPostsList = (
                 });
             })
             .catch((e) => {
-                console.log("login error === ", e);
+                console.log("GET LIST POST error === ", e);
                 callbackError(e.response);
                 dispatch({
                     type: GET_POSTS_LIST_FAILED,
@@ -36,6 +36,35 @@ export const getPostsList = (
     };
 };
 
+export const getTeacherPosts = (
+    data: any,
+    callback: any,
+    callbackError: any
+) => {
+    return (dispatch: (arg0: { type: string; payload?: any }) => any) => {
+        dispatch({
+            type: GET_TEACHER_POSTS,
+        });
+
+        postsSrv
+            .getTeacherPosts(data)
+            .then((response: any) => {
+                callback(response?.data);
+                dispatch({
+                    type: GET_TEACHER_POSTS_SUCCESS,
+                    payload: response?.data,
+                });
+            })
+            .catch((e) => {
+                console.log("GET TEACHER POST error === ", e);
+                callbackError(e.response);
+                dispatch({
+                    type: GET_TEACHER_POSTS_FAILED,
+                    payload: e,
+                });
+            });
+    };
+};
 export const getPostsComments = (
     data: any,
     callback: any,

@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MenuScreen from '../../components/modules/Menu/MenuScreen';
 import EventsStack from './EventsStack';
 import EventTabNavigator from '../tabs/EventTabNavigator';
+import TeachersStack from './TeachersStack';
 
 const MenuStack = () => {
     const Stack = createNativeStackNavigator();
@@ -15,6 +16,11 @@ const MenuStack = () => {
                 }}
             />
             <Stack.Screen name="EventsScreen" component={EventsStack}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen name="TeachersScreen" component={TeachersStack}
                 options={{
                     headerShown: false,
                 }}
