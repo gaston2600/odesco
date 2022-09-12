@@ -22,6 +22,7 @@ const INITIAL_STATE = {
     myProfile: null,
     workingDays: null,
     deviceToken: "",
+    defaultPartner: ""
 };
 
 export default (state = INITIAL_STATE, action: { type: any; payload: any }) => {
@@ -41,6 +42,7 @@ export default (state = INITIAL_STATE, action: { type: any; payload: any }) => {
                 token,
                 auth: user && token !== "",
                 userLoading: false,
+                defaultPartner: user?.ref_codes?.filter((v: any) => String(v?.ref_code)?.startsWith("partner"))?.[0]?._id
             };
         case LOGIN_USER_FAILED:
             return {

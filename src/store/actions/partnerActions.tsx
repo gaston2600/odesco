@@ -13,7 +13,7 @@ export const getMyPartners = (
         institutionSvr
             .myPartners(data)
             .then((response: any) => {
-                console.log({ response });
+                // console.log({ response });
 
                 dispatch({
                     type: GET_MY_PARTNERS_SUCCESS,

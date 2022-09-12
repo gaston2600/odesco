@@ -1,4 +1,4 @@
-import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import HeaderHomeCmp from '../Home/components/HeaderHomeCmp'
 import colors from '../../../styles/colors'
@@ -9,13 +9,15 @@ import fonts from '../../../theme/fonts'
 import { Divider } from '@rneui/themed'
 
 const MenuScreen = (props: any) => {
+  const { navigation } = props
   const { myInstitutions, myPartners, loading } = useSelector((state: any) => state?.Inst)
 
   const listMenu = [
     {
-      name: "Évenement",
+      name: "Évenements",
       icon: require("../../../../assets/icons/menu/events.png"),
-      desc: "description Évenement"
+      desc: "description Évenements",
+      route: "EventsScreen"
     },
     {
       name: "Groupe",
@@ -59,12 +61,22 @@ const MenuScreen = (props: any) => {
         }
         style={styles.instContainerStyle} >
 
-        <AvatarCmp
+        <Image
+          source={require("../../../../assets/images/inst.png")}
+          style={{
+            height: 60,
+            width: 60,
+            borderRadius: 60,
+            borderWidth: inversed ? 2 : 1,
+            borderColor: inversed ? colors.primary : colors.grey
+          }}
+        />
+        {/* <AvatarCmp
           name={String(data?.institute?.name)?.slice(0, 2)}
-          uri={extractImage(data?.avatar?.path)}
+          // uri={extractImage(data?.avatar?.path)}
           size={60}
           inversed={inversed}
-        />
+        /> */}
         <Text style={[styles.instTiteTextStyle, {
           color: inversed ? colors.primary : colors.blackTrans
         }]}>{`${data?.institute?.name}`}</Text>
@@ -81,7 +93,7 @@ const MenuScreen = (props: any) => {
         style={styles.instContainerStyle}>
 
         <AvatarCmp
-          // name={String(data?.institute?.name)?.slice(0, 2)}
+          name={String(data?.first_name)?.slice(0, 2)}
           uri={extractImage(data?.avatar?.path)}
           size={60}
           inversed={inversed}
@@ -95,7 +107,14 @@ const MenuScreen = (props: any) => {
 
   const renderMenuItem = (data: any) => {
     return (
-      <View style={styles.menuItemContainerStyle}>
+      <TouchableOpacity
+        onPress={() => {
+          if (data?.route) {
+            navigation?.navigate(data?.route)
+          }
+
+        }}
+        style={styles.menuItemContainerStyle}>
         <View
           style={{
             flex: 1,
@@ -120,13 +139,17 @@ const MenuScreen = (props: any) => {
           <Text style={styles.menuDescTextStyle}>{data?.desc}</Text>
         </View>
 
-      </View>
+      </TouchableOpacity>
     )
   }
   return (
     <View style={styles.containerStyle}>
       <HeaderHomeCmp />
-      <View>
+      <View
+        style={{
+          marginVertical: 5
+        }}
+      >
         <FlatList
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
@@ -143,7 +166,11 @@ const MenuScreen = (props: any) => {
       <ScrollView
         style={styles.menuListContainer}>
         {
-          listMenu?.map((item: any, index: any) => <View>{renderMenuItem(item)}<Divider orientation='horizontal' /></View>)
+          listMenu?.map((item: any, index: any) =>
+            <View>
+              {renderMenuItem(item)}
+              <Divider orientation='horizontal' />
+            </View>)
         }
         {/* <FlatList
           data={listMenu}

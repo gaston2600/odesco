@@ -9,6 +9,8 @@ import { getTimeAgo } from '../../../../helpers/getTimeAgo'
 
 const HeaderPostCmp = (props: any) => {
     const { data } = props;
+    console.log({ data });
+
     const post = {
         name: data?.institution ? data?.institution?.name : `${data?.partner?.first_name} ${data?.partner?.last_name}`,
         path: data?.institution ? data?.institution?.logo?.path : data?.partner?.avatar?.path,
@@ -34,7 +36,7 @@ const HeaderPostCmp = (props: any) => {
                     }}
                 >
                     <Text style={styles.titleTextStyle}>{post?.name}</Text>
-                    <Text style={styles.typeTextStyle}>{I18n.t(post?.type)}</Text>
+                    {post?.type && <Text style={styles.typeTextStyle}>{I18n.t(post?.type)}</Text>}
                     <Text style={styles.dateTextStyle}>{getTimeAgo(data?._id)}</Text>
                 </View>
 

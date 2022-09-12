@@ -18,7 +18,7 @@ const TabNavigator = () => {
 
     return (
         <Tab.Navigator
-            initialRouteName='HomeStack'
+            initialRouteName='Menu'
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName;

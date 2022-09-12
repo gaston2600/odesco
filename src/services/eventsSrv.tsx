@@ -2,38 +2,37 @@ import axios from "axios";
 import { extractFilters } from "../helpers/extractFilters";
 import { urls } from "../utils";
 
-const institutionSvr = {
-    my: (data: any) => {
+const eventsSrv = {
+    getList: (data: any) => {
         return new Promise(async (resolve, reject) => {
             return axios
-                .get(`${urls.mesInstitutions}?${extractFilters({ filters: data?.filters })}`)
-                .then((resp) => {
-                    // console.log({ resp });
-
-                    resolve(resp);
-                })
-                .catch((e) => reject(e));
-        });
-    },
-    myPartners: (data: any) => {
-        return new Promise(async (resolve, reject) => {
-            return axios
-                .get(`${urls.users}/${data?.user}/partners`)
-                .then((resp) => {
-                    // console.log({ resp });
-
-                    resolve(resp);
-                })
-                .catch((e) => reject(e));
-        });
-    },
-    post: (data: any) => {
-        return new Promise(async (resolve, reject) => {
-            return axios
-                .post(`${urls.configInst}`, data)
+                .get(`${urls.events}/list?${extractFilters(data)}`)
+                // .get(`${urls.comments}/${offset || 0}/${limit || 10}?${extractFilters({ filters })}`)
                 .then((resp) => {
                     console.log({ resp });
-
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
+    me: (data: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .get(`${urls.events}/me?${extractFilters(data)}`)
+                // .get(`${urls.comments}/${offset || 0}/${limit || 10}?${extractFilters({ filters })}`)
+                .then((resp) => {
+                    console.log({ resp });
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
+    subscribe: (data: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .post(`${urls.events}/subscribe/${data?.id}`, data?.data)
+                .then((resp) => {
+                    console.log({ resp });
                     resolve(resp);
                 })
                 .catch((e) => reject(e));
@@ -41,4 +40,4 @@ const institutionSvr = {
     },
 };
 
-export default institutionSvr;
+export default eventsSrv;

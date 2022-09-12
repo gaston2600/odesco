@@ -5,7 +5,7 @@ import colors from '../../../../styles/colors'
 import I18n from "react-native-i18n";
 import fonts from '../../../../theme/fonts';
 import SelectInstitutionModal from '../../../modals/institutions/SelectInstitutionModal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getPostsList, likePost } from '../../../../store/actions/postsActions';
 
 const LikePostCmp = (props: any) => {
@@ -13,6 +13,7 @@ const LikePostCmp = (props: any) => {
     const dispatch = useDispatch()
     const [visibleSelectInst, setVisibleSelectInst] = useState(false)
     const [loadingPostLike, setLoadingPostLike] = useState(false)
+    const { defaultPartner } = useSelector((state: any) => state?.Inst)
     function confirmSelecInstModal(params: any) {
         setLoadingPostLike(true)
         dispatch(likePost({
@@ -24,7 +25,7 @@ const LikePostCmp = (props: any) => {
             (res: any) => {
                 setLoadingPostLike(false)
                 setVisibleSelectInst(false)
-                dispatch(getPostsList({}, () => null, () => null))
+                dispatch(getPostsList({ partner: defaultPartner }, () => null, () => null))
             },
             (err: any) => {
                 setLoadingPostLike(false)

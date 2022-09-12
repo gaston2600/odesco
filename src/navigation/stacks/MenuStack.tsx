@@ -2,6 +2,8 @@ import { StyleSheet } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MenuScreen from '../../components/modules/Menu/MenuScreen';
+import EventsStack from './EventsStack';
+import EventTabNavigator from '../tabs/EventTabNavigator';
 
 const MenuStack = () => {
     const Stack = createNativeStackNavigator();
@@ -12,6 +14,16 @@ const MenuStack = () => {
                     headerShown: false,
                 }}
             />
+            <Stack.Screen name="EventsScreen" component={EventsStack}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            {/* <Stack.Screen name="EventsScreen" component={EventsStack}
+                options={{
+                    headerShown: false,
+                }}
+            /> */}
         </Stack.Navigator>
     )
 }

@@ -10,10 +10,24 @@ const fr = {
     Parent: "Parent",
     partners: "Partenaires",
     institutions: "Institutions",
+    cultural: "Culturel",
+    athletic: "Athletic",
+
+    pending: "En Attente",
+    accept :"Accepter",
+
+
     add_new: "Nouveau",
     save: "Enregistrer",
     cancel: "Annuler",
     add_new_inst: "Ajouter Un Établissement",
+    subscribe: "Souscrire",
+    subscribed: "Abonné",
+    onligne: "En ligne",
+
+    events: "Évenements",
+    myEvents: "Mes évenements",
+    invitations: "Invitaions",
 
 
 
@@ -23,7 +37,7 @@ const fr = {
     webSite: "Site Web",
     address: "Adresse",
     description: "Déscription",
-
+    presential: "Présentiel",
     required: "Champ obligatoire",
     min_3: "Minimum 3 carachtère",
 

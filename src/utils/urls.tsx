@@ -1,5 +1,7 @@
 //PREPROD
-const baseURL = "https://api.preprod.odesco.l-wa.com";
+// const baseURL = "https://api.preprod.odesco.l-wa.com";
+//DEV
+const baseURL = "https://dev-saas-api.odesco.education"
 
 export const urls = {
     //DEV
@@ -9,9 +11,12 @@ export const urls = {
     root: baseURL,
     login: "/api/users/login",
     users: "/api/users",
-    postsList: "/api/posts/list",
+    posts: "/api/posts",
     comments: "/api/comments",
     mesInstitutions: "api/config/institutions/me",
     likes: "api/likes",
-    configInst :"/api/config/institutions",
+    configInst: "/api/config/institutions",
+    events: "/api/events",
+    invitations : "/api/invitations",
+
 };

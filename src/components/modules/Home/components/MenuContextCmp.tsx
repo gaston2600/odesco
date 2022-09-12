@@ -1,5 +1,5 @@
 import { ActivityIndicator, FlatList, Image, Pressable, RefreshControl, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import fonts from '../../../../theme/fonts'
 import colors from '../../../../styles/colors'
 import I18n from "react-native-i18n";
@@ -8,17 +8,24 @@ import Icons from '../../../../styles/icons';
 import { Button, Divider } from '@rneui/themed';
 import { extractImage } from '../../../../helpers/extractImage';
 import { navigate } from '../../../../navigation/NavigationService';
-import { editUser, getMyPartners } from '../../../../store/actions';
+import { editUser, getMyInstitutions, getMyPartners } from '../../../../store/actions';
+import { useIsFocused } from '@react-navigation/native';
 
 const MenuContextCmp = (props: any) => {
     const { close, navigation } = props
     const dispatch = useDispatch()
+    const isFocused = useIsFocused()
     const { myInstitutions, myPartners, loading } = useSelector((state: any) => state?.Inst)
     const { user } = useSelector((state: any) => state?.User)
 
     const [showAddPartner, setShowAddPartner] = useState(false)
     const [ref_code, setRef_code] = useState("")
     const [loadingAddPartner, setLoadingAddPartner] = useState(false)
+
+    function getMyInsitutions() {
+        dispatch(getMyInstitutions({}))
+        dispatch(getMyPartners({ user: user?._id }))
+    }
 
     const toogleAddPartner = () => {
         setShowAddPartner(!showAddPartner)
@@ -126,7 +133,9 @@ const MenuContextCmp = (props: any) => {
             )
         }
     }
-
+    useEffect(() => {
+        getMyInsitutions()
+    }, [isFocused])
     return (
         <View>
             <View>
