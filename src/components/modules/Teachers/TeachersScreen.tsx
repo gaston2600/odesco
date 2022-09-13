@@ -15,12 +15,11 @@ const TeachersScreen = (props: any) => {
     dispatch(getTeachersList(
       {},
       (res: any) => {
-        console.log({ res });
+        // console.log({ res });
         setList(res?.teachers)
       },
       (err: any) => {
         console.log({ err });
-
       }
     ))
   }

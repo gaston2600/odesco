@@ -5,10 +5,13 @@ import { getPostsList, getTeacherPosts } from '../../../../store/actions';
 import PostCmp from '../../Posts/PostCmp';
 import colors from '../../../../styles/colors';
 import fonts from '../../../../theme/fonts';
+import ImagesViewModal from '../../../modals/ImagesViewModal';
+import { useIsFocused } from '@react-navigation/native';
 
 const TeacherPostsScreen = (props: any) => {
     const { teacher, navigation } = props;
     const dispatch = useDispatch();
+    const isFocused = useIsFocused()
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(false)
     function getPosts() {
@@ -33,21 +36,21 @@ const TeacherPostsScreen = (props: any) => {
         setIsVisibleImageModal(true)
         setImagesModalList(images)
     }
+    const hiddeImageModal = () => setIsVisibleImageModal(false)
 
     useEffect(() => {
         getPosts()
-    }, [teacher])
+    }, [teacher, isFocused])
 
     return (
         <View style={styles.containerStyle}>
             <FlatList
                 data={posts}
-                renderItem={({ item, index }) => (
-                    <PostCmp data={item} index={index}
+                renderItem={({ item }) => (
+                    <PostCmp data={item}
                         navigation={navigation}
-                        showImages={false}
-                        openCommentModalize={null}
-                        closeCommentModalize={null}
+                        showImages={showImages}
+                        refresh={getPosts}
                     />)}
                 refreshControl={
                     <RefreshControl
@@ -73,6 +76,11 @@ const TeacherPostsScreen = (props: any) => {
                         >Aucune Publication</Text>
                     </View>
                 )}
+            />
+            <ImagesViewModal
+                visible={isVisibleImageModal}
+                close={hiddeImageModal}
+                images={imagesModalList}
             />
         </View>
     )

@@ -36,9 +36,9 @@ const MenuScreen = (props: any) => {
       desc: "description Offre d'emploi"
     },
     {
-      name: "Établissement",
+      name: "Établissements",
       icon: require("../../../../assets/icons/menu/inst.png"),
-      desc: "description Établissement"
+      desc: "description Établissements"
     },
 
   ]

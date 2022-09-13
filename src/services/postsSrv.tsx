@@ -8,7 +8,7 @@ const postsSrv = {
             return axios
                 .get(`${urls.posts}/list/${partner}/${offset || 0}/${limit || 10}?${extractFilters({ filters })}`)
                 .then((resp) => {
-                    console.log({ resp });
+                    // console.log({ resp });
                     resolve(resp);
                 })
                 .catch((e) => reject(e));

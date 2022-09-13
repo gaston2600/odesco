@@ -55,34 +55,34 @@ const TeacherDescProfileScreen = (props: any) => {
 
     return (
         <View style={styles.containerStyle}>
-            {!data?.trainings?.length ? null : 
-            <View style={styles.sectionContainerStyle}>
-                <Text style={styles.sectionTextStyle}>{I18n.t("trainings")}</Text>
-                <FlatList
-                    data={data?.trainings}
-                    renderItem={({ item }) => renderTraining(item)}
-                    keyExtractor={item => item?._id}
-                />
-            </View>}
-            {!data?.experiences?.length ? null : 
-            <View style={styles.sectionContainerStyle}>
-                <Text style={styles.sectionTextStyle}>{I18n.t("experiences")}</Text>
-                <FlatList
-                    data={data?.experiences}
-                    renderItem={({ item }) => renderExperience(item)}
-                    keyExtractor={item => item?._id}
-                />
-            </View>}
-            {!data?.skills?.length ? null : 
-            <View style={styles.sectionContainerStyle}>
-                <Text style={styles.sectionTextStyle}>{I18n.t("skills")}</Text>
-                <FlatList
-                    data={data?.skills}
-                    horizontal
-                    renderItem={({ item }) => renderSkills(item)}
-                    keyExtractor={item => item?._id}
-                />
-            </View>}
+            {!!data?.trainings?.length &&
+                <View style={styles.sectionContainerStyle}>
+                    <Text style={styles.sectionTextStyle}>{I18n.t("trainings")}</Text>
+                    <FlatList
+                        data={data?.trainings}
+                        renderItem={({ item }) => renderTraining(item)}
+                        keyExtractor={item => item?._id}
+                    />
+                </View>}
+            {!!data?.experiences?.length &&
+                <View style={styles.sectionContainerStyle}>
+                    <Text style={styles.sectionTextStyle}>{I18n.t("experiences")}</Text>
+                    <FlatList
+                        data={data?.experiences}
+                        renderItem={({ item }) => renderExperience(item)}
+                        keyExtractor={item => item?._id}
+                    />
+                </View>}
+            {!!data?.skills?.length &&
+                <View style={styles.sectionContainerStyle}>
+                    <Text style={styles.sectionTextStyle}>{I18n.t("skills")}</Text>
+                    <FlatList
+                        data={data?.skills}
+                        horizontal
+                        renderItem={({ item }) => renderSkills(item)}
+                        keyExtractor={item => item?._id}
+                    />
+                </View>}
         </View>
     )
 }

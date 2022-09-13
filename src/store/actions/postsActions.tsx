@@ -110,7 +110,7 @@ export const likePost = (
         postsSrv
             .likePost(data)
             .then((response: any) => {
-                console.log({ response });
+                // console.log({ response });
 
                 dispatch({
                     type: LIKE_POST_SUCCESS,

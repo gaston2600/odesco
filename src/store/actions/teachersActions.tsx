@@ -1,5 +1,5 @@
 import teachersSrv from "../../services/teachersSrv";
-import { GET_ONE_TEACHER, GET_ONE_TEACHER_FAILED, GET_ONE_TEACHER_SUCCESS, GET_TEACHERS_LIST, GET_TEACHERS_LIST_FAILED, GET_TEACHERS_LIST_SUCCESS } from "../types/teachersActionsType";
+import { GET_ONE_TEACHER, GET_ONE_TEACHER_FAILED, GET_ONE_TEACHER_SUCCESS, GET_TEACHERS_LIST, GET_TEACHERS_LIST_FAILED, GET_TEACHERS_LIST_SUCCESS, SUBSCRIBE_TO_TEACHER, SUBSCRIBE_TO_TEACHER_FAILED, SUBSCRIBE_TO_TEACHER_SUCCESS } from "../types/teachersActionsType";
 
 export const getTeachersList = (
     data: any,
@@ -56,6 +56,36 @@ export const getOneTeacher = (
                 console.log("et_one_teacher error === ", e);
                 dispatch({
                     type: GET_ONE_TEACHER_FAILED,
+                    payload: e,
+                });
+                callbackError(e)
+            });
+    };
+};
+
+export const subscribeToTeacher = (
+    data: any,
+    callback: any,
+    callbackError: any
+) => {
+    return (dispatch: (arg0: { type: string; payload?: any }) => any) => {
+        dispatch({
+            type: SUBSCRIBE_TO_TEACHER,
+        });
+
+        teachersSrv
+            .subscribe(data)
+            .then((response: any) => {
+                dispatch({
+                    type: SUBSCRIBE_TO_TEACHER_SUCCESS,
+                    payload: response?.data,
+                });
+                callback(response?.data);
+            })
+            .catch((e) => {
+                console.log("subscribe_teacher error === ", e);
+                dispatch({
+                    type: SUBSCRIBE_TO_TEACHER_FAILED,
                     payload: e,
                 });
                 callbackError(e)

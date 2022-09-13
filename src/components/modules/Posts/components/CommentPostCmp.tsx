@@ -8,13 +8,13 @@ import { HomeContext } from "../../../../Context/HomeContext";
 
 const CommentPostCmp = (props: any) => {
 
-    const { navigation ,post, openCommentModalize, closeCommentModalize } = props
+    const { navigation, post, openCommentModalize, closeCommentModalize } = props
 
     const context = useContext(HomeContext)
     return (
         <Pressable
             onPress={() => {
-                navigation?.navigate("CommentsScreen",{post })
+                navigation?.navigate("CommentsScreen", { post })
             }
             }
             style={styles.containerStyle}>

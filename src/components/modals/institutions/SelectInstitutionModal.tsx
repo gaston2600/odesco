@@ -17,9 +17,6 @@ const SelectInstitutionModal = (props: any) => {
 
 
     const { visible, setVisible, confirm, selectedList } = props;
-    // console.log({ selectedList });
-
-
     const { myInstitutions, myPartners, loading } = useSelector((state: any) => state?.Inst)
     const { user } = useSelector((state: any) => state?.User)
     function getMyInsitutions() {
@@ -80,16 +77,19 @@ const SelectInstitutionModal = (props: any) => {
                 borderRadius: 5
             }}
             isVisible={visible} onBackdropPress={toggleOverlay}>
-            {myPartners?.length && <Text style={styles.titleTextStyle}>
-                {I18n.t("partners")}
-            </Text>}
+            {myPartners?.length ?
+                <Text style={styles.titleTextStyle}>
+                    {I18n.t("partners")}
+                </Text> : null}
             {myPartners?.map((item: any) => renderPartner(item))}
-            {myPartners?.length && <Divider orientation='horizontal' style={{
-                marginVertical: 5
-            }} />}
-            <Text style={styles.titleTextStyle}>
-                {I18n.t("institutions")}
-            </Text>
+            {myPartners?.length && myInstitutions?.length ?
+                <Divider orientation='horizontal' style={{
+                    marginVertical: 5
+                }} /> : null}
+            {myInstitutions?.length ?
+                <Text style={styles.titleTextStyle}>
+                    {I18n.t("institutions")}
+                </Text> : null}
             {myInstitutions?.filter((v: any) => v?.institute?.active)?.map((item: any) => renderInstitution(item))}
         </Overlay>
     )

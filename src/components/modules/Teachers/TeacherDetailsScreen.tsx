@@ -1,13 +1,16 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { getOneTeacher } from '../../../store/actions/teachersActions';
+import { getOneTeacher, getTeachersList, subscribeToTeacher } from '../../../store/actions/teachersActions';
 import colors from '../../../styles/colors';
 import AvatarCmp from '../../common/AvatarCmp';
 import { extractImage } from '../../../helpers/extractImage';
 import I18n from "react-native-i18n"
 import fonts from '../../../theme/fonts';
 import TeacherProfileTabScreen from '../../../navigation/tabs/TeacherProfileTabScreen';
+import { Skeleton } from "@rneui/themed";
+import Icons from '../../../styles/icons';
+import SelectInstitutionModal from '../../modals/institutions/SelectInstitutionModal';
 
 const TeacherDetailsScreen = (props: any) => {
     const { teacher } = props?.route?.params;
@@ -32,6 +35,31 @@ const TeacherDetailsScreen = (props: any) => {
             )
         )
     }
+    const [visibleSelectInst, setVisibleSelectInst] = useState(false)
+    const [loadingFollow, setLoadingFollow] = useState(false)
+
+    function confirmSelecInstModal(params: any) {
+        setLoadingFollow(true)
+        dispatch(
+            subscribeToTeacher(
+                {
+                    teacher: data?._id,
+                    data: {
+                        partner: params?._id
+                    }
+                },
+                (res: any) => {
+                    getProfile()
+                    setLoadingFollow(false)
+                    setVisibleSelectInst(false)
+                },
+                (err: any) => {
+                    setLoadingFollow(false)
+                }
+            )
+        )
+    }
+
 
     useEffect(() => {
         getProfile()
@@ -61,17 +89,38 @@ const TeacherDetailsScreen = (props: any) => {
                     flex: 5,
                     paddingLeft: 10
                 }} >
-                    <Text style={styles.titleTextStyle}>{`${data?.first_name} ${data?.last_name}`}</Text>
-                    <Text style={styles.descTextStyle}>{I18n.t(data?.partnertype)}</Text>
+                    {(!!data?.first_name || !!data?.last_name) && <Text style={styles.titleTextStyle}>{`${data?.first_name} ${data?.last_name}`}</Text>}
+                    {/* <Text style={styles.descTextStyle}>{I18n.t(data?.partnertype)}</Text> */}
+                    {!!data?.email && <View style={styles.rowContainer}>
+                        <Icons.FontAwesome name="envelope-o" size={10} color={colors.darkBlue} />
+                        <Text style={styles.descTextStyle}>{data?.email}</Text>
+                    </View>}
+                    {!!data?.working_place && <View style={styles.rowContainer}>
+                        <Icons.FontAwesome name="map-marker" size={15} color={colors.darkBlue} />
+                        <Text style={styles.descTextStyle}>{data?.working_place}</Text>
+                    </View>}
+                    {!!data?.pro_phone && <View style={styles.rowContainer}>
+                        <Icons.FontAwesome name="phone" size={10} color={colors.darkBlue} />
+                        <Text style={styles.descTextStyle}>{data?.pro_phone}</Text>
+                    </View>}
+                    {!!data?.subscribers && <View style={styles.rowContainer}>
+                        <Icons.FontAwesome name="group" size={10} color={colors.darkBlue} />
+                        <Text style={styles.descTextStyle}>{data?.subscribers?.length}</Text>
+                    </View>}
                 </View>
                 <View style={{
-                    flex: 1.5
+                    flex: 1.5,
+                    justifyContent: "center"
                 }}>
-                    <View style={styles.followContainerStyle}>
+                    <Pressable
+                        onPress={() => {
+                            setVisibleSelectInst(true)
+                        }}
+                        style={styles.followContainerStyle}>
                         <Text style={styles.followTextStyle}>
                             {I18n.t("follow")}
                         </Text>
-                    </View>
+                    </Pressable>
                 </View>
             </View>
             <View
@@ -81,7 +130,12 @@ const TeacherDetailsScreen = (props: any) => {
             >
                 <TeacherProfileTabScreen teacher={data} />
             </View>
-
+            <SelectInstitutionModal
+                visible={visibleSelectInst}
+                setVisible={setVisibleSelectInst}
+                confirm={confirmSelecInstModal}
+                selectedList={data?.subscribers?.map((v: any) => v?.institution?._id ? ({ _id: v?.institution?._id, type: "Institution" }) : ({ _id: v?.partner, type: "Partner" }))}
+            />
         </View>
     )
 }
@@ -107,7 +161,8 @@ const styles = StyleSheet.create({
     descTextStyle: {
         fontFamily: fonts.type.NunitoRegular,
         fontSize: fonts.size.font10,
-        color: colors.gray
+        color: colors.gray,
+        marginLeft: 5
     },
     followContainerStyle: {
         padding: 5,
@@ -122,4 +177,8 @@ const styles = StyleSheet.create({
         fontSize: fonts.size.font10,
         color: colors.white
     },
+    rowContainer: {
+        flexDirection: "row",
+        alignItems: "center"
+    }
 })
