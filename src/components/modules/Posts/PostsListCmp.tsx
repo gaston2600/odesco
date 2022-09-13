@@ -12,8 +12,8 @@ import fonts from '../../../theme/fonts'
 const PostsListCmp = (props: any) => {
     const { navigation, openCommentModalize, closeCommentModalize } = props;
     const { posts, count, loadingPosts } = useSelector((state: any) => state.Posts)
-    const { user} = useSelector((state: any) => state?.User)
-    const { defaultPartner} = useSelector((state: any) => state?.Inst)
+    const { user } = useSelector((state: any) => state?.User)
+    const { defaultPartner } = useSelector((state: any) => state?.Inst)
 
     const dispatch = useDispatch()
 
@@ -78,12 +78,16 @@ const PostsListCmp = (props: any) => {
         );
     };
 
+    function getPosts() {
+        dispatch(getPostsList({ limit, offset: 0, partner: defaultPartner, filters: null }, () => null, () => null))
+    }
+
     useEffect(() => {
         setTimeout(() => {
-            dispatch(getPostsList({ limit, offset: 0, partner: defaultPartner, filters: null }, () => null, () => null))
+            getPosts()
         }, 500);
 
-    }, [isFocused,defaultPartner])
+    }, [isFocused, defaultPartner])
     return (
         <View style={styles.containerStyle}>
 
@@ -93,8 +97,9 @@ const PostsListCmp = (props: any) => {
                     return <PostCmp data={item} index={index}
                         navigation={navigation}
                         showImages={showImages}
-                        openCommentModalize={openCommentModalize}
-                        closeCommentModalize={closeCommentModalize}
+                        refresh={getPosts}
+                    // openCommentModalize={openCommentModalize}
+                    // closeCommentModalize={closeCommentModalize}
                     />
                 }}
                 keyExtractor={item => `posts_${item?._id}`}
@@ -104,7 +109,7 @@ const PostsListCmp = (props: any) => {
                         colors={[colors.primary]}
                         refreshing={loadingPosts}
                         onRefresh={() => {
-                            dispatch(getPostsList({ limit, offset: 0, partner: defaultPartner, filters: null }, () => null, () => null))
+                            getPosts()
                             dispatch(getMyInstitutions({}))
                             dispatch(getMyPartners({ user: user?._id }))
                         }}

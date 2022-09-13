@@ -22,14 +22,21 @@ const fr = {
     cancel: "Annuler",
     add_new_inst: "Ajouter Un Établissement",
     subscribe: "Souscrire",
+    follow: "Suivre",
     subscribed: "Abonné",
     onligne: "En ligne",
+
+
 
     events: "Évenements",
     myEvents: "Mes évenements",
     invitations: "Invitaions",
-
-
+    teachers : "Enseignants",
+    posts :"Publications",
+    infoProfile :"Informations De Profil",
+    experiences :"Expérience",
+    skills :"Compétences",
+    trainings :"Formations",
 
     inst_name: "Nom de l'établissement",
     type: "Type",

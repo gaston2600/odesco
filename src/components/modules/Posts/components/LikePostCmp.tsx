@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPostsList, likePost } from '../../../../store/actions/postsActions';
 
 const LikePostCmp = (props: any) => {
-    const { post, data } = props;
+    const { post, data ,refresh } = props;
     const dispatch = useDispatch()
     const [visibleSelectInst, setVisibleSelectInst] = useState(false)
     const [loadingPostLike, setLoadingPostLike] = useState(false)
@@ -25,10 +25,13 @@ const LikePostCmp = (props: any) => {
             (res: any) => {
                 setLoadingPostLike(false)
                 setVisibleSelectInst(false)
-                dispatch(getPostsList({ partner: defaultPartner }, () => null, () => null))
+                if(refresh) refresh()
+                // dispatch(getPostsList({ partner: defaultPartner }, () => null, () => null))
+                
             },
             (err: any) => {
                 setLoadingPostLike(false)
+                console.log({ err, params });
             }
         ))
 

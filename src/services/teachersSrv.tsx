@@ -2,32 +2,11 @@ import axios from "axios";
 import { extractFilters } from "../helpers/extractFilters";
 import { urls } from "../utils";
 
-const postsSrv = {
-    getList: ({ limit, offset, partner, filters }: any) => {
+const teachersSrv = {
+    getList: ({ limit, offset, filters }: any) => {
         return new Promise(async (resolve, reject) => {
             return axios
-                .get(`${urls.posts}/list/${partner}/${offset || 0}/${limit || 10}?${extractFilters({ filters })}`)
-                .then((resp) => {
-                    // console.log({ resp });
-                    resolve(resp);
-                })
-                .catch((e) => reject(e));
-        });
-    },
-    likePost: ({ post, data }: any) => {
-        return new Promise(async (resolve, reject) => {
-            return axios
-                .post(`${urls.likes}/${post}`, data)
-                .then((resp) => {
-                    resolve(resp);
-                })
-                .catch((e) => reject(e));
-        });
-    },
-    getTeacherPosts: ({ limit, offset, partner, filters }: any) => {
-        return new Promise(async (resolve, reject) => {
-            return axios
-                .get(`${urls.posts}/partner/${partner}/${offset || 0}/${limit || 10}?${extractFilters({ filters })}`)
+                .get(`${urls.schoolingPrivateTeachers}/list/${offset || 0}/${limit || 10}?${extractFilters({ filters })}`)
                 .then((resp) => {
                     console.log({ resp });
                     resolve(resp);
@@ -35,6 +14,30 @@ const postsSrv = {
                 .catch((e) => reject(e));
         });
     },
+    getOne: ({ teacher }: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .get(`${urls.schoolingTeachers}/get-one/${teacher}`)
+                .then((resp) => {
+                    console.log({ resp });
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
+
+    subscribe: ({ teacher ,data }: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .post(`${urls.schoolingTeachers}/subscribe/${teacher}`,data)
+                .then((resp) => {
+                    console.log({ resp });
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
+
 };
 
-export default postsSrv;
+export default teachersSrv;

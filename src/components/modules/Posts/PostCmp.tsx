@@ -17,10 +17,8 @@ const PostCmp = (props: any) => {
     const {
         navigation,
         data,
-        index,
         showImages,
-        openCommentModalize,
-        closeCommentModalize
+        refresh
     } = props;
     // console.log({ data });
 
@@ -81,12 +79,12 @@ const PostCmp = (props: any) => {
                 <LikePostCmp
                     post={data?._id}
                     data={data}
+                    refresh={refresh}
                 />
                 <CommentPostCmp
                     navigation={navigation}
                     post={data?._id}
-                    openCommentModalize={openCommentModalize}
-                    closeCommentModalize={closeCommentModalize}
+
                 />
             </View>
         </View>
@@ -107,7 +105,7 @@ const styles = StyleSheet.create({
     },
     descTextStyle: {
         fontFamily: fonts.type.NunitoMedium,
-        fontSize: fonts.size.font14
+        fontSize: fonts.size.font12
     },
     footerContainerStyle: {
         flexDirection: "row",
