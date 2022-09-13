@@ -10,6 +10,7 @@ import CommentsScreen from '../components/modules/Comments/CommentsScreen'
 import I18n from "react-native-i18n"
 import fonts from '../theme/fonts';
 import NewPostScreen from '../components/modules/Home/components/NewPostScreen'
+import AddInstScreen from '../components/modules/Institution/AddInstScreen'
 
 const AppNavigation = () => {
     const { auth, token } = useSelector((state: any) => state.User)
@@ -46,8 +47,18 @@ const AppNavigation = () => {
                         />
                         <Stack.Screen name="NewPostScreen" component={NewPostScreen}
                             options={{
-                                headerShown : false,
+                                headerShown: false,
                                 headerTitle: I18n.t("new_post"),
+                                headerTitleStyle: {
+                                    fontFamily: fonts.type.NunitoSemiBold,
+                                    fontSize: fonts.size.font16
+                                }
+                            }}
+                        />
+                        <Stack.Screen name="AddNewInstScreen" component={AddInstScreen}
+                            options={{
+                                // headerShown: false,
+                                headerTitle: I18n.t("add_new_inst"),
                                 headerTitleStyle: {
                                     fontFamily: fonts.type.NunitoSemiBold,
                                     fontSize: fonts.size.font16

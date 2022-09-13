@@ -6,10 +6,15 @@ import { useIsFocused } from '@react-navigation/native'
 import { getPostsList } from '../../../store/actions/postsActions'
 import colors from '../../../styles/colors'
 import ImagesViewModal from '../../modals/ImagesViewModal'
+import { getMyInstitutions, getMyPartners } from '../../../store/actions'
+import fonts from '../../../theme/fonts'
 
 const PostsListCmp = (props: any) => {
     const { navigation, openCommentModalize, closeCommentModalize } = props;
     const { posts, count, loadingPosts } = useSelector((state: any) => state.Posts)
+    const { user} = useSelector((state: any) => state?.User)
+    const { defaultPartner} = useSelector((state: any) => state?.Inst)
+
     const dispatch = useDispatch()
 
     const isFocused = useIsFocused()
@@ -74,8 +79,11 @@ const PostsListCmp = (props: any) => {
     };
 
     useEffect(() => {
-        dispatch(getPostsList({ limit, offset: 0, filters: null }, () => null, () => null))
-    }, [isFocused])
+        setTimeout(() => {
+            dispatch(getPostsList({ limit, offset: 0, partner: defaultPartner, filters: null }, () => null, () => null))
+        }, 500);
+
+    }, [isFocused,defaultPartner])
     return (
         <View style={styles.containerStyle}>
 
@@ -96,10 +104,26 @@ const PostsListCmp = (props: any) => {
                         colors={[colors.primary]}
                         refreshing={loadingPosts}
                         onRefresh={() => {
-                            dispatch(getPostsList({ limit, offset: 0, filters: null }, () => null, () => null))
+                            dispatch(getPostsList({ limit, offset: 0, partner: defaultPartner, filters: null }, () => null, () => null))
+                            dispatch(getMyInstitutions({}))
+                            dispatch(getMyPartners({ user: user?._id }))
                         }}
                     />
                 }
+                ListEmptyComponent={() => (
+                    <View style={{
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}>
+                        <Text
+                            style={{
+                                fontFamily: fonts.type.NunitoMedium,
+                                fontSize: fonts.size.font12,
+                                color: colors.grey
+                            }}
+                        >Aucune Publication</Text>
+                    </View>
+                )}
                 onScroll={({ nativeEvent }) => {
                     if (isCloseToBottom(nativeEvent)) {
                         console.log("________________close to bottom");

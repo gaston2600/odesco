@@ -8,7 +8,7 @@ const institutionSvr = {
             return axios
                 .get(`${urls.mesInstitutions}?${extractFilters({ filters: data?.filters })}`)
                 .then((resp) => {
-                    console.log({ resp });
+                    // console.log({ resp });
 
                     resolve(resp);
                 })
@@ -19,6 +19,18 @@ const institutionSvr = {
         return new Promise(async (resolve, reject) => {
             return axios
                 .get(`${urls.users}/${data?.user}/partners`)
+                .then((resp) => {
+                    // console.log({ resp });
+
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
+    post: (data: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .post(`${urls.configInst}`, data)
                 .then((resp) => {
                     console.log({ resp });
 

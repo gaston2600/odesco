@@ -8,6 +8,7 @@ import I18n from './src/translation/I18n';
 import fonts from './src/theme/fonts'
 import AppNavigation from './src/navigation/AppNavigation'
 import moment from 'moment'
+import { MenuProvider } from 'react-native-popup-menu';
 
 const App = () => {
   moment.locale('fr', {
@@ -72,16 +73,21 @@ const App = () => {
   });
 
   return (
+
     <NavigationContainer>
       <Provider store={store}>
-        <AppNavigation />
-        {/* <View style={styles.containerStyle}>
+        <MenuProvider
+          backHandler={true}
+        >
+          <AppNavigation />
+          {/* <View style={styles.containerStyle}>
           <Text style={{
             fontFamily :fonts.type.NunitoBold,
             fontSize : fonts.size.font12
           }}>{I18n.t('greeting')}</Text>
           <LoginScreen />
         </View> */}
+        </MenuProvider>
       </Provider>
     </NavigationContainer>
   )

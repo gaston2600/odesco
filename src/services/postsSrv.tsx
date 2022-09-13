@@ -3,11 +3,12 @@ import { extractFilters } from "../helpers/extractFilters";
 import { urls } from "../utils";
 
 const postsSrv = {
-    getList: ({ limit, offset, filters }: any) => {
+    getList: ({ limit, offset, partner, filters }: any) => {
         return new Promise(async (resolve, reject) => {
             return axios
-                .get(`${urls.postsList}/${offset || 0}/${limit || 10}?${extractFilters({ filters })}`)
+                .get(`${urls.posts}/list/${partner}/${offset || 0}/${limit || 10}?${extractFilters({ filters })}`)
                 .then((resp) => {
+                    console.log({ resp });
                     resolve(resp);
                 })
                 .catch((e) => reject(e));

@@ -2,12 +2,16 @@ import {
     LOGIN_USER,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILED,
+    EDIT_USER,
+    EDIT_USER_FAILED,
+    EDIT_USER_SUCCESS,
 
 } from "../types";
 
 import authService from "../../services/authSrv";
 import configAxios from "../../services";
 import authSrv from "../../services/authSrv";
+import userSrv from "../../services/userSrv";
 
 export const login = (
     email: any,
@@ -25,7 +29,7 @@ export const login = (
         authSrv
             .login(email, password)
             .then(async (response: any) => {
-                
+
 
                 const { token, user } = response.data;
 
@@ -39,6 +43,35 @@ export const login = (
                 console.log("login error === ", e);
                 dispatch({
                     type: LOGIN_USER_FAILED,
+                    payload: e,
+                });
+                callbackError(e.response);
+            });
+    };
+};
+
+export const editUser = (
+    data: any,
+    callback: any,
+    callbackError: any
+) => {
+    return (dispatch: (arg0: { type: string; payload?: any }) => any) => {
+        dispatch({
+            type: EDIT_USER,
+        });
+        userSrv
+            .edit(data)
+            .then(async (response: any) => {
+                dispatch({
+                    type: EDIT_USER_SUCCESS,
+                    payload: response?.data,
+                });
+                callback(response?.data);
+            })
+            .catch((e) => {
+                console.log("editUser error === ", e);
+                dispatch({
+                    type: EDIT_USER_FAILED,
                     payload: e,
                 });
                 callbackError(e.response);
