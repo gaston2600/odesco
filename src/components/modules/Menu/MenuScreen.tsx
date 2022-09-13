@@ -20,9 +20,10 @@ const MenuScreen = (props: any) => {
       route: "EventsScreen"
     },
     {
-      name: "Groupe",
+      name: "Enseignants",
       icon: require("../../../../assets/icons/menu/groupe.png"),
-      desc: "description Groupe"
+      desc: "description Groupe",
+      route: "TeachersScreen"
     },
     {
       name: "Membres",
@@ -35,9 +36,9 @@ const MenuScreen = (props: any) => {
       desc: "description Offre d'emploi"
     },
     {
-      name: "Établissement",
+      name: "Établissements",
       icon: require("../../../../assets/icons/menu/inst.png"),
-      desc: "description Établissement"
+      desc: "description Établissements"
     },
 
   ]

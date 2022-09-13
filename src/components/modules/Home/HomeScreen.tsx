@@ -58,7 +58,7 @@ const HomeScreen = (props: any) => {
         videoId={"iee2TATGMyI"}
         onChangeState={()=>null}
       /> */}
-      <CommentsModalize modalizeRef={modalizeRef} />
+      {/* <CommentsModalize modalizeRef={modalizeRef} /> */}
     </View>
   )
 }

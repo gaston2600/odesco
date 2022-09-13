@@ -29,7 +29,7 @@ const ImagePicker = (props: any) => {
 
     return (
         <Modalize
-            scrollViewProps={{ showsVerticalScrollIndicator: false }}
+            scrollViewProps={{ showsVerticalScrollIndicator: false, }}
             withHandle={false}
             ref={refImageModal}
             modalHeight={height / 8.5}

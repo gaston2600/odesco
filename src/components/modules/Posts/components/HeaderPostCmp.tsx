@@ -9,7 +9,7 @@ import { getTimeAgo } from '../../../../helpers/getTimeAgo'
 
 const HeaderPostCmp = (props: any) => {
     const { data } = props;
-    console.log({ data });
+    // console.log({ data });
 
     const post = {
         name: data?.institution ? data?.institution?.name : `${data?.partner?.first_name} ${data?.partner?.last_name}`,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     titleTextStyle: {
         fontFamily: fonts.type.NunitoSemiBold,
         color: colors.black,
-        fontSize: fonts.size.font14
+        fontSize: fonts.size.font12
     },
     typeTextStyle: {
         fontFamily: fonts.type.NunitoRegular,
