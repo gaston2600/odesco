@@ -5,6 +5,7 @@ import {
     EDIT_USER,
     EDIT_USER_FAILED,
     EDIT_USER_SUCCESS,
+    SELECT_SPACE,
 
 } from "../types";
 
@@ -76,5 +77,16 @@ export const editUser = (
                 });
                 callbackError(e.response);
             });
+    };
+};
+
+export const selectSpace = (
+    data: any,
+) => {
+    return (dispatch: (arg0: { type: string; payload?: any }) => any) => {
+        dispatch({
+            type: SELECT_SPACE,
+            payload: data
+        });
     };
 };

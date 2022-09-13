@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useRef, useState } from 'react'
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import Icons from '../../../../styles/icons'
 import colors from '../../../../styles/colors'
 import metrics from "../../../../theme/metrics";
@@ -7,15 +7,31 @@ import I18n from 'react-native-i18n'
 import fonts from '../../../../theme/fonts';
 import { Divider } from '@rneui/themed';
 import AvatarCmp from '../../../common/AvatarCmp';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { extractImage } from '../../../../helpers/extractImage';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import ImagePicker from '../../../common/ImagePicker';
+import { postPost, selectSpace } from '../../../../store/actions';
+import SelectInstitutionModal from '../../../modals/institutions/SelectInstitutionModal';
 
 const { screenHeight, screenWidth } = metrics
 const NewPostScreen = (props: any) => {
+    const dispatch = useDispatch()
     const { navigation } = props
     const { user } = useSelector((state: any) => state?.User)
+    const { myPartners, defaultPartner, myInstitutions } = useSelector((state: any) => state?.Inst)
+    const { selectedSpace } = useSelector((state: any) => state?.User)
+    const [loadingNewPost, setLoadingNewPost] = useState(false)
+
+    useEffect(() => {
+
+        const temp = { ...myPartners?.filter((v: any) => v?._id === defaultPartner)?.[0], type: "Partner" }
+        if (!!defaultPartner && !!myPartners?.length && !selectedSpace) {
+            dispatch(selectSpace(temp))
+        }
+    }, [myPartners, defaultPartner])
+
+
     const refImageModal = useRef(null)
     const [payload, setPayload] = useState({
         desc: "",
@@ -85,6 +101,40 @@ const NewPostScreen = (props: any) => {
     };
 
 
+    const [visibleSelectInst, setVisibleSelectInst] = useState(false)
+    const [loadingPostLike, setLoadingPostLike] = useState(false)
+
+    function confirmSelecInstModal(params: any) {
+        console.log(params);
+        let temp = null
+        if (params?.type === "Partner") {
+            temp = { ...myPartners?.filter((v: any) => v?._id === params?._id)?.[0], type: "Partner" }
+        } else {
+            temp = { ...myInstitutions?.filter((v: any) => v?.institute?._id === params?._id)?.[0]?.institute, type: "Instition" }
+        }
+
+
+        dispatch(selectSpace(temp))
+        setVisibleSelectInst(false)
+
+    }
+
+    function submit() {
+        setLoadingNewPost(true)
+        dispatch(
+            postPost({
+                partner: selectedSpace?._id,
+                partner_type: selectedSpace?.type,
+                desc: payload?.desc,
+            }, () => {
+                setLoadingNewPost(false)
+                navigation?.goBack()
+            }, () => {
+                setLoadingNewPost(false)
+            }
+            )
+        )
+    }
     return (
         <View style={styles.containerStyle}>
             <View style={styles.headerContainerStyle}>
@@ -104,43 +154,50 @@ const NewPostScreen = (props: any) => {
                 }}>
                     <Text style={[styles.titleTextStyle]}>{I18n.t("new_post")}</Text>
                 </View>
-                <View style={{
-                    flex: 1,
-                    padding: 10
-                }}>
-                    <Text style={{
+                <Pressable
+                    onPress={submit}
+                    style={{
+                        flex: 1,
+                        padding: 10
+                    }}>
+                    {loadingNewPost ? <ActivityIndicator color={colors.sereneBlue} /> : <Text style={{
                         fontFamily: fonts.type.NunitoMedium,
                         fontSize: fonts.size.font12,
                         color: payload?.desc?.length ? colors.blue : colors.grey
                     }}>
                         {I18n.t("publish")}
-                    </Text>
-                </View>
+                    </Text>}
+                </Pressable>
             </View>
             <Divider orientation="horizontal" />
 
             <View style={styles.bodyContainerstyle}>
                 {/* <Text>NewPostScreen</Text> */}
                 {/* ----------------------SELECT INST SECTION */}
-                <View
+                <Pressable
+                    onPress={() => {
+                        setVisibleSelectInst(true)
+                    }}
                     style={{
                         flexDirection: "row",
-                        marginVertical: 10
+                        marginVertical: 10,
                     }}
                 >
                     <View>
                         <AvatarCmp
-                            // name={user?.first_name?.slice(0, 2)}
-                            uri={extractImage(user?.avatar?.path)}
+                            name={selectedSpace?.type === "Partner" ? selectedSpace?.first_name?.slice(0, 2) : selectedSpace?.name?.slice(0, 2)}
+                            uri={extractImage(selectedSpace?.avatar?.path)}
                             size={40}
                         />
                     </View>
 
-                    <View>
-                        <Text style={styles.titleTextStyle}>{`${user?.first_name} ${user?.last_name}`}</Text>
+                    <View style={{
+                        paddingLeft: 10,
+                    }}>
+                        <Text style={styles.titleTextStyle}>{selectedSpace?.type === "Partner" ? `${selectedSpace?.first_name} ${selectedSpace?.last_name}` : selectedSpace?.name}</Text>
 
                     </View>
-                </View>
+                </Pressable>
                 <View>
                     <TextInput
                         value={payload?.desc}
@@ -177,6 +234,12 @@ const NewPostScreen = (props: any) => {
                 refImageModal={refImageModal}
                 takeImage={takeImage}
                 addImage={addImage}
+            />
+            <SelectInstitutionModal
+                visible={visibleSelectInst}
+                setVisible={setVisibleSelectInst}
+                confirm={confirmSelecInstModal}
+                selectedList={[{ _id: selectedSpace?._id, type: selectedSpace?.type }]}
             />
         </View>
     )
@@ -218,7 +281,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: colors.grey,
-        maxHeight : screenHeight*.5
+        maxHeight: screenHeight * .5
     },
     footerContainerStyle: {
         // padding: 10,
