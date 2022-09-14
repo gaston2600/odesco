@@ -9,7 +9,9 @@ const fr = {
     Teacher: "Enseignant",
     Parent: "Parent",
     partners: "Partenaires",
+    partner: "Partenaire",
     institutions: "Institutions",
+    institute: "Institution",
     cultural: "Culturel",
     athletic: "Athletic",
 
@@ -34,6 +36,7 @@ const fr = {
     teachers: "Enseignants",
     posts: "Publications",
     infoProfile: "Informations De Profil",
+    profile: "Profil",
     experiences: "Expérience",
     skills: "Compétences",
     trainings: "Formations",

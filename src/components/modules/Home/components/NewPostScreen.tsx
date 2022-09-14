@@ -125,7 +125,7 @@ const NewPostScreen = (props: any) => {
         dispatch(
             postPost({
 
-                partner: selectedSpace?.type === "Parntner" ? selectedSpace?._id : null,
+                partner: selectedSpace?.type === "Partner" ? selectedSpace?._id : null,
                 inst_id: selectedSpace?.type === "Institution" ? selectedSpace?._id : null,
                 partner_type: selectedSpace?.type,
                 desc: payload?.desc,

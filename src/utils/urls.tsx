@@ -19,6 +19,7 @@ export const urls = {
     events: "/api/events",
     invitations: "/api/invitations",
     schoolingPrivateTeachers: "/api/schooling/teachers/private",
-    schoolingTeachers: "/api/schooling/teachers"
+    schoolingTeachers: "/api/schooling/teachers",
+    schoolingPartners: "/api/schooling/partners",
 
 };
