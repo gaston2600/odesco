@@ -38,9 +38,10 @@ const NewPostScreen = (props: any) => {
         is_private: false,
         partner_type: "Institution",
         inst_id: "62d930b91681f7002a0f9e9c",
-        gallery: null
+        gallery: null,
+        video: ""
     })
-
+    const [showAddVideo, setShowAddVideo] = useState(false)
     const [pictures, setPictures] = useState([])
     const [pics, setPics] = useState([])
     const addImage = () => {
@@ -123,9 +124,12 @@ const NewPostScreen = (props: any) => {
         setLoadingNewPost(true)
         dispatch(
             postPost({
-                partner: selectedSpace?._id,
+
+                partner: selectedSpace?.type === "Parntner" ? selectedSpace?._id : null,
+                inst_id: selectedSpace?.type === "Institution" ? selectedSpace?._id : null,
                 partner_type: selectedSpace?.type,
                 desc: payload?.desc,
+                video: payload?.video
             }, () => {
                 setLoadingNewPost(false)
                 navigation?.goBack()
@@ -135,6 +139,8 @@ const NewPostScreen = (props: any) => {
             )
         )
     }
+    console.log({ pics });
+
     return (
         <View style={styles.containerStyle}>
             <View style={styles.headerContainerStyle}>
@@ -206,9 +212,19 @@ const NewPostScreen = (props: any) => {
                         multiline
                         focusable
                         numberOfLines={6}
+                        placeholder={I18n.t("post_placeholder")}
                     />
 
                 </View>
+                {showAddVideo && <View
+                >
+                    <TextInput
+                        value={payload?.desc}
+                        onChangeText={(desc: string) => setPayload({ ...payload, desc })}
+                        style={styles.videoTextInputStyle}
+                        placeholder={I18n.t("video_placeholder")}
+                    />
+                </View>}
                 <View style={styles.footerContainerStyle}>
                     <Pressable
                         style={styles.iconContainerStyle}
@@ -221,7 +237,10 @@ const NewPostScreen = (props: any) => {
                     <Pressable
                         style={styles.iconContainerStyle}
                         onPress={() => {
-                            refImageModal?.current?.open()
+                            if (showAddVideo) {
+                                setPayload({ ...payload, video: "" })
+                            }
+                            setShowAddVideo(!showAddVideo)
                         }}
                     >
                         <Icons.FontAwesome name="youtube-play" size={35} color={colors.primary} />
@@ -281,7 +300,19 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: colors.grey,
-        maxHeight: screenHeight * .5
+        maxHeight: screenHeight * .5,
+        padding :10
+    },
+    videoTextInputStyle: {
+        fontFamily: fonts.type.NunitoMedium,
+        fontSize: fonts.size.font12,
+        color: colors.blackTrans,
+        // flex: 1,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: colors.grey,
+        marginVertical : 10,
+        padding :10
     },
     footerContainerStyle: {
         // padding: 10,

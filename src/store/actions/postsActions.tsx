@@ -141,6 +141,8 @@ export const postPost = (
         if (data?.desc) formData.append("desc", data.desc)
         if (data?.partner_type) formData.append("partner_type", data.partner_type)
         if (data?.partner) formData.append("partner", data.partner)
+        if (data?.inst_id) formData.append("inst_id", data.inst_id)
+        if (data?.video) formData.append("video", data.video)
 
 
 
