@@ -3,6 +3,7 @@ import {
     LOGIN_USER,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILED,
+    SELECT_SPACE,
 } from "../types";
 
 const INITIAL_STATE = {
@@ -22,7 +23,8 @@ const INITIAL_STATE = {
     myProfile: null,
     workingDays: null,
     deviceToken: "",
-    defaultPartner: ""
+    defaultPartner: "",
+    selectedSpace: null
 };
 
 export default (state = INITIAL_STATE, action: { type: any; payload: any }) => {
@@ -42,7 +44,7 @@ export default (state = INITIAL_STATE, action: { type: any; payload: any }) => {
                 token,
                 auth: user && token !== "",
                 userLoading: false,
-                defaultPartner: user?.ref_codes?.filter((v: any) => String(v?.ref_code)?.startsWith("partner"))?.[0]?._id
+                // defaultPartner: user?.ref_codes?.filter((v: any) => String(v?.ref_code)?.startsWith("partner"))?.[0]?._id
             };
         case LOGIN_USER_FAILED:
             return {
@@ -51,6 +53,11 @@ export default (state = INITIAL_STATE, action: { type: any; payload: any }) => {
                 userLoading: false,
             };
 
+        case SELECT_SPACE:
+            return {
+                ...state,
+                selectedSpace: action.payload
+            };
 
         //NOTHING TO DO
         default:

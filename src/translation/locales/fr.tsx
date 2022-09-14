@@ -14,7 +14,7 @@ const fr = {
     athletic: "Athletic",
 
     pending: "En Attente",
-    accept :"Accepter",
+    accept: "Accepter",
 
 
     add_new: "Nouveau",
@@ -31,12 +31,12 @@ const fr = {
     events: "Évenements",
     myEvents: "Mes évenements",
     invitations: "Invitaions",
-    teachers : "Enseignants",
-    posts :"Publications",
-    infoProfile :"Informations De Profil",
-    experiences :"Expérience",
-    skills :"Compétences",
-    trainings :"Formations",
+    teachers: "Enseignants",
+    posts: "Publications",
+    infoProfile: "Informations De Profil",
+    experiences: "Expérience",
+    skills: "Compétences",
+    trainings: "Formations",
 
     inst_name: "Nom de l'établissement",
     type: "Type",
@@ -49,6 +49,8 @@ const fr = {
     min_3: "Minimum 3 carachtère",
 
 
+    post_placeholder: "De quoi voulez-vous parler",
+    video_placeholder: "Lien vidéo youtube",
 
 
 

@@ -37,6 +37,7 @@ const HomeScreen = (props: any) => {
     getMyInsitutions()
   }, [])
 
+
   return (
     <View style={styles.containerStyle}>
       <StatusBar barStyle={'default'} backgroundColor={colors.primary} />
