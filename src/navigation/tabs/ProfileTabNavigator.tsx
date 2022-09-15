@@ -14,7 +14,7 @@ const Tab = createMaterialTopTabNavigator();
 
 function ProfileTabNavigator(props: any) {
     console.log({ props })
-    const { partner, type } = props
+    const { partner, type, data } = props
     return (
         <Tab.Navigator
             showPageIndicator
@@ -38,7 +38,7 @@ function ProfileTabNavigator(props: any) {
                     tabBarLabel: () => <Text style={styles.labelTextStyle}>{I18n.t("infoProfile")}</Text>,
                 }}
                 name="TeacherDescProfileScreen"
-                children={(props: any) => <PartnerDescProfileScreen partner={partner} type={type} {...props} />}
+                children={(props: any) => <PartnerDescProfileScreen data={data} partner={partner} type={type} {...props} />}
             />
         </Tab.Navigator>
     );

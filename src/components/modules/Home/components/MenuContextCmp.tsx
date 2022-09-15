@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Icons from '../../../../styles/icons';
 import { Button, Divider } from '@rneui/themed';
 import { extractImage } from '../../../../helpers/extractImage';
-import { navigate } from '../../../../navigation/NavigationService';
 import { editUser, getMyInstitutions, getMyPartners } from '../../../../store/actions';
 import { useIsFocused } from '@react-navigation/native';
 

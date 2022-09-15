@@ -12,7 +12,7 @@ const ProfileScreen = (props: any) => {
                 flex: 1
             }}
         >
-            <ProfileTabNavigator partner={space?._id} type={space?.type} navigation={navigation} />
+            <ProfileTabNavigator partner={space?._id} data={space} type={space?.type} navigation={navigation} />
         </View>
     )
 }

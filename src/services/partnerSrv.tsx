@@ -15,6 +15,18 @@ const partnerSrv = {
                 .catch((e) => reject(e));
         });
     },
+    edit: (data: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .patch(`${urls.schoolingPartners}/edit-one/${data?.partner}`,data?.data)
+                .then((resp) => {
+                    console.log({ resp });
+
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
 
 };
 

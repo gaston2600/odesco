@@ -27,6 +27,7 @@ const fr = {
     follow: "Suivre",
     subscribed: "Abonné",
     onligne: "En ligne",
+    addFormation: "Ajouter une Formation",
 
 
 
@@ -40,6 +41,10 @@ const fr = {
     experiences: "Expérience",
     skills: "Compétences",
     trainings: "Formations",
+
+    diplome: "Diplôme",
+    startDate: "Date De Début",
+    endDate: "Date De Fin",
 
     inst_name: "Nom de l'établissement",
     type: "Type",
