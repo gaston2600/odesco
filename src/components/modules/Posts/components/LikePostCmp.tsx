@@ -7,13 +7,19 @@ import fonts from '../../../../theme/fonts';
 import SelectInstitutionModal from '../../../modals/institutions/SelectInstitutionModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostsList, likePost } from '../../../../store/actions/postsActions';
+import AvatarCmp from '../../../common/AvatarCmp';
+import { extractImage } from '../../../../helpers/extractImage';
 
 const LikePostCmp = (props: any) => {
-    const { post, data ,refresh } = props;
+    const { post, data, refresh, withSelectedSpace } = props;
+    // console.log({ props });
+
     const dispatch = useDispatch()
     const [visibleSelectInst, setVisibleSelectInst] = useState(false)
     const [loadingPostLike, setLoadingPostLike] = useState(false)
     const { defaultPartner } = useSelector((state: any) => state?.Inst)
+    const { selectedSpace } = useSelector((state: any) => state?.User)
+
     function confirmSelecInstModal(params: any) {
         setLoadingPostLike(true)
         dispatch(likePost({
@@ -25,9 +31,9 @@ const LikePostCmp = (props: any) => {
             (res: any) => {
                 setLoadingPostLike(false)
                 setVisibleSelectInst(false)
-                if(refresh) refresh()
+                if (refresh) refresh()
                 // dispatch(getPostsList({ partner: defaultPartner }, () => null, () => null))
-                
+
             },
             (err: any) => {
                 setLoadingPostLike(false)
@@ -39,11 +45,21 @@ const LikePostCmp = (props: any) => {
     return (
         <TouchableOpacity
             onPress={() => {
-                setVisibleSelectInst(true)
+                // setVisibleSelectInst(true)
+                confirmSelecInstModal(selectedSpace)
             }}
             style={styles.containerStyle}>
+
             {loadingPostLike ? <ActivityIndicator color={colors.primary} /> : <Icons.AntDesign name="like2" size={20} color={colors.primary} />}
             <Text style={styles.textStyle}>{I18n.t("like")}</Text>
+            {/* {
+                !!withSelectedSpace && (
+                    <AvatarCmp
+                        name={String(selectedSpace?.type === "Partner" ? selectedSpace?.first_name : selectedSpace?.name)?.slice(0, 2)}
+                        uri={extractImage(selectedSpace?.avatar?.path)}
+                        size={20}
+                    />)
+            } */}
             <SelectInstitutionModal
                 visible={visibleSelectInst}
                 setVisible={setVisibleSelectInst}

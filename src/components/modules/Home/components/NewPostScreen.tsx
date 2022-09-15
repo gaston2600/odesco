@@ -106,18 +106,14 @@ const NewPostScreen = (props: any) => {
     const [loadingPostLike, setLoadingPostLike] = useState(false)
 
     function confirmSelecInstModal(params: any) {
-        console.log(params);
         let temp = null
         if (params?.type === "Partner") {
             temp = { ...myPartners?.filter((v: any) => v?._id === params?._id)?.[0], type: "Partner" }
         } else {
             temp = { ...myInstitutions?.filter((v: any) => v?.institute?._id === params?._id)?.[0]?.institute, type: "Instition" }
         }
-
-
         dispatch(selectSpace(temp))
         setVisibleSelectInst(false)
-
     }
 
     function submit() {

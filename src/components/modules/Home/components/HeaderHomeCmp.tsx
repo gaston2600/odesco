@@ -1,27 +1,64 @@
 import { Alert, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import colors from '../../../../styles/colors'
 import Icons from '../../../../styles/icons'
 import SearchCmp from '../../../common/SearchCmp'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { urls } from '../../../../utils'
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
 import MenuContextCmp from './MenuContextCmp'
 import globalStyles from '../../../../styles/globalStyles'
+import AvatarCmp from '../../../common/AvatarCmp'
+import { extractImage } from '../../../../helpers/extractImage'
+import { selectSpace } from '../../../../store/actions'
+import SelectInstitutionModal from '../../../modals/institutions/SelectInstitutionModal'
 
 const HeaderHomeCmp = (props: any) => {
     const { navigation } = props;
-    const { user } = useSelector((state: any) => state?.User)
+    const dispatch = useDispatch()
+    const { user, selectedSpace } = useSelector((state: any) => state?.User)
+    const { myPartners, defaultPartner, myInstitutions } = useSelector((state: any) => state?.Inst)
     const menuRef = useRef(null)
     const [searchText, setSearchText] = useState("")
+    const [visibleSelectInst, setVisibleSelectInst] = useState(false)
+
+    function confirmSelecInstModal(params: any) {
+        let temp = null
+        if (params?.type === "Partner") {
+            temp = { ...myPartners?.filter((v: any) => v?._id === params?._id)?.[0], type: "Partner" }
+        } else {
+            temp = { ...myInstitutions?.filter((v: any) => v?.institute?._id === params?._id)?.[0]?.institute, type: "Instition" }
+        }
+        dispatch(selectSpace(temp))
+        setVisibleSelectInst(false)
+    }
+
+    useEffect(() => {
+
+        const temp = { ...myPartners?.filter((v: any) => v?._id === defaultPartner)?.[0], type: "Partner" }
+        if (!!defaultPartner && !!myPartners?.length && !selectedSpace) {
+            dispatch(selectSpace(temp))
+        }
+    }, [myPartners, defaultPartner])
     return (
         <View style={styles.containerStyle}>
-            <View style={{
+            <Pressable
+           onPress={() => {
+            setVisibleSelectInst(true)
+        }}
+            style={{
                 flex: 1,
                 alignItems: "center",
                 justifyContent: "center",
+                // backgroundColor : colors.white
             }}>
-                <Image source={{
+                <AvatarCmp
+                    name={String(selectedSpace?.first_name)?.slice(0, 2)}
+                    uri={extractImage(selectedSpace?.avatar?.path)}
+                    size={30}
+                    inversed={true}
+                />
+                {/* <Image source={{
                     uri: user?.avatar?.path ? `${urls.baseURL}/${user?.avatar?.path}` : "https://www.preprod.odesco.l-wa.com/assets/img/no-user.png"
                 }}
                     style={{
@@ -29,8 +66,8 @@ const HeaderHomeCmp = (props: any) => {
                         width: 40,
                         borderRadius: 50
                     }}
-                />
-            </View>
+                /> */}
+            </Pressable>
             <View style={{
                 flex: 5,
                 alignItems: "center",
@@ -71,7 +108,12 @@ const HeaderHomeCmp = (props: any) => {
                     </MenuOptions>
                 </Menu>
             </View>
-
+            <SelectInstitutionModal
+                visible={visibleSelectInst}
+                setVisible={setVisibleSelectInst}
+                confirm={confirmSelecInstModal}
+                selectedList={[{ _id: selectedSpace?._id, type: selectedSpace?.type }]}
+            />
         </View>
     )
 }

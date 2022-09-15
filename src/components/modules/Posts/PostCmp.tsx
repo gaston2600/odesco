@@ -13,13 +13,17 @@ import CommentPostCmp from './components/CommentPostCmp';
 import { Divider } from '@rneui/base';
 import I18n from "react-native-i18n";
 import Icons from '../../../styles/icons';
+import AvatarCmp from '../../common/AvatarCmp';
+import { useSelector } from 'react-redux';
 const PostCmp = (props: any) => {
     const {
         navigation,
         data,
         showImages,
-        refresh
+        refresh,
+        withSelectedSpace
     } = props;
+    const { selectedSpace } = useSelector((state: any) => state?.User)
     // console.log({ data });
 
     return (
@@ -75,15 +79,24 @@ const PostCmp = (props: any) => {
             <View
                 style={styles.footerContainerStyle}
             >
-
                 <LikePostCmp
                     post={data?._id}
                     data={data}
                     refresh={refresh}
+                    withSelectedSpace={withSelectedSpace}
                 />
+                {
+                    !!withSelectedSpace && (
+                        <AvatarCmp
+                            name={String(selectedSpace?.type === "Partner" ? selectedSpace?.first_name : selectedSpace?.name)?.slice(0, 2)}
+                            uri={extractImage(selectedSpace?.avatar?.path)}
+                            size={20}
+                        />)
+                }
                 <CommentPostCmp
                     navigation={navigation}
                     post={data?._id}
+                    withSelectedSpace={withSelectedSpace}
 
                 />
             </View>

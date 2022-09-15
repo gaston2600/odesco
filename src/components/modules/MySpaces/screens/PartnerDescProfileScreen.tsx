@@ -13,10 +13,14 @@ import AddFormationModal from '../../../modals/mySpaces/AddFormationModal'
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
 import ExperienceCmp from '../components/ExperienceCmp'
 import TrainingCmp from '../components/TrainingCmp'
+import { getOneTeacher } from '../../../../store/actions/teachersActions'
 
 const PartnerDescProfileScreen = (props: any) => {
     const dispatch = useDispatch()
-    const { partner, data } = props
+    const { partner,
+        //  data 
+    } = props;
+    const [data, setData] = useState({})
     const { user } = useSelector((state: any) => state?.User)
     console.log({ data });
 
@@ -29,10 +33,11 @@ const PartnerDescProfileScreen = (props: any) => {
     }
 
     function getProfile() {
-        dispatch(getOnePartner({
-            partner
+        dispatch(getOneTeacher({
+            teacher: partner
         }, res => {
             console.log("getonePartner", res);
+            setData(res?.teacher)
 
         },
             err => {
@@ -41,6 +46,19 @@ const PartnerDescProfileScreen = (props: any) => {
             }
 
         ))
+
+        // dispatch(getOnePartner({
+        //     partner
+        // }, res => {
+        //     console.log("getonePartner", res);
+
+        // },
+        //     err => {
+        //         console.log(err);
+
+        //     }
+
+        // ))
     }
 
     function submitAddFromation(params: {
@@ -70,7 +88,7 @@ const PartnerDescProfileScreen = (props: any) => {
                         console.log("success edit trainings", res);
                         setShowAddFormationModal(false)
                         setLoadingAddFormation(false)
-                        dispatch(getMyPartners({ user: user?._id }))
+                        getProfile()
                     },
                     (err: any) => {
                         console.log({ err })
@@ -158,7 +176,7 @@ const PartnerDescProfileScreen = (props: any) => {
                         renderItem={({ item }) => <TrainingCmp data={item} />}
                         // renderItem={({ item }) => renderTraining(item)}
                         keyExtractor={item => item?._id}
-                        ItemSeparatorComponent={()=><Divider />}
+                        ItemSeparatorComponent={() => <Divider />}
                     />
                 </View>}
             {!!data?.experiences?.length &&
@@ -175,7 +193,7 @@ const PartnerDescProfileScreen = (props: any) => {
                         renderItem={({ item }) => <ExperienceCmp data={item} />}
                         // renderItem={({ item }) => renderExperience(item)}
                         keyExtractor={item => item?._id}
-                        ItemSeparatorComponent={()=><Divider />}
+                        ItemSeparatorComponent={() => <Divider />}
                     />
                 </View>}
             {!!data?.skills?.length &&
