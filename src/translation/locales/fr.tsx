@@ -9,7 +9,9 @@ const fr = {
     Teacher: "Enseignant",
     Parent: "Parent",
     partners: "Partenaires",
+    partner: "Partenaire",
     institutions: "Institutions",
+    institute: "Institution",
     cultural: "Culturel",
     athletic: "Athletic",
 
@@ -25,6 +27,7 @@ const fr = {
     follow: "Suivre",
     subscribed: "Abonné",
     onligne: "En ligne",
+    addFormation: "Ajouter une Formation",
 
 
 
@@ -34,9 +37,14 @@ const fr = {
     teachers: "Enseignants",
     posts: "Publications",
     infoProfile: "Informations De Profil",
+    profile: "Profil",
     experiences: "Expérience",
     skills: "Compétences",
     trainings: "Formations",
+
+    diplome: "Diplôme",
+    startDate: "Date De Début",
+    endDate: "Date De Fin",
 
     inst_name: "Nom de l'établissement",
     type: "Type",

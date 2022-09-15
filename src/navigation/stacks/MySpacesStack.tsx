@@ -1,34 +1,20 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../../components/modules/Home/HomeScreen';
-import CommentsScreen from '../../components/modules/Comments/CommentsScreen';
 import I18n from "react-native-i18n"
 import fonts from '../../theme/fonts';
-import NewPostScreen from '../../components/modules/Home/components/NewPostScreen';
-import MySpacesStack from './MySpacesStack';
+import MySpacesScreen from '../../components/modules/MySpaces/MySpacesScreen';
+import ProfileScreen from '../../components/modules/MySpaces/ProfileScreen';
 
-const HomeStack = () => {
+const MySpacesStack = (props: any) => {
+    const { space } = props?.route?.params;
+
     const Stack = createNativeStackNavigator();
     return (
-        <Stack.Navigator initialRouteName="HomeScreen">
-            <Stack.Screen name="HomeScreen" component={HomeScreen}
+        <Stack.Navigator initialRouteName="MySpacesScreen">
+            <Stack.Screen name="MySpacesScreen"
+                children={(props: any) => <MySpacesScreen space={space} {...props} />}
                 options={{
-                    headerShown: false
-                }}
-            />
-            <Stack.Screen name="CommentsScreen" component={CommentsScreen}
-                options={{
-                    headerTitle: I18n.t("comments"),
-                    headerTitleStyle: {
-                        fontFamily: fonts.type.NunitoSemiBold,
-                        fontSize: fonts.size.font16
-                    }
-                }}
-            />
-            <Stack.Screen name="MySpaces" component={MySpacesStack}
-                options={{
-                    headerShown: false,
                     headerTitle: I18n.t("myPartners"),
                     headerTitleStyle: {
                         fontFamily: fonts.type.NunitoSemiBold,
@@ -36,9 +22,19 @@ const HomeStack = () => {
                     }
                 }}
             />
-            {/* <Stack.Screen name="NewPostScreen" component={NewPostScreen}
+            <Stack.Screen name="ProfileScreen"
+                children={(props: any) => <ProfileScreen space={space} {...props} />}
                 options={{
-                    headerTitle: I18n.t("new_post"),
+                    headerTitle: I18n.t("profile"),
+                    headerTitleStyle: {
+                        fontFamily: fonts.type.NunitoSemiBold,
+                        fontSize: fonts.size.font16
+                    }
+                }}
+            />
+            {/* <Stack.Screen name="CommentsScreen" component={CommentsScreen}
+                options={{
+                    headerTitle: I18n.t("comments"),
                     headerTitleStyle: {
                         fontFamily: fonts.type.NunitoSemiBold,
                         fontSize: fonts.size.font16
@@ -49,6 +45,6 @@ const HomeStack = () => {
     )
 }
 
-export default HomeStack
+export default MySpacesStack
 
 const styles = StyleSheet.create({})

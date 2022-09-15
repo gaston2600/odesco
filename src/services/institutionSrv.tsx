@@ -39,6 +39,31 @@ const institutionSvr = {
                 .catch((e) => reject(e));
         });
     },
+    getInstPosts: (data: any) => {
+        console.log({data});
+        
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .post(`${urls.posts}/filters/${data?.offset || 0}/${data?.limit || 10}`, data?.data)
+                .then((resp) => {
+                    console.log({ resp });
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
+    getPartnerPosts: (data: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .get(`${urls.posts}/partner/${data?.partner}/${data?.offset || 0}/${data?.limit || 10}`, data)
+                .then((resp) => {
+                    console.log({ resp });
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
+
 };
 
 export default institutionSvr;

@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, Pressable, RefreshControl, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, TouchableOpacity, RefreshControl, StyleSheet, Text, TextInp, TouchableOpacityut, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import fonts from '../../../../theme/fonts'
 import colors from '../../../../styles/colors'
@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Icons from '../../../../styles/icons';
 import { Button, Divider } from '@rneui/themed';
 import { extractImage } from '../../../../helpers/extractImage';
-import { navigate } from '../../../../navigation/NavigationService';
 import { editUser, getMyInstitutions, getMyPartners } from '../../../../store/actions';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -35,12 +34,14 @@ const MenuContextCmp = (props: any) => {
 
     function renderInst(params: any, empty: boolean = false) {
         return (
-            <Pressable
+            <TouchableOpacity
                 onPress={() => {
                     if (empty) {
                         navigation?.navigate("AddNewInstScreen", {})
-                        close()
+                    } else {
+                        navigation?.navigate("MySpaces", { space: { ...params?.institute, type: "Institution" } })
                     }
+                    close()
                 }}
                 style={[styles.instContainerStyle, !params?.institute?.active && !empty && { backgroundColor: colors.grey }]}>
                 <View style={{
@@ -71,15 +72,18 @@ const MenuContextCmp = (props: any) => {
                     </Text>
                 </View>
 
-            </Pressable>
+            </TouchableOpacity>
         )
     }
     function renderPartners(params: any, empty: boolean = false) {
         return (
-            <Pressable
+            <TouchableOpacity
                 onPress={() => {
                     if (empty) {
                         toogleAddPartner()
+                    } else {
+                        navigation?.navigate("MySpaces", { space: { ...params, type: "Partner" } })
+                        close()
                     }
                 }}
                 style={styles.instContainerStyle}>
@@ -111,7 +115,7 @@ const MenuContextCmp = (props: any) => {
                     </Text>
                 </View>
 
-            </Pressable>
+            </TouchableOpacity>
         )
     }
 
@@ -164,7 +168,7 @@ const MenuContextCmp = (props: any) => {
                             style={styles.textIputStyle}
                             placeholder={I18n.t("code_access")}
                         />
-                        <Pressable
+                        <TouchableOpacity
                             onPress={() => {
                                 addPartner(ref_code)
                             }}
@@ -184,7 +188,7 @@ const MenuContextCmp = (props: any) => {
                                     }}>
                                     {I18n.t("save")}
                                 </Text>}
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
                 }
                 <Divider orientation='horizontal' style={styles.dividerStyle} />
@@ -207,12 +211,12 @@ const MenuContextCmp = (props: any) => {
                     }
                 />
             </View>
-            <Pressable
+            <TouchableOpacity
                 onPress={close}
                 style={styles.closeContainerStyle}
             >
                 <Icons.AntDesign name="close" size={20} color={colors.black} />
-            </Pressable>
+            </TouchableOpacity>
         </View>
     )
 }

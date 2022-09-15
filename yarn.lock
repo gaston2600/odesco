@@ -6530,6 +6530,13 @@
     "jscodeshift" "^0.13.1"
     "nullthrows" "^1.1.1"
 
+"react-native-date-picker@^4.2.5":
+  "integrity" "sha512-YjwiMpZEnVVS+ymLvmJDicVZ3pSR+nJHgtAhctMl6fO8f7iRNcYhY427gemlTBf2Ji+XIAK0Agyl255DhaemFw=="
+  "resolved" "https://registry.npmjs.org/react-native-date-picker/-/react-native-date-picker-4.2.5.tgz"
+  "version" "4.2.5"
+  dependencies:
+    "prop-types" "^15.8.1"
+
 "react-native-fb-image-grid@^0.0.5":
   "integrity" "sha512-OJMAtYDdjwGBmzI0dwEIbblPGuK6L+1rbK1Ej8nTZMnak/s1awbKalQULPOO8fvMNsYMXXUVqJJiUvXRPV9qwg=="
   "resolved" "https://registry.npmjs.org/react-native-fb-image-grid/-/react-native-fb-image-grid-0.0.5.tgz"
