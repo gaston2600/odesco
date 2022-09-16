@@ -56,10 +56,11 @@ const fr = {
     required: "Champ obligatoire",
     min_3: "Minimum 3 carachtère",
 
+    delete :"Supprimer",
 
     post_placeholder: "De quoi voulez-vous parler",
     video_placeholder: "Lien vidéo youtube",
-
+    delete_msg :"Êtes-Vous Sûr De Supprimer?",
 
 
 

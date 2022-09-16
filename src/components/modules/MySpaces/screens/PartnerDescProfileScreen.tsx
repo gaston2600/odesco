@@ -20,16 +20,20 @@ const PartnerDescProfileScreen = (props: any) => {
     const { partner,
         //  data 
     } = props;
-    const [data, setData] = useState({})
+    const [data, setData]: any = useState({})
     const { user } = useSelector((state: any) => state?.User)
-    console.log({ data });
+    // console.log({ data });
 
     const refAddFormation = useRef(null)
     const [showAddFormationModal, setShowAddFormationModal] = useState(false)
     const [loadingAddFormation, setLoadingAddFormation] = useState(false)
+    const [editAddFormationData, setEditAddFormationData] = useState(null)
 
     function openAddFormation() {
-        setShowAddFormationModal(true)
+        setEditAddFormationData(null)
+        setTimeout(() => {
+            setShowAddFormationModal(true)            
+        }, 100);
     }
 
     function getProfile() {
@@ -60,22 +64,43 @@ const PartnerDescProfileScreen = (props: any) => {
 
         // ))
     }
-
+    function checkDataAddFormation(params: any) {
+        let msg = ""
+        if (!params?.institution) {
+            ToastAndroid.show("Nom", ToastAndroid.SHORT)
+            msg = "err"
+        }
+        else if (!params?.diplome) {
+            ToastAndroid.show("diplome", ToastAndroid.SHORT)
+            msg = "err"
+        }
+        else if (!params?.startDate) {
+            ToastAndroid.show("startDate", ToastAndroid.SHORT)
+            msg = "err"
+        }
+        else if (!params?.endDate) {
+            ToastAndroid.show("endDate", ToastAndroid.SHORT)
+            msg = "err"
+        }
+        else if (moment(params?.endDate)?.isBefore(moment(params?.startDate))) {
+            ToastAndroid.show("Vérifer date", ToastAndroid.SHORT)
+            msg = "err"
+        }
+        else {
+            msg = ""
+        }
+        return msg
+    }
     function submitAddFromation(params: {
         institution: string,
         diplome: string,
         startDate: Date,
         endDate: Date,
     }) {
-
-        if (!params?.institution) ToastAndroid.show("Nom", ToastAndroid.SHORT)
-        else if (!params?.diplome) ToastAndroid.show("diplome", ToastAndroid.SHORT)
-        else if (!params?.startDate) ToastAndroid.show("startDate", ToastAndroid.SHORT)
-        else if (!params?.endDate) ToastAndroid.show("endDate", ToastAndroid.SHORT)
-        else if (moment(params?.endDate)?.isBefore(moment(params?.startDate))) ToastAndroid.show("Vérifer date", ToastAndroid.SHORT)
+        if (!!checkDataAddFormation(params)) {
+        }
         else {
             setLoadingAddFormation(true)
-
             dispatch(
                 editPartner(
                     {
@@ -101,30 +126,79 @@ const PartnerDescProfileScreen = (props: any) => {
         }
     }
 
+    function editAddFormation(params: any) {
+        if (!!checkDataAddFormation(params)) {
+        }
+        else {
+            console.log({
+                partner,
+                data: {
+                    trainings: data?.trainings?.map((v: any) => {
+                        if (v?._id === params?._id) return params
+                        else return v
+                    })
+                }
+            });
+
+            setLoadingAddFormation(true)
+            dispatch(
+                editPartner(
+                    {
+                        partner,
+                        data: {
+                            trainings: data?.trainings?.map((v: any) => {
+                                if (v?._id === params?._id) return params
+                                else return v
+                            })
+                        }
+                    },
+                    (res: any) => {
+                        console.log("success edit trainings", res);
+                        setShowAddFormationModal(false)
+                        setLoadingAddFormation(false)
+                        getProfile()
+                    },
+                    (err: any) => {
+                        console.log({ err })
+                        setLoadingAddFormation(false)
+                    }
+                )
+            )
+
+
+        }
+    }
+    function editTraining(params: any) {
+        setEditAddFormationData(params)
+        setShowAddFormationModal(true)
+    }
+    function deleteFomation(params: any) {
+        setLoadingAddFormation(true)
+        dispatch(
+            editPartner(
+                {
+                    partner,
+                    data: {
+                        trainings: data?.trainings?.filter((v: any) => v?._id !== params?._id)
+                    }
+                },
+                (res: any) => {
+                    console.log("success delete trainings", res);
+                    setShowAddFormationModal(false)
+                    setLoadingAddFormation(false)
+                    getProfile()
+                },
+                (err: any) => {
+                    console.log({ err })
+                    setLoadingAddFormation(false)
+                }
+            )
+        )
+    }
+
     useEffect(() => {
         getProfile()
     }, [])
-
-
-    function renderTraining(params: any) {
-        return (
-            <View style={styles.itemStyle}>
-                <View style={styles.itemContainerStyle}>
-                    <Text style={[styles.titleTextStyle, { fontFamily: fonts.type.NunitoBold }]}>{params?.institution}</Text>
-                    <Text style={styles.titleTextStyle}>{params?.diplome}</Text>
-                    <View style={styles.rowContainer}>
-                        <Text style={styles.titleTextStyle}>{moment(params?.startDate).format("MMM YYYY")}</Text>
-                        {params?.endDate && <Text style={styles.titleTextStyle}> - </Text>}
-                        {params?.endDate && <Text style={styles.titleTextStyle}>{moment(params?.endDate).format("MMM YYYY")}</Text>}
-                    </View>
-                </View>
-                <Pressable style={styles.editIconContainerStyle}>
-                    <Icons.Entypo name="dots-three-vertical" size={15} style={styles.editIconContainerStyle} />
-                </Pressable>
-            </View>
-
-        )
-    }
 
     function renderSkills(params: any) {
         return (
@@ -173,8 +247,7 @@ const PartnerDescProfileScreen = (props: any) => {
 
                     <FlatList
                         data={data?.trainings}
-                        renderItem={({ item }) => <TrainingCmp data={item} />}
-                        // renderItem={({ item }) => renderTraining(item)}
+                        renderItem={({ item }) => <TrainingCmp edit={editTraining} data={item} deleteFormation={deleteFomation} />}
                         keyExtractor={item => item?._id}
                         ItemSeparatorComponent={() => <Divider />}
                     />
@@ -217,6 +290,8 @@ const PartnerDescProfileScreen = (props: any) => {
                 setVisible={setShowAddFormationModal}
                 submit={submitAddFromation}
                 loading={loadingAddFormation}
+                editData={editAddFormationData}
+                edit={editAddFormation}
             />
         </ScrollView>
     )

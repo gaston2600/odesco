@@ -1,5 +1,5 @@
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modalize } from 'react-native-modalize'
 import { Divider, Tooltip } from '@rneui/themed'
 import colors from '../../../styles/colors'
@@ -14,28 +14,44 @@ import globalStyles from '../../../styles/globalStyles'
 
 const { screenWidth } = metrics
 const AddFormationModal = (props: any) => {
-    const { visible, setVisible, submit, loading } = props
+    console.log({ props });
+
+    const { visible, setVisible, submit, loading, editData, edit } = props
     const [payload, setPayload] = useState(
         {
-            institution: "",
-            diplome: "",
-            startDate: null,
-            endDate: null,
+            institution: !!editData?.institution || "",
+            diplome: !!editData?.diplome || "",
+            startDate: !!editData?.startDate ? moment(editData?.startDate)?.toDate() : null,
+            endDate: !!editData?.endDate ? moment(editData?.endDate)?.toDate() : null,
         }
     )
     const [showStartDate, setShowStartDate] = useState(false)
     const [showEndDate, setShowEndDate] = useState(false)
 
-    return (
-        <Modal
-            onShow={() => {
-                setPayload({
+    useEffect(() => {
+        if (!!editData?._id) {
+            console.log("--------------------");
+
+            setPayload({
+                ...editData,
+                startDate: moment(editData?.startDate)?.toDate(),
+                endDate: moment(editData?.endDate)?.toDate(),
+            })
+        }
+        else {
+            setPayload(
+                {
                     institution: "",
                     diplome: "",
                     startDate: null,
                     endDate: null,
-                })
-            }}
+                }
+            )
+        }
+    }, [editData, visible])
+
+    return (
+        <Modal
             animationType="slide"
             transparent={true}
             visible={visible}
@@ -117,7 +133,7 @@ const AddFormationModal = (props: any) => {
                             />
                             <ButtonCmp
                                 label={I18n.t("save")}
-                                action={() => submit(payload)}
+                                action={() => editData ? edit(payload) : submit(payload)}
                                 width={screenWidth * .3}
                                 loading={loading}
                             />
