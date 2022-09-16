@@ -12,7 +12,7 @@ const TrainingCmp = (props: any) => {
     const refMenu = useRef(null)
     function deleteItem() {
         Alert.alert(
-            I18n.t("cancel"),
+            I18n.t("delete"),
             I18n.t("delete_msg"),
             [
                 {

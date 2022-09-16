@@ -8,10 +8,13 @@ import I18n from "react-native-i18n";
 import metrics from "../../../theme/metrics"
 import globalStyles from '../../../styles/globalStyles';
 import { Divider } from '@rneui/themed';
+import { ScreenWidth } from '@rneui/base';
 const { screenWhidth } = metrics
 
 const MySpacesScreen = (props: any) => {
     const { space, navigation } = props
+    console.log(space);
+
 
     const [data, setData] = useState({
         name: space?.type === "Partner" ? `${space?.first_name} ${space?.last_name}` : space?.name,
@@ -48,7 +51,7 @@ const MySpacesScreen = (props: any) => {
                     }
 
                 }}
-                style={styles.menuItemContainerStyle}>
+                style={[globalStyles.shadow, styles.menuItemContainerStyle]}>
                 <View
                     style={{
                         flex: 1,
@@ -78,31 +81,44 @@ const MySpacesScreen = (props: any) => {
 
     return (
         <View style={styles.containerStyle}>
-            <View style={styles.headerContainerStyle}>
-                <AvatarCmp
-                    // name={String(data?.name)?.slice(0, 2)}
-                    uri={extractImage(data?.avatar)}
-                    size={70}
-                />
-                <View>
-                    <Text style={styles.nameTextStyle}>{data?.name}</Text>
-                    <Text style={styles.typeTextStyle}>{I18n.t(data?.type)}</Text>
+            {space?.type === "Partner" ? (
+                <View style={{ flex: 1 }}>
+                    <View style={styles.headerContainerStyle}>
+                        <AvatarCmp
+                            name={String(data?.name)?.slice(0, 2)}
+                            uri={extractImage(data?.avatar)}
+                            size={70}
+                        />
+                        <View>
+                            <Text style={styles.nameTextStyle}>{data?.name}</Text>
+                            <Text style={styles.typeTextStyle}>{I18n.t(data?.type)}</Text>
+                        </View>
+                    </View>
+                    <Divider orientation='horizontal' />
+                    <View style={styles.bodyContainerStyle}>
+                        <FlatList
+                            numColumns={2}
+                            columnWrapperStyle={{
+                                alignItems: "center",
+                                justifyContent: "space-evenly",
+                                padding: 5
+                            }}
+                            data={listMenu}
+                            renderItem={({ item }) => renderMenuItem(item)}
+                            keyExtractor={item => item?.name}
+                        // ItemSeparatorComponent={()=><Divider orientation='horizontal' />}
+                        />
+                    </View>
                 </View>
-            </View>
-            <Divider orientation='horizontal' />
-            <View style={styles.bodyContainerStyle}>
-                <FlatList
-                    // numColumns={2}
-                    // columnWrapperStyle={{
-                    //     alignItems: "center",
-                    //     justifyContent: "space-evenly"
-                    // }}
-                    data={listMenu}
-                    renderItem={({ item }) => renderMenuItem(item)}
-                    keyExtractor={item=>item?.name}
-                    ItemSeparatorComponent={()=><Divider orientation='horizontal' />}
-                />
-            </View>
+            ) :
+                <View style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flex: 1
+                }}>
+                    <Text>En Cours</Text>
+                </View>
+            }
 
 
         </View>
@@ -136,16 +152,20 @@ const styles = StyleSheet.create({
         flex: 1
     },
     menuItemContainerStyle: {
-        // borderWidth: 1,
+        borderWidth: .1,
+        width: ScreenWidth * .4,
         padding: 10,
-        flexDirection: "row",
+        // flexDirection: "row",
         alignItems: "center",
-        marginVertical: 5
+        justifyContent: "center",
+        marginTop: 15,
+        // borderRadius: 5,
+        // shadowColor: colors.primary
     },
     menuTitleTextStyle: {
         fontFamily: fonts.type.NunitoSemiBold,
-        fontSize: fonts.size.font14,
-        color: colors.black
+        fontSize: fonts.size.font12,
+        color: colors.gray
     },
     menuDescTextStyle: {
         fontFamily: fonts.type.NunitoRegular,

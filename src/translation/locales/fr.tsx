@@ -28,6 +28,7 @@ const fr = {
     subscribed: "Abonné",
     onligne: "En ligne",
     addFormation: "Ajouter une Formation",
+    addExperience: "Ajouter une Experience",
 
 
 
@@ -40,7 +41,9 @@ const fr = {
     profile: "Profil",
     experiences: "Expérience",
     skills: "Compétences",
+    add_skill: "Ajouter Compétence",
     trainings: "Formations",
+    profession :"Profession",
 
     diplome: "Diplôme",
     startDate: "Date De Début",
