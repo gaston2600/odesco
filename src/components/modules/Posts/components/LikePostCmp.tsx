@@ -7,14 +7,22 @@ import fonts from '../../../../theme/fonts';
 import SelectInstitutionModal from '../../../modals/institutions/SelectInstitutionModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostsList, likePost } from '../../../../store/actions/postsActions';
+import AvatarCmp from '../../../common/AvatarCmp';
+import { extractImage } from '../../../../helpers/extractImage';
 
 const LikePostCmp = (props: any) => {
-    const { post, data ,refresh } = props;
+    const { post, data, refresh, withSelectedSpace } = props;
+    // console.log({ props });
+
     const dispatch = useDispatch()
     const [visibleSelectInst, setVisibleSelectInst] = useState(false)
     const [loadingPostLike, setLoadingPostLike] = useState(false)
     const { defaultPartner } = useSelector((state: any) => state?.Inst)
+    const { selectedSpace } = useSelector((state: any) => state?.User)
+
     function confirmSelecInstModal(params: any) {
+        console.log(params);
+
         setLoadingPostLike(true)
         dispatch(likePost({
             post, data: {
@@ -25,9 +33,9 @@ const LikePostCmp = (props: any) => {
             (res: any) => {
                 setLoadingPostLike(false)
                 setVisibleSelectInst(false)
-                if(refresh) refresh()
+                if (refresh) refresh()
                 // dispatch(getPostsList({ partner: defaultPartner }, () => null, () => null))
-                
+
             },
             (err: any) => {
                 setLoadingPostLike(false)
@@ -36,14 +44,31 @@ const LikePostCmp = (props: any) => {
         ))
 
     }
+
+    function hasLike() {
+        return (data?.likes?.some((v: any) => v?.partner?._id === selectedSpace?._id || v?.institution?._id === selectedSpace?._id));
+
+    }
+    hasLike()
     return (
         <TouchableOpacity
             onPress={() => {
-                setVisibleSelectInst(true)
+                // setVisibleSelectInst(true)
+                confirmSelecInstModal(selectedSpace)
             }}
             style={styles.containerStyle}>
-            {loadingPostLike ? <ActivityIndicator color={colors.primary} /> : <Icons.AntDesign name="like2" size={20} color={colors.primary} />}
-            <Text style={styles.textStyle}>{I18n.t("like")}</Text>
+
+            {loadingPostLike ? <ActivityIndicator color={colors.primary} /> :
+                <Icons.AntDesign name={hasLike() ? "like1" : "like2"} size={20} color={colors.primary} />}
+            <Text style={styles.textStyle}>{I18n.t(hasLike() ? "unlike" : "like")}</Text>
+            {/* {
+                !!withSelectedSpace && (
+                    <AvatarCmp
+                        name={String(selectedSpace?.type === "Partner" ? selectedSpace?.first_name : selectedSpace?.name)?.slice(0, 2)}
+                        uri={extractImage(selectedSpace?.avatar?.path)}
+                        size={20}
+                    />)
+            } */}
             <SelectInstitutionModal
                 visible={visibleSelectInst}
                 setVisible={setVisibleSelectInst}

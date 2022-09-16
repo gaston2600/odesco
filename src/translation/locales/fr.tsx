@@ -69,6 +69,7 @@ const fr = {
     seeMore: "Voir plus ...",
     seeLess: "Voir moins ...",
     like: "J'aime",
+    unlike: "J'aime pas",
     comment: "Commenter",
     comments: "Commentaires",
     publish: "Publier",

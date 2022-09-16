@@ -79,7 +79,7 @@ const PostsListCmp = (props: any) => {
     };
 
     function getPosts() {
-        dispatch(getPostsList({ limit, offset: 0, partner: defaultPartner, filters: null }, () => null, () => null))
+        dispatch(getPostsList({ limit, offset: 0, partner: defaultPartner, filters: null }, (res) => console.log({res}), () => null))
     }
 
     useEffect(() => {
@@ -94,13 +94,16 @@ const PostsListCmp = (props: any) => {
             <FlatList
                 data={posts}
                 renderItem={({ item, index }) => {
-                    return <PostCmp data={item} index={index}
-                        navigation={navigation}
-                        showImages={showImages}
-                        refresh={getPosts}
-                    // openCommentModalize={openCommentModalize}
-                    // closeCommentModalize={closeCommentModalize}
-                    />
+                    return (
+                        <PostCmp data={item} index={index}
+                            navigation={navigation}
+                            showImages={showImages}
+                            refresh={getPosts}
+                            withSelectedSpace={true}
+                        // openCommentModalize={openCommentModalize}
+                        // closeCommentModalize={closeCommentModalize}
+                        />
+                        )
                 }}
                 keyExtractor={item => `posts_${item?._id}`}
                 refreshControl={

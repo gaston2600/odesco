@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, TouchableOpacity, RefreshControl, StyleSheet, Text, TextInp, TouchableOpacityut, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, TouchableOpacity, RefreshControl, StyleSheet, Text, TextInp, TouchableOpacityut, View, TextInput } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import fonts from '../../../../theme/fonts'
 import colors from '../../../../styles/colors'
