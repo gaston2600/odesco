@@ -21,6 +21,8 @@ const LikePostCmp = (props: any) => {
     const { selectedSpace } = useSelector((state: any) => state?.User)
 
     function confirmSelecInstModal(params: any) {
+        console.log(params);
+
         setLoadingPostLike(true)
         dispatch(likePost({
             post, data: {
@@ -42,6 +44,12 @@ const LikePostCmp = (props: any) => {
         ))
 
     }
+
+    function hasLike() {
+        return (data?.likes?.some((v: any) => v?.partner?._id === selectedSpace?._id || v?.institution?._id === selectedSpace?._id));
+
+    }
+    hasLike()
     return (
         <TouchableOpacity
             onPress={() => {
@@ -50,8 +58,9 @@ const LikePostCmp = (props: any) => {
             }}
             style={styles.containerStyle}>
 
-            {loadingPostLike ? <ActivityIndicator color={colors.primary} /> : <Icons.AntDesign name="like2" size={20} color={colors.primary} />}
-            <Text style={styles.textStyle}>{I18n.t("like")}</Text>
+            {loadingPostLike ? <ActivityIndicator color={colors.primary} /> :
+                <Icons.AntDesign name={hasLike() ? "like1" : "like2"} size={20} color={colors.primary} />}
+            <Text style={styles.textStyle}>{I18n.t(hasLike() ? "unlike" : "like")}</Text>
             {/* {
                 !!withSelectedSpace && (
                     <AvatarCmp

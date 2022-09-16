@@ -4,13 +4,15 @@ import colors from '../../../../styles/colors'
 import Icons from '../../../../styles/icons'
 import I18n from 'react-native-i18n'
 import fonts from '../../../../theme/fonts'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import SelectInstitutionModal from '../../../modals/institutions/SelectInstitutionModal'
 import { postComment } from "../../../../store/actions/commentActions";
 import { getPostsComments } from '../../../../store/actions/postsActions'
+import SelectedSpaceIcon from '../../MySpaces/components/SelectedSpaceIcon'
 const CommentInputCmp = (props: any) => {
     const dispatch = useDispatch()
     const { post, refListComments } = props;
+    const { selectedSpace } = useSelector((state: any) => state?.User)
     const [payload, setPayload] = useState({
         institution: "",
         message: "",
@@ -31,22 +33,21 @@ const CommentInputCmp = (props: any) => {
         setVisibleSelectInst(false)
     }
 
-    const confirmSelecInstModal = (data: any) => {
-        console.log("from modal ", { data });
+    const confirmSelecInstModal = () => {
         setLoading(true)
         setPayload(({
             ...payload,
-            partner: data?.type === "Partner" ? data?._id : null,
-            institution: data?.type === "Institution" ? data?._id : null,
-            partner_type: data?.type
+            partner: selectedSpace?.type === "Partner" ? selectedSpace?._id : null,
+            institution: selectedSpace?.type === "Institution" ? selectedSpace?._id : null,
+            partner_type: selectedSpace?.type
         }))
         dispatch(postComment(
             {
                 data: {
                     ...payload,
-                    partner: data?.type === "Partner" ? data?._id : null,
-                    institution: data?.type === "Institution" ? data?._id : null,
-                    partner_type: data?.type
+                    partner: selectedSpace?.type === "Partner" ? selectedSpace?._id : null,
+                    institution: selectedSpace?.type === "Institution" ? selectedSpace?._id : null,
+                    partner_type: selectedSpace?.type
                 }, post
             },
             (res: any) => {
@@ -71,24 +72,44 @@ const CommentInputCmp = (props: any) => {
 
     return (
         <View style={styles.containerStyle}>
-            <TextInput
-                value={payload?.message}
-                onChangeText={(message: String) => setPayload((prev: any) => ({ ...prev, message }))}
-                style={styles.textInputStyle}
-                placeholder={I18n.t("comment")}
-                placeholderTextColor={`${colors.primary}77`}
-                multiline
-            />
-            <Pressable
-                style={styles.iconContainerStyle}
-                onPress={showSelecInstModal}
+            <View
+                style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center"
+                }}
             >
-                {Loading ?
-                    <ActivityIndicator color={colors.white} /> :
-                    <Icons.Ionicons name="send-outline" size={25} color={colors.white} />
-                    // <Text>Comment</Text>
-                }
-            </Pressable>
+                <SelectedSpaceIcon />
+            </View>
+            <View
+                style={{
+                    flex: 5
+                }}>
+                <TextInput
+                    value={payload?.message}
+                    onChangeText={(message: String) => setPayload((prev: any) => ({ ...prev, message }))}
+                    style={styles.textInputStyle}
+                    placeholder={I18n.t("comment")}
+                    placeholderTextColor={`${colors.primary}77`}
+                    multiline
+                />
+            </View>
+            <View
+                style={{
+                    flex: 1
+                }}>
+                <Pressable
+                    style={styles.iconContainerStyle}
+                    onPress={confirmSelecInstModal}
+                >
+                    {Loading ?
+                        <ActivityIndicator color={colors.white} /> :
+                        <Icons.Ionicons name="send-outline" size={25} color={colors.white} />
+                        // <Text>Comment</Text>
+                    }
+                </Pressable>
+            </View>
+
             <SelectInstitutionModal
                 visible={visibleSelectInst}
                 setVisible={setVisibleSelectInst}
@@ -106,7 +127,8 @@ const styles = StyleSheet.create({
         padding: 5,
         flexDirection: "row",
         width: "100%",
-        backgroundColor: colors.lightGray
+        backgroundColor: colors.lightGray,
+        height :60
     },
     textInputStyle: {
         backgroundColor: colors.white,

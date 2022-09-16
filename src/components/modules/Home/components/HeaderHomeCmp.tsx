@@ -27,7 +27,7 @@ const HeaderHomeCmp = (props: any) => {
         if (params?.type === "Partner") {
             temp = { ...myPartners?.filter((v: any) => v?._id === params?._id)?.[0], type: "Partner" }
         } else {
-            temp = { ...myInstitutions?.filter((v: any) => v?.institute?._id === params?._id)?.[0]?.institute, type: "Instition" }
+            temp = { ...myInstitutions?.filter((v: any) => v?.institute?._id === params?._id)?.[0]?.institute, type: "Institution" }
         }
         dispatch(selectSpace(temp))
         setVisibleSelectInst(false)
@@ -40,6 +40,7 @@ const HeaderHomeCmp = (props: any) => {
             dispatch(selectSpace(temp))
         }
     }, [myPartners, defaultPartner])
+    
     return (
         <View style={styles.containerStyle}>
             <Pressable
@@ -53,7 +54,7 @@ const HeaderHomeCmp = (props: any) => {
                 // backgroundColor : colors.white
             }}>
                 <AvatarCmp
-                    name={String(selectedSpace?.first_name)?.slice(0, 2)}
+                    name={String(selectedSpace?.type==="Partner" ? selectedSpace?.first_name : selectedSpace?.name)?.slice(0, 2)}
                     uri={extractImage(selectedSpace?.avatar?.path)}
                     size={30}
                     inversed={true}

@@ -110,7 +110,7 @@ const NewPostScreen = (props: any) => {
         if (params?.type === "Partner") {
             temp = { ...myPartners?.filter((v: any) => v?._id === params?._id)?.[0], type: "Partner" }
         } else {
-            temp = { ...myInstitutions?.filter((v: any) => v?.institute?._id === params?._id)?.[0]?.institute, type: "Instition" }
+            temp = { ...myInstitutions?.filter((v: any) => v?.institute?._id === params?._id)?.[0]?.institute, type: "Institution" }
         }
         dispatch(selectSpace(temp))
         setVisibleSelectInst(false)
