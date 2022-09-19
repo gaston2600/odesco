@@ -1,14 +1,29 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useRef } from 'react'
 import fonts from '../../../../theme/fonts'
 import colors from '../../../../styles/colors'
 import moment from 'moment'
 import Icons from '../../../../styles/icons'
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
+import I18n from "react-native-i18n"
 
 const ExperienceCmp = (props: any) => {
-    const { data } = props
+    const { data , edit, deleteExperience } = props
     const refMenu = useRef(null)
+    function deleteItem() {
+        Alert.alert(
+            I18n.t("delete"),
+            I18n.t("delete_msg"),
+            [
+                {
+                    text: I18n.t("cancel"),
+                    // onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: I18n.t("delete"), onPress: () => deleteExperience(data) }
+            ]
+        );
+    }
     return (
         <View style={styles.itemStyle}>
             <View style={styles.itemContainerStyle}>
@@ -30,10 +45,10 @@ const ExperienceCmp = (props: any) => {
                 >
                     <MenuTrigger />
                     <MenuOptions>
-                        <MenuOption onSelect={() => alert(`Save`)}>
+                        <MenuOption onSelect={() => edit(data)}>
                             <Text style={[styles.menuTextStyle]}>Édit</Text>
                         </MenuOption>
-                        <MenuOption onSelect={() => alert(`Delete`)} >
+                        <MenuOption onSelect={deleteItem} >
                             <Text style={[styles.menuTextStyle, { color: 'red' }]}>Delete</Text>
                         </MenuOption>
                     </MenuOptions>

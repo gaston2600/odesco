@@ -81,6 +81,7 @@ const ProfilePostsScreen = (props: any) => {
                         showImages={showImages}
                         refresh={getPosts}
                     />)}
+                keyExtractor={(item: any) => item?._id}
                 refreshControl={
                     <RefreshControl
                         style={{ width: 0, height: 0 }}

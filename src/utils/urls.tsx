@@ -21,5 +21,4 @@ export const urls = {
     schoolingPrivateTeachers: "/api/schooling/teachers/private",
     schoolingTeachers: "/api/schooling/teachers",
     schoolingPartners: "/api/schooling/partners",
-
 };

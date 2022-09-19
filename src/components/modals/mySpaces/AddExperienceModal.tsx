@@ -13,15 +13,17 @@ import globalStyles from '../../../styles/globalStyles'
 
 
 const { screenWidth } = metrics
-const AddFormationModal = (props: any) => {
+const AddExperienceModal = (props: any) => {
+    // console.log({ props });
 
     const { visible, setVisible, submit, loading, editData, edit } = props
     const [payload, setPayload] = useState(
         {
-            institution: !!editData?.institution || "",
-            diplome: !!editData?.diplome || "",
-            startDate: !!editData?.startDate ? moment(editData?.startDate)?.toDate() : null,
-            endDate: !!editData?.endDate ? moment(editData?.endDate)?.toDate() : null,
+            institution: editData?.institution || "",
+            profession: editData?.profession || "",
+            startDate: editData?.startDate ? moment(editData?.startDate)?.toDate() : null,
+            endDate: editData?.endDate ? moment(editData?.endDate)?.toDate() : null,
+            description : ""
         }
     )
     const [showStartDate, setShowStartDate] = useState(false)
@@ -39,9 +41,10 @@ const AddFormationModal = (props: any) => {
             setPayload(
                 {
                     institution: "",
-                    diplome: "",
+                    profession: "",
                     startDate: null,
                     endDate: null,
+                    description :""
                 }
             )
         }
@@ -67,7 +70,7 @@ const AddFormationModal = (props: any) => {
                 <ScrollView
                     style={[styles.containerStyle, globalStyles.shadow]}
                 >
-                    <Text style={styles.headerTitleTextStyle}>{I18n.t("addFormation")}</Text>
+                    <Text style={styles.headerTitleTextStyle}>{I18n.t("addExperience")}</Text>
                     <Divider style={{
                         marginVertical: 10
                     }} />
@@ -81,11 +84,11 @@ const AddFormationModal = (props: any) => {
                         />
                     </View>
                     <View style={styles.lineContainerStyle}>
-                        <Text style={styles.titleTextStyle}>{I18n.t("diplome")}</Text>
+                        <Text style={styles.titleTextStyle}>{I18n.t("profession")}</Text>
                         <TextInput
-                            placeholder={I18n.t("diplome")}
-                            value={payload?.diplome}
-                            onChangeText={(diplome: string) => setPayload({ ...payload, diplome })}
+                            placeholder={I18n.t("profession")}
+                            value={payload?.profession}
+                            onChangeText={(profession: string) => setPayload({ ...payload, profession })}
                             style={styles.textInputStyle}
                         />
                     </View>
@@ -113,6 +116,17 @@ const AddFormationModal = (props: any) => {
                             style={styles.textInputStyle}
                         />
                     </Pressable>
+
+                    <View style={styles.lineContainerStyle}>
+                        <Text style={styles.titleTextStyle}>{I18n.t("description")}</Text>
+                        <TextInput
+                            placeholder={I18n.t("description")}
+                            value={payload?.description}
+                            onChangeText={(description: string) => setPayload({ ...payload, description })}
+                            style={styles.textInputStyle}
+                        />
+                    </View>
+
                     <View
                         style={{
                             flex: 1,
@@ -173,7 +187,7 @@ const AddFormationModal = (props: any) => {
     )
 }
 
-export default AddFormationModal
+export default AddExperienceModal
 
 const styles = StyleSheet.create({
     containerStyle: {
@@ -181,7 +195,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         // borderWidth: 1,
         borderRadius: 5,
-        padding: 10
+        padding: 15
     },
     headerTitleTextStyle: {
         fontFamily: fonts.type.NunitoSemiBold,
