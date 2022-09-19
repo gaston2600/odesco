@@ -2,7 +2,7 @@ import { FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, Text, Text
 import React, { useEffect, useRef, useState } from 'react'
 import fonts from '../../../../theme/fonts'
 import colors from '../../../../styles/colors'
-import I18n from '../../../../translation/I18n'
+import I18n from 'react-native-i18n'
 import { Divider } from '@rneui/themed'
 import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,6 +18,7 @@ import AddExperienceModal from '../../../modals/mySpaces/AddExperienceModal'
 import SkillCmp from '../components/SkillCmp'
 import ButtonCmp from '../../../common/ButtonCmp'
 import { ScreenWidth } from '@rneui/base'
+import EditProfileModal from '../../../modals/mySpaces/EditProfileModal'
 
 const PartnerDescProfileScreen = (props: any) => {
     const dispatch = useDispatch()
@@ -44,6 +45,10 @@ const PartnerDescProfileScreen = (props: any) => {
 
     const [showEditProfile, setShowEditProfile] = useState(false)
     const [tempProfileData, setTempProfileData] = useState(null)
+
+    function showEditProfileModal() {
+        setShowEditProfile(true)
+    }
 
     function openAddFormation() {
         setEditAddFormationData(null)
@@ -400,21 +405,26 @@ const PartnerDescProfileScreen = (props: any) => {
             <View style={styles.titleContainerStyle}>
                 <Text style={[styles.titleTextStyle, { fontFamily: fonts.type.NunitoBold, fontSize: fonts.size.font14 }]}>{`${data?.first_name} ${data?.last_name}`}</Text>
                 <Pressable
-                    onPress={openAddFormation}
+                    onPress={showEditProfileModal}
                     style={styles.addIcionContainerStyle}>
                     <Icons.AntDesign name="edit" size={20} color={colors.primary} />
                 </Pressable>
             </View>
 
 
-            {!!data?.email && <View style={styles.rowContainer}>
+            {!!data?.pro_email && <View style={styles.rowContainer}>
                 <Icons.FontAwesome name={"envelope-o"} size={15} color={colors.grey} style={styles.iconDescStyle} />
-                <Text style={styles.titleTextStyle}>{`${data?.email}`}</Text>
+                <Text style={styles.titleTextStyle}>{`${data?.pro_email}`}</Text>
             </View>}
-            {!!data?.phone && <View style={styles.rowContainer}>
+            {!!data?.pro_mobile && <View style={styles.rowContainer}>
                 <Icons.FontAwesome name={"phone"} size={15} color={colors.grey} style={styles.iconDescStyle} />
-                <Text style={styles.titleTextStyle}>{`${data?.phone}`}</Text>
+                <Text style={styles.titleTextStyle}>{`${data?.pro_mobile}`}</Text>
             </View>}
+            {!!data?.address && <View style={styles.rowContainer}>
+                <Icons.FontAwesome name={"map"} size={15} color={colors.grey} style={styles.iconDescStyle} />
+                <Text style={styles.titleTextStyle}>{`${data?.address}`}</Text>
+            </View>}
+
 
             {!!data?.trainings?.length &&
                 <View style={styles.sectionContainerStyle}>
@@ -516,6 +526,12 @@ const PartnerDescProfileScreen = (props: any) => {
                 loading={loadingAddExperience}
                 editData={editAddExperienceData}
                 edit={editAddExperience}
+            />
+            <EditProfileModal
+                visible={showEditProfile}
+                setVisible={setShowEditProfile}
+                data={data}
+                refresh={getProfile}
             />
         </ScrollView>
     )

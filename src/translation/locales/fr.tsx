@@ -64,6 +64,11 @@ const fr = {
     post_placeholder: "De quoi voulez-vous parler",
     video_placeholder: "Lien vidéo youtube",
     delete_msg :"Êtes-Vous Sûr De Supprimer?",
+    edit_profile :"Éditer profil",
+    first_name :"Nom",
+    last_name:"Prénom",
+    pro_email :"Email professionnelle",
+    pro_mobile :"Mobile Professionnelle",
 
 
 

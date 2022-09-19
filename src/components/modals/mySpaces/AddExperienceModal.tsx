@@ -14,7 +14,7 @@ import globalStyles from '../../../styles/globalStyles'
 
 const { screenWidth } = metrics
 const AddExperienceModal = (props: any) => {
-    console.log({ props });
+    // console.log({ props });
 
     const { visible, setVisible, submit, loading, editData, edit } = props
     const [payload, setPayload] = useState(
