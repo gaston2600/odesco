@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { getTeachersList, subscribeToTeacher } from '../../../../store/actions/teachersActions';
 
 const TeacherCmp = (props: any) => {
-    const { data, navigation } = props;
+    const { data, navigation, hideFollow } = props;
     const dispatch = useDispatch()
     // console.log({ data });
     const [visibleSelectInst, setVisibleSelectInst] = useState(false)
@@ -43,11 +43,13 @@ const TeacherCmp = (props: any) => {
             )
         )
     }
-    
+
     return (
         <Pressable
             onPress={() => {
-                navigation?.navigate("TeacherDetailsScreen", { teacher: data?._id })
+                if (!hideFollow) {
+                    navigation?.navigate("TeacherDetailsScreen", { teacher: data?._id })
+                }
             }}
             style={[styles.containerStyle, globalStyles.shadow]}>
             <View style={{
@@ -72,7 +74,7 @@ const TeacherCmp = (props: any) => {
                 // alignItems: "center",
                 justifyContent: "center"
             }}>
-                <Pressable
+                {hideFollow ? null : <Pressable
                     onPress={() => {
                         setVisibleSelectInst(true)
                     }}
@@ -82,7 +84,7 @@ const TeacherCmp = (props: any) => {
                         <Text style={styles.followTextStyle}>
                             {I18n.t("follow")}
                         </Text>}
-                </Pressable>
+                </Pressable>}
             </View>
             <SelectInstitutionModal
                 visible={visibleSelectInst}

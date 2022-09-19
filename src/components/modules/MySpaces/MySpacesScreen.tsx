@@ -22,7 +22,7 @@ const MySpacesScreen = (props: any) => {
         type: space?.type === "Partner" ? "partner" : "institute",
     })
 
-    const listMenu = [
+    const partnerListMenu = [
         {
             name: "Mon profile",
             icon: require("../../../../assets/icons/menu/inst.png"),
@@ -40,6 +40,30 @@ const MySpacesScreen = (props: any) => {
             name: "Évenements",
             icon: require("../../../../assets/icons/menu/events.png")
         }
+    ]
+
+    const instListMenu = [
+        {
+            name: "Mon École",
+            icon: require("../../../../assets/icons/menu/inst.png"),
+            route: "ProfileScreen"
+        },
+        {
+            name: "Administration",
+            icon: require("../../../../assets/icons/menu/icon_soutien_scolaire.png")
+        },
+        {
+            name: "Évenements",
+            icon: require("../../../../assets/icons/menu/events.png")
+        },
+        {
+            name: "Formations",
+            icon: require("../../../../assets/icons/menu/icon_soutien_scolaire.png")
+        },
+        {
+            name: "Cours",
+            icon: require("../../../../assets/icons/menu/icon_soutien_scolaire.png")
+        },
     ]
 
     function renderMenuItem(params: any) {
@@ -103,7 +127,7 @@ const MySpacesScreen = (props: any) => {
                                 justifyContent: "space-evenly",
                                 padding: 5
                             }}
-                            data={listMenu}
+                            data={partnerListMenu}
                             renderItem={({ item }) => renderMenuItem(item)}
                             keyExtractor={item => item?.name}
                         // ItemSeparatorComponent={()=><Divider orientation='horizontal' />}
@@ -111,13 +135,34 @@ const MySpacesScreen = (props: any) => {
                     </View>
                 </View>
             ) :
-                <View style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1
-                }}>
-                    <Text>En Cours</Text>
+            <View style={{ flex: 1 }}>
+            <View style={styles.headerContainerStyle}>
+                <AvatarCmp
+                    name={String(data?.name)?.slice(0, 2)}
+                    uri={extractImage(data?.avatar)}
+                    size={70}
+                />
+                <View>
+                    <Text style={styles.nameTextStyle}>{data?.name}</Text>
+                    <Text style={styles.typeTextStyle}>{I18n.t(data?.type)}</Text>
                 </View>
+            </View>
+            <Divider orientation='horizontal' />
+            <View style={styles.bodyContainerStyle}>
+                <FlatList
+                    numColumns={2}
+                    columnWrapperStyle={{
+                        alignItems: "center",
+                        justifyContent: "space-evenly",
+                        padding: 5
+                    }}
+                    data={instListMenu}
+                    renderItem={({ item }) => renderMenuItem(item)}
+                    keyExtractor={item => item?.name}
+                // ItemSeparatorComponent={()=><Divider orientation='horizontal' />}
+                />
+            </View>
+        </View>
             }
 
 

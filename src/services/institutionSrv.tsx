@@ -40,8 +40,8 @@ const institutionSvr = {
         });
     },
     getInstPosts: (data: any) => {
-        console.log({data});
-        
+        console.log({ data });
+
         return new Promise(async (resolve, reject) => {
             return axios
                 .post(`${urls.posts}/filters/${data?.offset || 0}/${data?.limit || 10}`, data?.data)
@@ -63,7 +63,28 @@ const institutionSvr = {
                 .catch((e) => reject(e));
         });
     },
-
+    getOne: (data: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .get(`${urls.configInst}/get-one/${data?.inst_id}`)
+                .then((resp) => {
+                    console.log({ resp });
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
+    getTeachers: (data: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .get(`${urls.schoolingTeachers}/list/${data?.inst_id}/${data?.offset || 0}/${data?.limit || 10}`)
+                .then((resp) => {
+                    console.log({ resp });
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
 };
 
 export default institutionSvr;

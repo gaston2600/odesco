@@ -26,6 +26,7 @@ const fr = {
     subscribe: "Souscrire",
     follow: "Suivre",
     subscribed: "Abonné",
+    subscribers: "Abonnés",
     onligne: "En ligne",
     addFormation: "Ajouter une Formation",
     addExperience: "Ajouter une Experience",
@@ -43,7 +44,7 @@ const fr = {
     skills: "Compétences",
     add_skill: "Ajouter Compétence",
     trainings: "Formations",
-    profession :"Profession",
+    profession: "Profession",
 
     diplome: "Diplôme",
     startDate: "Date De Début",
@@ -59,16 +60,24 @@ const fr = {
     required: "Champ obligatoire",
     min_3: "Minimum 3 carachtère",
 
-    delete :"Supprimer",
+    delete: "Supprimer",
+    createdAt :"Fondé à",
+    createdBy :"Fondé par",
 
     post_placeholder: "De quoi voulez-vous parler",
     video_placeholder: "Lien vidéo youtube",
-    delete_msg :"Êtes-Vous Sûr De Supprimer?",
-    edit_profile :"Éditer profil",
-    first_name :"Nom",
-    last_name:"Prénom",
-    pro_email :"Email professionnelle",
-    pro_mobile :"Mobile Professionnelle",
+    delete_msg: "Êtes-Vous Sûr De Supprimer?",
+    edit_profile: "Éditer profil",
+    first_name: "Nom",
+    last_name: "Prénom",
+    pro_email: "Email professionnelle",
+    pro_mobile: "Mobile Professionnelle",
+
+    info_inst: "Informations sur la société",
+    coordinates: "coordonnés",
+    features: "Caractéristiques",
+    plus_details: "Plus d'informations",
+    details: "Détails",
 
 
 

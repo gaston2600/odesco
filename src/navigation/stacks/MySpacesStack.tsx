@@ -7,7 +7,7 @@ import MySpacesScreen from '../../components/modules/MySpaces/MySpacesScreen';
 import ProfileScreen from '../../components/modules/MySpaces/ProfileScreen';
 
 const MySpacesStack = (props: any) => {
-    const { space } = props?.route?.params;
+    const { space,navigation } = props?.route?.params;
 
     const Stack = createNativeStackNavigator();
     return (
@@ -23,7 +23,7 @@ const MySpacesStack = (props: any) => {
                 }}
             />
             <Stack.Screen name="ProfileScreen"
-                children={(props: any) => <ProfileScreen space={space} {...props} />}
+                children={(props: any) => <ProfileScreen space={space} {...props} navigation={navigation} />}
                 options={{
                     headerTitle: I18n.t("profile"),
                     headerTitleStyle: {
