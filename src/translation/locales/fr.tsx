@@ -15,6 +15,10 @@ const fr = {
     cultural: "Culturel",
     athletic: "Athletic",
 
+    network : "Réseaux",
+    contacts :"Contacts",
+    
+
     pending: "En Attente",
     accept: "Accepter",
 

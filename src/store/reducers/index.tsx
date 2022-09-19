@@ -6,6 +6,7 @@ import InstitutionsReducer from "./InstitutionsReducer";
 import EventsReducer from "./EventsReducer";
 import InvitationReducer from "./InvitationReducer";
 import TeachersReducer from "./TeachersReducer";
+import NetworkReducer from "./NetworkReducer";
 
 
 const appReducer = combineReducers({
@@ -15,7 +16,8 @@ const appReducer = combineReducers({
   Inst: InstitutionsReducer,
   Events: EventsReducer,
   Invitations: InvitationReducer,
-  Teachers: TeachersReducer
+  Teachers: TeachersReducer,
+  Network : NetworkReducer
 });
 export default appReducer;
 
