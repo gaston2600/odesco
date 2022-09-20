@@ -8,6 +8,7 @@ import { StyleSheet, Text } from 'react-native';
 import ProfilePostsScreen from '../../components/modules/MySpaces/screens/ProfilePostsScreen';
 import AllNetworkScreen from '../../components/modules/Network/screens/AllNetworkScreen';
 import InvitNetwokScreen from '../../components/modules/Network/screens/InvitNetwokScreen';
+import PendingInvitaionNetworkScreen from '../../components/modules/Network/screens/PendingInvitaionNetworkScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -38,6 +39,14 @@ function NetworkTabNavigator(props: any) {
                 }}
                 name="InvitNetwokScreen"
                 children={(props) => <InvitNetwokScreen refresh={refresh} {...props} />}
+                // component={InvitNetwokScreen}
+            />
+            <Tab.Screen
+                options={{
+                    tabBarLabel: () => <Text style={styles.labelTextStyle}>{I18n.t("pending")}</Text>,
+                }}
+                name="PendingInvitaionNetworkScreen"
+                children={(props) => <PendingInvitaionNetworkScreen refresh={refresh} {...props} />}
                 // component={InvitNetwokScreen}
             />
         </Tab.Navigator>

@@ -14,13 +14,16 @@ const fr = {
     institute: "Institution",
     cultural: "Culturel",
     athletic: "Athletic",
+    empty_result :"Aucun Résulat",
 
     network : "Réseaux",
     contacts :"Contacts",
+    search :"Rechercher",
     
 
     pending: "En Attente",
     accept: "Accepter",
+    discussion :"Discussion",
 
 
     add_new: "Nouveau",
@@ -34,6 +37,7 @@ const fr = {
     onligne: "En ligne",
     addFormation: "Ajouter une Formation",
     addExperience: "Ajouter une Experience",
+    connect :"Se connecter",
 
 
 

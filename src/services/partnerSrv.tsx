@@ -3,6 +3,18 @@ import { extractFilters } from "../helpers/extractFilters";
 import { urls } from "../utils";
 
 const partnerSrv = {
+    getList: (data: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .get(`${urls.schoolingPartners}/list/${data?.offset || 0}/${data?.limit || 10}?${extractFilters({ filters: data?.filters })}`)
+                .then((resp) => {
+                    console.log({ resp });
+
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
     getOne: (data: any) => {
         return new Promise(async (resolve, reject) => {
             return axios
