@@ -22,4 +22,5 @@ export const urls = {
     schoolingTeachers: "/api/schooling/teachers",
     schoolingPartners: "/api/schooling/partners",
     schoolingNetwork: "/api/schooling/network",
+    chat :"/api/chat",
 };

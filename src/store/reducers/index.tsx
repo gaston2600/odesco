@@ -7,6 +7,7 @@ import EventsReducer from "./EventsReducer";
 import InvitationReducer from "./InvitationReducer";
 import TeachersReducer from "./TeachersReducer";
 import NetworkReducer from "./NetworkReducer";
+import ChatReducer from "./ChatReducer";
 
 
 const appReducer = combineReducers({
@@ -17,7 +18,8 @@ const appReducer = combineReducers({
   Events: EventsReducer,
   Invitations: InvitationReducer,
   Teachers: TeachersReducer,
-  Network : NetworkReducer
+  Network: NetworkReducer,
+  Chat: ChatReducer
 });
 export default appReducer;
 
