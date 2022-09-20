@@ -2,35 +2,23 @@ import axios from "axios";
 import { extractFilters } from "../helpers/extractFilters";
 import { urls } from "../utils";
 
-const partnerSrv = {
-    getList: (data: any) => {
-        return new Promise(async (resolve, reject) => {
-            return axios
-                .get(`${urls.schoolingPartners}/list/${data?.offset || 0}/${data?.limit || 10}?${extractFilters({ filters: data?.filters })}`)
-                .then((resp) => {
-                    console.log({ resp });
-
-                    resolve(resp);
-                })
-                .catch((e) => reject(e));
-        });
-    },
+const networkSrv = {
     getOne: (data: any) => {
         return new Promise(async (resolve, reject) => {
             return axios
-                .get(`${urls.schoolingPartners}/get-one/${data?.partner}`)
+                .get(`${urls.schoolingNetwork}/get-one/${data?.partner}`)
                 .then((resp) => {
                     console.log({ resp });
 
                     resolve(resp);
                 })
-                .catch((e) => reject(e));
+                .catch((e) => reject(e)); 
         });
     },
-    edit: (data: any) => {
+    acceptMember: (data: any) => {
         return new Promise(async (resolve, reject) => {
             return axios
-                .patch(`${urls.schoolingPartners}/edit-one/${data?.partner}`,data?.data)
+                .post(`${urls.schoolingNetwork}/accept-member/${data?.partner}`,data?.data)
                 .then((resp) => {
                     console.log({ resp });
 
@@ -39,7 +27,18 @@ const partnerSrv = {
                 .catch((e) => reject(e));
         });
     },
+    addMember: (data: any) => {
+        return new Promise(async (resolve, reject) => {
+            return axios
+                .post(`${urls.schoolingNetwork}/add-member/${data?.partner}`,data?.data)
+                .then((resp) => {
+                    console.log({ resp });
 
+                    resolve(resp);
+                })
+                .catch((e) => reject(e));
+        });
+    },
 };
 
-export default partnerSrv;
+export default networkSrv;
