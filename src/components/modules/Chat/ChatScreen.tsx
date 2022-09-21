@@ -13,7 +13,6 @@ const ChatScreen = (props: any) => {
   const isFocused = useIsFocused();
   const {defaultPartner} = useSelector((state: any) => state?.Inst);
   const {chatRooms, loading} = useSelector((state: any) => state?.Chat);
-  console.log({chatRooms});
 
   function getPage() {
     dispatch(
@@ -22,9 +21,7 @@ const ChatScreen = (props: any) => {
           partner: defaultPartner,
           limit: 1000,
         },
-        (res: any) => {
-          console.log({res});
-        },
+        () => {},
         (err: any) => {
           console.log({err});
         },

@@ -52,6 +52,8 @@ const ChatScreenModal = (props: any) => {
         },
         (res: any) => {
           setConversation(res?.conversation);
+          console.log(res?.conversation);
+
           setMessages(
             res?.conversation?.reverse()?.map((temp: any) => ({
               _id: temp?._id,
@@ -102,6 +104,7 @@ const ChatScreenModal = (props: any) => {
 
   useEffect(() => {
     getPage();
+    markRead();
     return () => {
       setConversation([]);
     };
@@ -116,7 +119,11 @@ const ChatScreenModal = (props: any) => {
   }, []);
 
   return (
-    <Modal visible={visible}>
+    <Modal
+      visible={visible}
+      onRequestClose={() => {
+        setVisible(false);
+      }}>
       <View style={styles.containerStyle}>
         <View style={styles.headerContainerStyle}>
           <Text

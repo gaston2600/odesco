@@ -70,7 +70,11 @@ const MembersListModal = (props: any) => {
   }, [searchInput]);
 
   return (
-    <Modal visible={visible}>
+    <Modal
+      visible={visible}
+      onRequestClose={() => {
+        setVisible(false);
+      }}>
       <View style={styles.containerStyle}>
         <View style={styles.headerContainerStyle}>
           <Text style={styles.titleTextStyle}>{I18n.t('contacts')}</Text>

@@ -6,6 +6,9 @@ import {
   GET_ONE_CHAT_ROOM,
   GET_ONE_CHAT_ROOM_FAILED,
   GET_ONE_CHAT_ROOM_SUCCESS,
+  INITIATE_CHAT_ROOM,
+  INITIATE_CHAT_ROOM_FAILED,
+  INITIATE_CHAT_ROOM_SUCCESS,
   MARK_MESSAGE_READ_CHAT,
   MARK_MESSAGE_READ_CHAT_FAILED,
   MARK_MESSAGE_READ_CHAT_SUCCESS,
@@ -129,6 +132,35 @@ export const markReadMessage = (
           payload: e,
         });
         // callbackError(e.response);
+      });
+  };
+};
+export const initiateChatRoom = (
+  data: any,
+  callback: any,
+  callbackError: any,
+) => {
+  return (dispatch: (arg0: {type: string; payload?: any}) => any) => {
+    dispatch({
+      type: INITIATE_CHAT_ROOM,
+    });
+
+    chatSrv
+      .initiate(data)
+      .then((response: any) => {
+        dispatch({
+          type: INITIATE_CHAT_ROOM_SUCCESS,
+          payload: response?.data?.data,
+        });
+        callback(response?.data?.data);
+      })
+      .catch(e => {
+        console.log('INITIATE_CHAT_ROOM error === ', e);
+        dispatch({
+          type: INITIATE_CHAT_ROOM_FAILED,
+          payload: e,
+        });
+        callbackError(e.response);
       });
   };
 };
