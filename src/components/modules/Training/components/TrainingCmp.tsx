@@ -1,5 +1,5 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
 import {ScreenWidth} from '@rneui/base';
 import fonts from '../../../../theme/fonts';
 import colors from '../../../../styles/colors';
@@ -7,12 +7,17 @@ import globalStyles from '../../../../styles/globalStyles';
 import moment from 'moment';
 import I18n from 'react-native-i18n';
 import Icons from '../../../../styles/icons';
+import TrainingDetailsModal from '../../../modals/Training/TrainingDetailsModal';
 const TrainingCmp = (props: any) => {
   const {data} = props;
-  console.log({data});
+  const [showTrainingModal, setShowTrainingModal] = useState(false);
 
   return (
-    <View style={[styles.containerStyle, globalStyles.shadow]}>
+    <TouchableOpacity
+      onPress={() => {
+        setShowTrainingModal(true);
+      }}
+      style={[styles.containerStyle, globalStyles.shadow]}>
       <View
         style={{
           alignItems: 'center',
@@ -73,7 +78,12 @@ const TrainingCmp = (props: any) => {
           </View>
         ) : null}
       </View>
-    </View>
+      <TrainingDetailsModal
+        visible={showTrainingModal}
+        setVisible={setShowTrainingModal}
+        data={data}
+      />
+    </TouchableOpacity>
   );
 };
 

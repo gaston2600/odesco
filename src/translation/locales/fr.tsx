@@ -34,6 +34,7 @@ const fr = {
   subscribed: 'Abonné',
   subscribers: 'Abonnés',
   onligne: 'En ligne',
+  hybrid: 'Hybride (en ligne et en présentiel)',
   addFormation: 'Ajouter une Formation',
   addExperience: 'Ajouter une Experience',
   connect: 'Se connecter',
@@ -49,6 +50,7 @@ const fr = {
   skills: 'Compétences',
   add_skill: 'Ajouter Compétence',
   trainings: 'Formations',
+  training: 'Formation',
   profession: 'Profession',
 
   diplome: 'Diplôme',
@@ -68,6 +70,7 @@ const fr = {
   delete: 'Supprimer',
   createdAt: 'Fondé à',
   createdBy: 'Fondé par',
+  theme: 'Thème',
 
   type_message_placeholder: 'Écrire un message ...',
   send: 'Envoyer',
