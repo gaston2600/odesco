@@ -15,6 +15,8 @@ const fr = {
   cultural: 'Culturel',
   athletic: 'Athletic',
   empty_result: 'Aucun Résulat',
+  periods: 'Periodes',
+  days: 'Jours',
 
   network: 'Réseaux',
   contacts: 'Contacts',
@@ -34,6 +36,7 @@ const fr = {
   subscribed: 'Abonné',
   subscribers: 'Abonnés',
   onligne: 'En ligne',
+  hybrid: 'Hybride (en ligne et en présentiel)',
   addFormation: 'Ajouter une Formation',
   addExperience: 'Ajouter une Experience',
   connect: 'Se connecter',
@@ -49,7 +52,9 @@ const fr = {
   skills: 'Compétences',
   add_skill: 'Ajouter Compétence',
   trainings: 'Formations',
+  training: 'Formation',
   profession: 'Profession',
+  link: 'Lien',
 
   diplome: 'Diplôme',
   startDate: 'Date De Début',
@@ -68,6 +73,7 @@ const fr = {
   delete: 'Supprimer',
   createdAt: 'Fondé à',
   createdBy: 'Fondé par',
+  theme: 'Thème',
 
   type_message_placeholder: 'Écrire un message ...',
   send: 'Envoyer',
