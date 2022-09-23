@@ -34,7 +34,9 @@ const TrainingCmp = (props: any) => {
       </View>
 
       <View style={styles.bodyContainerStyle}>
-        <Text style={styles.titleTextStyle}>{data?.name}</Text>
+        <Text numberOfLines={1} style={styles.titleTextStyle}>
+          {data?.name}
+        </Text>
         <Text
           numberOfLines={1}
           style={[styles.descTextStyle, {color: colors.gray, marginLeft: 0}]}>

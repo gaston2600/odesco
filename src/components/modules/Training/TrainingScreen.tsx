@@ -43,11 +43,7 @@ const TrainingScreen = (props: any) => {
   return (
     <View style={styles.containerStyle}>
       <FlatList
-        data={trainings
-          ?.concat(trainings)
-          ?.concat(trainings)
-          ?.concat(trainings)
-          ?.concat(trainings)}
+        data={trainings}
         renderItem={({item}: any) => <TrainingCmp data={item} />}
         keyExtractor={(item: any) => item?._id}
         numColumns={2}
@@ -79,7 +75,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     backgroundColor: colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });

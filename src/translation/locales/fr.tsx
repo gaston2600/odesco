@@ -15,6 +15,8 @@ const fr = {
   cultural: 'Culturel',
   athletic: 'Athletic',
   empty_result: 'Aucun Résulat',
+  periods: 'Periodes',
+  days: 'Jours',
 
   network: 'Réseaux',
   contacts: 'Contacts',
@@ -52,6 +54,7 @@ const fr = {
   trainings: 'Formations',
   training: 'Formation',
   profession: 'Profession',
+  link: 'Lien',
 
   diplome: 'Diplôme',
   startDate: 'Date De Début',
