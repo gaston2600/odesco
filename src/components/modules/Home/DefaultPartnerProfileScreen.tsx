@@ -1,21 +1,141 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import colors from '../../../styles/colors';
 import fonts from '../../../theme/fonts';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AvatarCmp from '../../common/AvatarCmp';
 import {extractImage} from '../../../helpers/extractImage';
 import I18n from 'react-native-i18n';
 import {Divider} from '@rneui/themed';
 import Icons from '../../../styles/icons';
+import {TextInput} from 'react-native-gesture-handler';
+import ButtonCmp from '../../common/ButtonCmp';
+import {ScreenWidth} from '@rneui/base';
+import {
+  confirmEmailToken,
+  confirmPhoneToken,
+  verifEmailToken,
+  verifPhone,
+} from '../../../store/actions';
 
 const DefaultPartnerProfileScreen = (props: any) => {
   const {navigation} = props;
+  const dispatch = useDispatch();
   const {user} = useSelector((state: any) => state?.User);
   const [activated, setActivated] = useState(false);
+  const [showPhoneToken, setShowPhoneToken] = useState(false);
+  const [showEmailToken, setShowEmailToken] = useState(false);
+  const [phoneToken, setPhoneToken] = useState('');
+  const [emailToken, setEmailToken] = useState('');
+  const [loadingConfirmPhone, setLoadingConfirmPhone] = useState(false);
+  const [loadingConfirmEmail, setLoadingConfirmEmail] = useState(false);
+
   useEffect(() => {
     setActivated(!!user?.phoneVerified && !!user?.emailVerified);
   }, [user]);
+
+  function verifPone() {
+    if (!user?.phoneVerified) {
+      if (user?.phone) {
+        const fullNumber = user?.phone;
+        const last3Digits = fullNumber.slice(-3);
+        const maskedNumber = last3Digits.padStart(fullNumber.length, '*');
+        // verif phone action
+        console.log('verif phone action');
+        Alert.alert(
+          'Vérification Télephone',
+          `Un token à été envoyé à votre telephone ${maskedNumber}`,
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                dispatch(
+                  verifPhone(
+                    {
+                      userId: user?._id,
+                    },
+                    () => null,
+                    () => null,
+                  ),
+                );
+                setShowPhoneToken(true);
+              },
+            },
+          ],
+        );
+      } else {
+        Alert.alert('Pas de numéro de telephone enregistré !');
+      }
+    }
+  }
+
+  function confirmPhone() {
+    setLoadingConfirmPhone(true);
+    dispatch(
+      confirmPhoneToken(
+        {
+          userId: user?._id,
+          token: phoneToken,
+        },
+        () => {
+          setLoadingConfirmPhone(false);
+          setShowPhoneToken(false);
+          Alert.alert('success');
+        },
+        () => {
+          setLoadingConfirmPhone(false);
+          Alert.alert('erreur');
+        },
+      ),
+    );
+  }
+
+  function verifEmail() {
+    if (!user?.emailVerified) {
+      Alert.alert(
+        'Vérification Email',
+        `Un token à été envoyé à adreese mail`,
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              dispatch(
+                verifEmailToken(
+                  {
+                    userId: user?._id,
+                  },
+                  () => null,
+                  () => null,
+                ),
+              );
+              setShowEmailToken(true);
+            },
+          },
+        ],
+      );
+    }
+  }
+
+  function confirmEmail() {
+    setLoadingConfirmEmail(true);
+    dispatch(
+      confirmEmailToken(
+        {
+          userId: user?._id,
+          token: emailToken,
+        },
+        () => {
+          setLoadingConfirmEmail(false);
+          setShowEmailToken(false);
+          Alert.alert('success');
+        },
+        () => {
+          setLoadingConfirmEmail(false);
+          Alert.alert('erreur');
+        },
+      ),
+    );
+  }
 
   return (
     <View style={styles.containerStyle}>
@@ -58,7 +178,7 @@ const DefaultPartnerProfileScreen = (props: any) => {
             activated ? 'verified_profile_title' : 'unverified_profile_title',
           )}
         </Text>
-        <View style={styles.lineContainerStyle}>
+        <Pressable onPress={verifPone} style={styles.lineContainerStyle}>
           <Icons.AntDesign
             name={user?.phoneVerified ? 'checkcircleo' : 'infocirlceo'}
             size={20}
@@ -72,8 +192,33 @@ const DefaultPartnerProfileScreen = (props: any) => {
             }>
             {!!user?.phone ? user?.phone : I18n.t('no_phone_msg')}
           </Text>
-        </View>
-        <View style={styles.lineContainerStyle}>
+        </Pressable>
+        {showPhoneToken && (
+          <View style={styles.phoneTokenContainerStyle}>
+            <TextInput
+              value={phoneToken}
+              onChangeText={setPhoneToken}
+              style={styles.textInputStyle}
+              maxLength={4}
+              placeholder={I18n.t('phone')}
+            />
+            <View style={styles.buttonContainerStyle}>
+              <ButtonCmp
+                label={I18n.t('cancel')}
+                action={() => setShowPhoneToken(false)}
+                width={ScreenWidth * 0.3}
+                loading={false}
+              />
+              <ButtonCmp
+                label={I18n.t('save')}
+                action={confirmPhone}
+                width={ScreenWidth * 0.3}
+                loading={loadingConfirmPhone}
+              />
+            </View>
+          </View>
+        )}
+        <Pressable onPress={verifEmail} style={styles.lineContainerStyle}>
           <Icons.AntDesign
             name={user?.emailVerified ? 'checkcircleo' : 'infocirlceo'}
             size={20}
@@ -88,7 +233,32 @@ const DefaultPartnerProfileScreen = (props: any) => {
             }>
             {user?.email}
           </Text>
-        </View>
+        </Pressable>
+        {showEmailToken && (
+          <View style={styles.phoneTokenContainerStyle}>
+            <TextInput
+              value={emailToken}
+              onChangeText={setPhoneToken}
+              style={styles.textInputStyle}
+              maxLength={4}
+              placeholder={I18n.t('email')}
+            />
+            <View style={styles.buttonContainerStyle}>
+              <ButtonCmp
+                label={I18n.t('cancel')}
+                action={() => setShowEmailToken(false)}
+                width={ScreenWidth * 0.3}
+                loading={false}
+              />
+              <ButtonCmp
+                label={I18n.t('save')}
+                action={confirmEmail}
+                width={ScreenWidth * 0.3}
+                loading={loadingConfirmEmail}
+              />
+            </View>
+          </View>
+        )}
       </View>
       <Divider orientation="horizontal" />
     </View>
@@ -161,5 +331,30 @@ const styles = StyleSheet.create({
     fontSize: fonts.size.font12,
     color: colors.darkGray,
     marginLeft: 5,
+  },
+  phoneTokenContainerStyle: {
+    marginVertical: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: colors.grey,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // justifyContent: 'space-between',
+  },
+  textInputStyle: {
+    fontFamily: fonts.type.NunitoMedium,
+    fontSize: fonts.size.font12,
+    width: '100%',
+    borderWidth: 0.5,
+    borderRadius: 5,
+    borderColor: colors.grey,
+  },
+  buttonContainerStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    marginVertical: 15,
+    width: '100%',
   },
 });

@@ -91,6 +91,11 @@ const PostCmp = (props: any) => {
           refresh={refresh}
           withSelectedSpace={withSelectedSpace}
         />
+        <CommentPostCmp
+          navigation={navigation}
+          post={data?._id}
+          withSelectedSpace={withSelectedSpace}
+        />
         {!!withSelectedSpace && (
           <AvatarCmp
             name={String(
@@ -102,11 +107,6 @@ const PostCmp = (props: any) => {
             size={20}
           />
         )}
-        <CommentPostCmp
-          navigation={navigation}
-          post={data?._id}
-          withSelectedSpace={withSelectedSpace}
-        />
       </View>
     </View>
   );

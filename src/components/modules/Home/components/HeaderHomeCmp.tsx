@@ -74,7 +74,8 @@ const HeaderHomeCmp = (props: any) => {
     <View style={styles.containerStyle}>
       <Pressable
         onPress={() => {
-          setVisibleSelectInst(true);
+          navigation?.openDrawer();
+          // setVisibleSelectInst(true);
         }}
         style={{
           flex: 1,

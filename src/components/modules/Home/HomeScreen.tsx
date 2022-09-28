@@ -32,8 +32,10 @@ const HomeScreen = (props: any) => {
   const state = useSelector(s => s);
   console.log({state});
   useEffect(() => {
-    getMyInsitutions();
-  }, []);
+    if (!!user) {
+      getMyInsitutions();
+    }
+  }, [user]);
 
   return (
     <View style={styles.containerStyle}>

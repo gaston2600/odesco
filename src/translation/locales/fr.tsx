@@ -44,7 +44,11 @@ const fr = {
   addExperience: 'Ajouter une Experience',
   connect: 'Se connecter',
   logout: 'Déconnexion',
+  password: 'Mot de passe',
   change_password: 'Changer Mot de passe',
+  old_password: 'Ancien Mot de passe',
+  new_password: 'Nouveau Mot de passe',
+  confirm_password: 'Confirmer Mot de passe',
   edit_photo_profile: 'Modifer la photo de profil',
   edit_personnel_informations: 'Modifier les informations personnelles',
   verified_profile_title: 'Vous avez un Profil Vérifié',
@@ -66,6 +70,7 @@ const fr = {
   training: 'Formation',
   profession: 'Profession',
   link: 'Lien',
+  email: 'E-mail',
 
   diplome: 'Diplôme',
   startDate: 'Date De Début',
@@ -79,6 +84,7 @@ const fr = {
   description: 'Déscription',
   presential: 'Présentiel',
   required: 'Champ obligatoire',
+  dont_match: 'different de',
   min_3: 'Minimum 3 carachtère',
 
   delete: 'Supprimer',

@@ -16,7 +16,7 @@ import I18n from 'react-native-i18n';
 import {Divider} from '@rneui/themed';
 import Icons from '../../styles/icons';
 import SelectInstitutionModal from '../../components/modals/institutions/SelectInstitutionModal';
-import {selectSpace} from '../../store/actions';
+import {logout, selectSpace} from '../../store/actions';
 
 const HomeDrawerContent = (props: any) => {
   const {navigation} = props;
@@ -99,7 +99,11 @@ const HomeDrawerContent = (props: any) => {
       </ScrollView>
       <View style={styles.footerContainerStyle}>
         <Divider orientation="horizontal" />
-        <View style={styles.lineContainerStyle}>
+        <Pressable
+          onPress={() => {
+            dispatch(logout());
+          }}
+          style={styles.lineContainerStyle}>
           <View style={styles.contentContainerStyle}>
             <Text style={styles.lineTextStyle}>{I18n.t('logout')}</Text>
           </View>
@@ -107,7 +111,7 @@ const HomeDrawerContent = (props: any) => {
           <View style={styles.iconContainerStyle}>
             <Icons.AntDesign name="logout" size={20} color={colors.gray} />
           </View>
-        </View>
+        </Pressable>
       </View>
       <SelectInstitutionModal
         visible={visibleSelectInst}
