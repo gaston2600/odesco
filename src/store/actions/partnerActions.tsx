@@ -102,7 +102,11 @@ export const getOnePartner = (data: any) => {
   };
 };
 
-export const editPartner = (data: any, callback: any, callbackError: any) => {
+export const editPartner: any = (
+  data: any,
+  callback: any,
+  callbackError: any,
+) => {
   return (dispatch: (arg0: {type: string; payload?: any}) => any) => {
     dispatch({
       type: EDIT_PARTNER,

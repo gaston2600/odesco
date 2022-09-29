@@ -1,4 +1,11 @@
-import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import colors from '../../../styles/colors';
 import fonts from '../../../theme/fonts';
@@ -21,6 +28,7 @@ import {
 } from '../../../store/actions';
 import ImagePicker from '../../common/ImagePicker';
 import {addImage, takeImage} from '../../common/CameraActions';
+import EditUserProfileModal from '../../modals/Home/EditUserProfileModal';
 
 const DefaultPartnerProfileScreen = (props: any) => {
   const {navigation} = props;
@@ -34,14 +42,23 @@ const DefaultPartnerProfileScreen = (props: any) => {
   const [loadingConfirmPhone, setLoadingConfirmPhone] = useState(false);
   const [loadingConfirmEmail, setLoadingConfirmEmail] = useState(false);
   const refImageModal = useRef();
-  const [pics, setPics] = useState([]);
-  useEffect(() => {
-    console.log({pics});
-  }, [pics]);
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
 
   useEffect(() => {
     setActivated(!!user?.phoneVerified && !!user?.emailVerified);
   }, [user]);
+
+  function getUserProfile() {
+    dispatch(
+      getProfile(
+        {
+          user: user?._id,
+        },
+        () => null,
+        () => null,
+      ),
+    );
+  }
 
   function verifPone() {
     if (!user?.phoneVerified) {
@@ -90,6 +107,7 @@ const DefaultPartnerProfileScreen = (props: any) => {
           setLoadingConfirmPhone(false);
           setShowPhoneToken(false);
           Alert.alert('success');
+          getUserProfile();
         },
         () => {
           setLoadingConfirmPhone(false);
@@ -136,7 +154,7 @@ const DefaultPartnerProfileScreen = (props: any) => {
         () => {
           setLoadingConfirmEmail(false);
           setShowEmailToken(false);
-          Alert.alert('success');
+          getUserProfile();
         },
         () => {
           setLoadingConfirmEmail(false);
@@ -157,15 +175,7 @@ const DefaultPartnerProfileScreen = (props: any) => {
         },
         (res: any) => {
           console.log('edit_user', res);
-          dispatch(
-            getProfile(
-              {
-                user: user?._id,
-              },
-              () => null,
-              () => null,
-            ),
-          );
+          getUserProfile();
         },
         (err: any) => {
           console.log('err edit_user', err);
@@ -175,13 +185,10 @@ const DefaultPartnerProfileScreen = (props: any) => {
   }
 
   async function getImage(params: any) {
-    let temp: any;
     if (params === 'ADD') {
       addImage(
         refImageModal,
         (res: any) => {
-          temp = res;
-          console.log(res);
           changeImageProfile(res);
         },
         (err: any) => {
@@ -192,8 +199,6 @@ const DefaultPartnerProfileScreen = (props: any) => {
       takeImage(
         refImageModal,
         (res: any) => {
-          temp = res;
-          console.log(res);
           changeImageProfile(res);
         },
         (err: any) => {
@@ -201,11 +206,10 @@ const DefaultPartnerProfileScreen = (props: any) => {
         },
       );
     }
-    console.log('image taken', temp);
   }
 
   return (
-    <View style={styles.containerStyle}>
+    <ScrollView style={styles.containerStyle}>
       <View style={styles.headerContainerStyle}>
         <Text style={styles.headerTitleTextStyle}>{I18n.t('profile')}</Text>
         <Pressable
@@ -218,7 +222,7 @@ const DefaultPartnerProfileScreen = (props: any) => {
       <View style={[styles.topContainerStyle, styles.rowContainer]}>
         <View>
           <Text style={styles.titleTextStyle}>{`${user?.first_name}`}</Text>
-          <Text style={styles.titleTextStyle}>{`${user?.last_name}`}</Text>
+          {/* <Text style={styles.titleTextStyle}>{`${user?.last_name}`}</Text> */}
         </View>
 
         <AvatarCmp
@@ -238,11 +242,15 @@ const DefaultPartnerProfileScreen = (props: any) => {
           {I18n.t('edit_photo_profile')}
         </Text>
       </Pressable>
-      <View style={styles.lineContainerStyle}>
+      <Pressable
+        onPress={() => {
+          setShowEditProfileModal(true);
+        }}
+        style={styles.lineContainerStyle}>
         <Text style={styles.actionTextStyle}>
           {I18n.t('edit_personnel_informations')}
         </Text>
-      </View>
+      </Pressable>
       <View style={styles.profileStatusContainerStyle}>
         <Text style={styles.profileStatusTextStyle}>
           {I18n.t(
@@ -332,12 +340,34 @@ const DefaultPartnerProfileScreen = (props: any) => {
         )}
       </View>
       <Divider orientation="horizontal" />
+      <View style={styles.profileStatusContainerStyle}>
+        <Text style={styles.profileStatusTextStyle}>{I18n.t('about_you')}</Text>
+        <View
+          style={{
+            padding: 10,
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: colors.lightGray,
+          }}>
+          <Text style={styles.verifiedProfileStatusTextStyle}>
+            {user?.note}
+          </Text>
+        </View>
+      </View>
       <ImagePicker
         refImageModal={refImageModal}
         takeImage={() => getImage('TAKE')}
         addImage={() => getImage('ADD')}
       />
-    </View>
+      {showEditProfileModal && (
+        <EditUserProfileModal
+          visible={showEditProfileModal}
+          setVisible={setShowEditProfileModal}
+          data={user}
+          refresh={getUserProfile}
+        />
+      )}
+    </ScrollView>
   );
 };
 
@@ -350,11 +380,12 @@ const styles = StyleSheet.create({
   },
   topContainerStyle: {
     padding: 20,
+    width: '100%',
   },
   rowContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around',
   },
   titleTextStyle: {
     fontFamily: fonts.type.NunitoBold,

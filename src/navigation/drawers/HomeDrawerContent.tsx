@@ -55,12 +55,19 @@ const HomeDrawerContent = (props: any) => {
             navigation?.navigate('DefaultPartnerProfileScreen');
           }}
           style={styles.headerContainerStyle}>
-          <AvatarCmp
-            name={String(user?.first_name)?.slice(0, 2)}
-            uri={extractImage(user?.avatar?.path)}
-            size={80}
-            // profile={true}
-          />
+          <View
+            style={{
+              flexDirection: 'row',
+            }}>
+            <AvatarCmp
+              name={String(user?.first_name)?.slice(0, 2)}
+              uri={extractImage(user?.avatar?.path)}
+              size={80}
+              profile={true}
+            />
+            <View style={{flex: 1}} />
+          </View>
+
           <Text style={styles.titleTextStyle}>
             {`${user?.first_name} ${user?.last_name}`}
           </Text>

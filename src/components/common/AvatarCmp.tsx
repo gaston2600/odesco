@@ -56,13 +56,15 @@ const AvatarCmp = ({uri, name, size, inversed, profile}: any) => {
             position: 'absolute',
             right: 0,
             bottom: 0,
-            backgroundColor: colors.white,
+            // backgroundColor: colors.white,
             borderRadius: size,
+            backgroundColor: activated ? colors.sereneBlue : colors.orange,
+            // padding: 5,
           }}>
-          <Icons.Ionicons
-            name={activated ? 'shield-checkmark-outline' : 'information-circle'}
+          <Icons.MCI
+            name={activated ? 'shield-check-outline' : 'alert-circle-outline'}
             size={size / 3}
-            color={activated ? colors.sereneBlue : colors.orange}
+            color={colors.white}
           />
         </View>
       )}

@@ -29,6 +29,7 @@ const fr = {
   accept: 'Accepter',
   discussion: 'Discussion',
   chat: 'Messagerie',
+  note: 'Note',
 
   add_new: 'Nouveau',
   save: 'Enregistrer',
@@ -55,6 +56,7 @@ const fr = {
   unverified_profile_title: "Votre Profil n'est pas Vérifié",
   no_phone_msg: "Vous n'avez pas de numéro de télephone",
   put_sendet_token: 'Entrer le code réçu',
+  about_you: 'À propos de vous ',
 
   events: 'Évenements',
   myEvents: 'Mes évenements',
