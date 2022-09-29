@@ -5,6 +5,9 @@ import {
   LOGIN_USER_FAILED,
   SELECT_SPACE,
   LOGOUT,
+  GET_PROFILE_USER,
+  GET_PROFILE_USER_SUCCESS,
+  GET_PROFILE_USER_FAILED,
 } from '../types';
 
 const INITIAL_STATE = {
@@ -53,6 +56,26 @@ export default (state = INITIAL_STATE, action: {type: any; payload: any}) => {
         error_login: true,
         userLoading: false,
       };
+
+    case GET_PROFILE_USER:
+      return {
+        ...state,
+        userLoading: true,
+        error_login: false,
+      };
+    case GET_PROFILE_USER_SUCCESS:
+      return {
+        ...state,
+        user: action?.payload?.user,
+        userLoading: false,
+      };
+    case GET_PROFILE_USER_FAILED:
+      return {
+        ...state,
+        error_login: true,
+        userLoading: false,
+      };
+
     case LOGOUT:
       return {
         ...state,

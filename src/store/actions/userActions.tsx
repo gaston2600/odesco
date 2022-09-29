@@ -22,6 +22,9 @@ import {
   CONFIRM_EMAIL_TOKEN_SUCCESS,
   CONFIRM_EMAIL_TOKEN_FAILED,
   LOGOUT,
+  GET_PROFILE_USER,
+  GET_PROFILE_USER_SUCCESS,
+  GET_PROFILE_USER_FAILED,
 } from '../types';
 
 import authService from '../../services/authSrv';
@@ -224,7 +227,36 @@ export const confirmEmailToken: any = (
   };
 };
 
-export const editUser = (data: any, callback: any, callbackError: any) => {
+export const getProfile: any = (
+  data: any,
+  callback: any,
+  callbackError: any,
+) => {
+  return (dispatch: (arg0: {type: string; payload?: any}) => any) => {
+    dispatch({
+      type: GET_PROFILE_USER,
+    });
+    userSrv
+      .getProfile(data)
+      .then(async (response: any) => {
+        dispatch({
+          type: GET_PROFILE_USER_SUCCESS,
+          payload: response?.data,
+        });
+        callback(response?.data);
+      })
+      .catch(e => {
+        console.log('GET_PROFILE_USER error === ', e);
+        dispatch({
+          type: GET_PROFILE_USER_FAILED,
+          payload: e,
+        });
+        callbackError(e.response);
+      });
+  };
+};
+
+export const editUser: any = (data: any, callback: any, callbackError: any) => {
   return (dispatch: (arg0: {type: string; payload?: any}) => any) => {
     dispatch({
       type: EDIT_USER,

@@ -1,5 +1,5 @@
 import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import colors from '../../../styles/colors';
 import fonts from '../../../theme/fonts';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,9 +14,13 @@ import {ScreenWidth} from '@rneui/base';
 import {
   confirmEmailToken,
   confirmPhoneToken,
+  editUser,
+  getProfile,
   verifEmailToken,
   verifPhone,
 } from '../../../store/actions';
+import ImagePicker from '../../common/ImagePicker';
+import {addImage, takeImage} from '../../common/CameraActions';
 
 const DefaultPartnerProfileScreen = (props: any) => {
   const {navigation} = props;
@@ -29,6 +33,11 @@ const DefaultPartnerProfileScreen = (props: any) => {
   const [emailToken, setEmailToken] = useState('');
   const [loadingConfirmPhone, setLoadingConfirmPhone] = useState(false);
   const [loadingConfirmEmail, setLoadingConfirmEmail] = useState(false);
+  const refImageModal = useRef();
+  const [pics, setPics] = useState([]);
+  useEffect(() => {
+    console.log({pics});
+  }, [pics]);
 
   useEffect(() => {
     setActivated(!!user?.phoneVerified && !!user?.emailVerified);
@@ -137,6 +146,64 @@ const DefaultPartnerProfileScreen = (props: any) => {
     );
   }
 
+  function changeImageProfile(params: any) {
+    const frm = new FormData();
+    frm.append('avatar', params);
+    dispatch(
+      editUser(
+        {
+          id: user?._id,
+          data: frm,
+        },
+        (res: any) => {
+          console.log('edit_user', res);
+          dispatch(
+            getProfile(
+              {
+                user: user?._id,
+              },
+              () => null,
+              () => null,
+            ),
+          );
+        },
+        (err: any) => {
+          console.log('err edit_user', err);
+        },
+      ),
+    );
+  }
+
+  async function getImage(params: any) {
+    let temp: any;
+    if (params === 'ADD') {
+      addImage(
+        refImageModal,
+        (res: any) => {
+          temp = res;
+          console.log(res);
+          changeImageProfile(res);
+        },
+        (err: any) => {
+          console.log({err});
+        },
+      );
+    } else {
+      takeImage(
+        refImageModal,
+        (res: any) => {
+          temp = res;
+          console.log(res);
+          changeImageProfile(res);
+        },
+        (err: any) => {
+          console.log({err});
+        },
+      );
+    }
+    console.log('image taken', temp);
+  }
+
   return (
     <View style={styles.containerStyle}>
       <View style={styles.headerContainerStyle}>
@@ -162,11 +229,15 @@ const DefaultPartnerProfileScreen = (props: any) => {
         />
       </View>
       <Divider orientation="horizontal" />
-      <View style={styles.lineContainerStyle}>
+      <Pressable
+        onPress={() => {
+          refImageModal?.current?.open();
+        }}
+        style={styles.lineContainerStyle}>
         <Text style={styles.actionTextStyle}>
           {I18n.t('edit_photo_profile')}
         </Text>
-      </View>
+      </Pressable>
       <View style={styles.lineContainerStyle}>
         <Text style={styles.actionTextStyle}>
           {I18n.t('edit_personnel_informations')}
@@ -238,7 +309,7 @@ const DefaultPartnerProfileScreen = (props: any) => {
           <View style={styles.phoneTokenContainerStyle}>
             <TextInput
               value={emailToken}
-              onChangeText={setPhoneToken}
+              onChangeText={setEmailToken}
               style={styles.textInputStyle}
               maxLength={4}
               placeholder={I18n.t('email')}
@@ -261,6 +332,11 @@ const DefaultPartnerProfileScreen = (props: any) => {
         )}
       </View>
       <Divider orientation="horizontal" />
+      <ImagePicker
+        refImageModal={refImageModal}
+        takeImage={() => getImage('TAKE')}
+        addImage={() => getImage('ADD')}
+      />
     </View>
   );
 };
