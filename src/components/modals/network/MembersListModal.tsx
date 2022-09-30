@@ -117,7 +117,7 @@ const MembersListModal = (props: any) => {
               <MemberCmp data={item} type={memberType(item?._id)} />
             )}
             keyExtractor={item => item?._id}
-            numColumns={3}
+            numColumns={2}
             refreshControl={
               <RefreshControl
                 style={{width: 0, height: 0}}

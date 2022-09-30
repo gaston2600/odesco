@@ -79,6 +79,7 @@ const TabNavigator = () => {
         name="Network"
         component={NetworkScreen}
         options={{
+          headerShown: false,
           headerTitle: I18n.t('network'),
           headerTitleStyle: {
             fontSize: fonts.size.font16,

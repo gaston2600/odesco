@@ -20,7 +20,7 @@ import {
   GET_ONE_PARTNER_SUCCESS,
 } from '../types/partnersActionTypes';
 
-export const getMyPartners = (data: any) => {
+export const getMyPartners: any = (data: any) => {
   return (dispatch: (arg0: {type: string; payload?: any}) => any) => {
     dispatch({
       type: GET_MY_PARTNERS,
@@ -46,7 +46,7 @@ export const getMyPartners = (data: any) => {
       });
   };
 };
-export const getPartnersList = (
+export const getPartnersList: any = (
   data: any,
   callback: any,
   callbackError: any,
@@ -74,7 +74,7 @@ export const getPartnersList = (
       });
   };
 };
-export const getOnePartner = (data: any) => {
+export const getOnePartner: any = (data: any) => {
   return (dispatch: (arg0: {type: string; payload?: any}) => any) => {
     dispatch({
       type: GET_ONE_PARTNER,

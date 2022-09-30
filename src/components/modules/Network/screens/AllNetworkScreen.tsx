@@ -14,19 +14,33 @@ import globalStyles from '../../../../styles/globalStyles';
 import I18n from 'react-native-i18n';
 
 const AllNetworkScreen = (props: any) => {
-  const {refresh} = props;
+  const {refresh, searchInput} = props;
   const {members, pendings, requests, loading} = useSelector(
     (state: any) => state?.Network,
   );
+  console.log({
+    members: members?.filter((v: any) =>
+      String(`${v?.user?.first_name} ${v?.user?.last_name}`)
+        ?.toUpperCase()
+        ?.includes(String(searchInput)?.toUpperCase()),
+    ),
+    searchInput,
+  });
+
   return (
     <View style={styles.containerStyle}>
       <FlatList
-        data={members}
+        data={members?.filter((v: any) =>
+          String(`${v?.user?.first_name} ${v?.user?.last_name}`)
+            ?.toUpperCase()
+            ?.includes(String(searchInput)?.toUpperCase()),
+        )}
+        // extraData={members}
         renderItem={({item}: any) => (
           <MemberCmp data={item?.user} type="member" />
         )}
         keyExtractor={item => item?._id}
-        numColumns={3}
+        numColumns={2}
         columnWrapperStyle={
           {
             // justifyContent:"space-evenly",

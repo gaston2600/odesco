@@ -89,7 +89,7 @@ const MenuScreen = (props: any) => {
         style={styles.instContainerStyle}>
         <View
           style={{
-            borderWidth: 2,
+            // borderWidth: 2,
             borderRadius: 100,
             borderColor: colors.primary,
           }}>
@@ -99,8 +99,8 @@ const MenuScreen = (props: any) => {
               height: 40,
               width: 40,
               borderRadius: 40,
-              borderWidth: inversed ? 2 : 1,
-              borderColor: inversed ? colors.primary : colors.grey,
+              borderWidth: 1,
+              borderColor: colors.primary,
             }}
           />
         </View>
@@ -193,6 +193,41 @@ const MenuScreen = (props: any) => {
       </TouchableOpacity>
     );
   };
+
+  function renderPlus(plus: boolean) {
+    return (
+      <Pressable
+        onPress={() => {
+          // toggleInst({id: data?._id, type: 'Partner'});
+        }}
+        style={styles.instContainerStyle}>
+        <View
+          style={{
+            borderWidth: 2,
+            borderRadius: 100,
+            borderColor: colors.primary,
+            padding: 5,
+          }}>
+          <Icons.AntDesign
+            name={plus ? 'plus' : 'close'}
+            size={20}
+            color={colors.primary}
+          />
+        </View>
+
+        <Text
+          numberOfLines={1}
+          style={[
+            styles.instTiteTextStyle,
+            {
+              color: colors.primary,
+            },
+          ]}>
+          {plus ? 'Plus' : 'Moins'}
+        </Text>
+      </Pressable>
+    );
+  }
   return (
     <View style={styles.containerStyle}>
       <HeaderHomeCmp />
@@ -214,6 +249,7 @@ const MenuScreen = (props: any) => {
           renderItem={({item}) =>
             item?.institute ? renderInst(item) : renderPartners(item)
           }
+          ListFooterComponent={() => renderPlus(true)}
         />
       </View>
       <Divider orientation="horizontal" style={{marginVertical: 5}} />
