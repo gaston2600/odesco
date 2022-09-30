@@ -41,13 +41,14 @@ export default (state = INITIAL_STATE, action: {type: any; payload: any}) => {
         error_login: false,
       };
     case LOGIN_USER_SUCCESS:
-      const {user, token} = action.payload;
+      const {user, token, partner} = action.payload;
       return {
         ...state,
         user,
         token,
         auth: user && token !== '',
         userLoading: false,
+        selectedSpace: partner,
         // defaultPartner: user?.ref_codes?.filter((v: any) => String(v?.ref_code)?.startsWith("partner"))?.[0]?._id
       };
     case LOGIN_USER_FAILED:
@@ -83,6 +84,7 @@ export default (state = INITIAL_STATE, action: {type: any; payload: any}) => {
         token: '',
         auth: false,
         userLoading: false,
+        selectedSpace: null,
       };
 
     case SELECT_SPACE:

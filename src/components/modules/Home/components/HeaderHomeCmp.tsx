@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   Alert,
   Image,
@@ -89,7 +90,9 @@ const HeaderHomeCmp = (props: any) => {
               ? selectedSpace?.first_name
               : selectedSpace?.name,
           )?.slice(0, 2)}
-          uri={extractImage(selectedSpace?.avatar?.path)}
+          uri={extractImage(
+            selectedSpace?.avatar?.path ? selectedSpace?.avatar?.path : null,
+          )}
           size={40}
           inversed={true}
         />
