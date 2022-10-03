@@ -196,11 +196,11 @@ export default MemberCmp;
 
 const styles = StyleSheet.create({
   containerStyle: {
-    width: screenWidth * 0.28,
+    width: screenWidth * 0.4,
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 15,
-    marginHorizontal: screenWidth * 0.0275,
+    marginHorizontal: screenWidth * 0.05,
     marginVertical: 10,
     borderRadius: 5,
     flexDirection: 'column',

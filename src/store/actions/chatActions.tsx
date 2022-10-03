@@ -17,7 +17,7 @@ import {
   POST_MESSAGE_CHAT_SUCCESS,
 } from '../types/chatActionsTypes';
 
-export const getRoomsList = (
+export const getRoomsList: any = (
   data: any,
   // callback: any,
   // callbackError: any
@@ -46,7 +46,7 @@ export const getRoomsList = (
       });
   };
 };
-export const getOneRoomChat = (
+export const getOneRoomChat: any = (
   data: any,
   callback: any,
   callbackError: any,
@@ -76,7 +76,7 @@ export const getOneRoomChat = (
   };
 };
 
-export const sendMessageChat = (
+export const sendMessageChat: any = (
   data: any,
   callback: any,
   callbackError: any,
@@ -106,7 +106,7 @@ export const sendMessageChat = (
   };
 };
 
-export const markReadMessage = (
+export const markReadMessage: any = (
   data: any,
   // callback: any,
   // callbackError: any,
@@ -135,7 +135,7 @@ export const markReadMessage = (
       });
   };
 };
-export const initiateChatRoom = (
+export const initiateChatRoom: any = (
   data: any,
   callback: any,
   callbackError: any,

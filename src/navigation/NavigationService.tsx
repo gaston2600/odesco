@@ -1,8 +1,8 @@
-import * as React from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Icon from "../styles/icons";
+import * as React from 'react';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import Icon from '../styles/icons';
 
 export function navigate(name: any, params: any) {
   const navigation = useNavigation();
@@ -10,57 +10,55 @@ export function navigate(name: any, params: any) {
 }
 export const navigationRef: any = React.createRef();
 
-export function OpenDrawer({ navigation }) {
+export function OpenDrawer({navigation}) {
   return (
     <TouchableOpacity
       style={styles.menuButton}
-      onPress={() => navigation.openDrawer()}
-    >
+      onPress={() => navigation.openDrawer()}>
       <Icon.MaterialIcons
-        name={"sort"}
+        name={'sort'}
         size={40}
-        color={"#333"}
+        color={'#333'}
         style={styles.menuIcon}
       />
     </TouchableOpacity>
   );
 }
 
-export function GoHome({ navigation: { navigate } }) {
+export function GoHome({navigation: {navigate}}) {
   return (
     <TouchableOpacity
       style={styles.menuButton}
-      onPress={() => navigate("Home")}
-    >
+      onPress={() => navigate('Home')}>
       <Icon.AntDesign
-        name={"arrowleft"}
+        name={'arrowleft'}
         size={25}
-        color={"#333"}
+        color={'#333'}
         style={styles.menuIcon}
       />
     </TouchableOpacity>
   );
 }
-export function GoBack({ navigation: { goBack }, color }) {
+export function GoBack({navigation: {goBack}, color}) {
   return (
     <TouchableOpacity style={styles.menuButton} onPress={() => goBack()}>
       <Icon.AntDesign
-        name={"left"}
+        name={'left'}
         size={25}
-        color={color ? color : "#333"}
+        color={color ? color : '#333'}
         style={styles.menuIcon}
       />
     </TouchableOpacity>
   );
 }
 export function GoBackWithAction(props: any) {
-  const { action } = props;
+  const {action} = props;
   return (
     <TouchableOpacity style={styles.menuButton} onPress={() => action()}>
       <Icon.AntDesign
-        name={"arrowleft"}
+        name={'arrowleft'}
         size={25}
-        color={"#333"}
+        color={'#333'}
         style={styles.menuIcon}
       />
     </TouchableOpacity>
@@ -72,7 +70,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     zIndex: 999,
-    alignItems: "center",
+    alignItems: 'center',
 
     // padding: 5,
 
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
   },
   menuIcon: {
     // color: "#333",
-    fontWeight: "normal",
+    fontWeight: 'normal',
     zIndex: 9999,
     marginTop: 10,
     // borderWidth: 0.5, borderColor: 'red'

@@ -46,7 +46,7 @@ const TrainingScreen = (props: any) => {
         data={trainings}
         renderItem={({item}: any) => <TrainingCmp data={item} />}
         keyExtractor={(item: any) => item?._id}
-        numColumns={2}
+        // numColumns={2}
         refreshControl={
           <RefreshControl
             style={{width: 0, height: 0}}

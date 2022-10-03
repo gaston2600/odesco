@@ -1,32 +1,46 @@
-import { FlatList, Pressable, RefreshControl, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getEvents } from '../../../../store/actions/eventsActions'
-import colors from '../../../../styles/colors'
-import Icons from '../../../../styles/icons'
-import EventCmp from '../components/EventCmp'
-import fonts from '../../../../theme/fonts'
+import {
+  FlatList,
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {getEvents} from '../../../../store/actions/eventsActions';
+import colors from '../../../../styles/colors';
+import Icons from '../../../../styles/icons';
+import EventCmp from '../components/EventCmp';
+import fonts from '../../../../theme/fonts';
 
 const AllEventsScreen = (props: any) => {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    const { events, loading } = useSelector((state: any) => state?.Events)
+  const {events, loading} = useSelector((state: any) => state?.Events);
 
-    const { searchInput } = props
+  const {searchInput} = props;
 
-    function getPage() {
-        dispatch(getEvents({
-            filters: {
-                searchInput
-            }
-        }, () => null, () => null))
-    }
-    useEffect(() => {
-        getPage()
-    }, [searchInput])
-    return (
-        <View style={styles.containerStyle}>
-            {/* <View
+  function getPage() {
+    dispatch(
+      getEvents(
+        {
+          filters: {
+            searchInput,
+          },
+        },
+        () => null,
+        () => null,
+      ),
+    );
+  }
+  useEffect(() => {
+    getPage();
+  }, [searchInput]);
+  return (
+    <View style={styles.containerStyle}>
+      {/* <View
                 style={{
                     flexDirection: "row",
                     // width: "100%",
@@ -59,53 +73,52 @@ const AllEventsScreen = (props: any) => {
                 </Pressable>
 
             </View> */}
-            <FlatList
-                data={events}
-                renderItem={({ item }) => <EventCmp data={item} />}
-                ListEmptyComponent={() => (
-                    <View style={{
-                        alignItems: "center",
-                        justifyContent: "center"
-                    }}>
-                        <Text style={{
-                            fontFamily: fonts.type.NunitoMedium,
-                            fontSize: fonts.size.font14,
-                            color: colors.gray
-                        }}>
-                            Aucun résultat
-                        </Text>
-                    </View>
-                )}
-                refreshControl={
-                    <RefreshControl
-                        style={{ width: 0, height: 0 }}
-                        colors={[colors.primary]}
-                        refreshing={loading}
-                        onRefresh={() => {
-                            getPage()
-                        }}
-                    />
-                }
+      <FlatList
+        data={events}
+        renderItem={({item}) => <EventCmp data={item} />}
+        ListEmptyComponent={() => (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                fontFamily: fonts.type.NunitoMedium,
+                fontSize: fonts.size.font14,
+                color: colors.gray,
+              }}>
+              Aucun résultat
+            </Text>
+          </View>
+        )}
+        refreshControl={
+          <RefreshControl
+            style={{width: 0, height: 0}}
+            colors={[colors.primary]}
+            refreshing={loading}
+            onRefresh={() => {
+              getPage();
+            }}
+          />
+        }
+      />
+    </View>
+  );
+};
 
-            />
-        </View>
-    )
-}
-
-export default AllEventsScreen
+export default AllEventsScreen;
 
 const styles = StyleSheet.create({
-    containerStyle: {
-        flex: 1,
-        backgroundColor: colors.white
-    },
-    textInputStyle: {
-
-        fontFamily: fonts.type.NunitoMedium,
-        fontSize: fonts.size.font12,
-        color: colors.gray,
-        paddingHorizontal: 5,
-        flex: 8
-
-    }
-})
+  containerStyle: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+  textInputStyle: {
+    fontFamily: fonts.type.NunitoMedium,
+    fontSize: fonts.size.font12,
+    color: colors.gray,
+    paddingHorizontal: 5,
+    flex: 8,
+  },
+});

@@ -41,7 +41,7 @@ const AppNavigation = () => {
               headerShown: false,
             }}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="CommentsScreen"
             component={CommentsScreen}
             options={{
@@ -51,7 +51,7 @@ const AppNavigation = () => {
                 fontSize: fonts.size.font16,
               },
             }}
-          />
+          /> */}
           <Stack.Screen
             name="NewPostScreen"
             component={NewPostScreen}

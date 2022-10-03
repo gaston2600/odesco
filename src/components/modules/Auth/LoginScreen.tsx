@@ -33,7 +33,9 @@ const LoginScreen = () => {
       login(
         email,
         password,
-        (res: any) => {},
+        (res: any) => {
+          console.log('-----------------login', {res});
+        },
         (err: any) => {
           console.log({err});
         },
