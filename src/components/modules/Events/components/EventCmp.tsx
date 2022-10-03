@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   ActivityIndicator,
   Image,
@@ -77,7 +78,7 @@ const EventCmp = (props: any) => {
           }
           style={{
             width: '100%',
-            height: '100%',
+            height: 150,
             borderTopLeftRadius: 5,
             borderTopRightRadius: 5,
           }}
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     width: screenWidth * 0.9,
     alignSelf: 'center',
-    height: 320,
+    minHeight: 320,
     // borderWidth: 1,
     borderRadius: 5,
     marginVertical: 10,

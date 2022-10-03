@@ -6,7 +6,7 @@ import fonts from '../../theme/fonts';
 import MySpacesScreen from '../../components/modules/MySpaces/MySpacesScreen';
 import ProfileScreen from '../../components/modules/MySpaces/ProfileScreen';
 import TrainingScreen from '../../components/modules/Training/TrainingScreen';
-import Icons from '../../styles/icons';
+import GoBackNavigation from '../../components/common/GoBackNavigation';
 
 const MySpacesStack = (props: any) => {
   const {space, navigation} = props?.route?.params;
@@ -24,11 +24,11 @@ const MySpacesStack = (props: any) => {
             fontFamily: fonts.type.NunitoSemiBold,
             fontSize: fonts.size.font16,
           },
-          headerLeft: () => (
-            <Pressable onPress={() => props?.navigation?.goBack()}>
-              <Icons.AntDesign name="left" size={25} />
-            </Pressable>
-          ),
+          // headerLeft: (props: any) => (
+          //   <GoBackNavigation
+          //   //  navigation={navigation}
+          //    {...props} />
+          // ),
         }}
       />
       <Stack.Screen

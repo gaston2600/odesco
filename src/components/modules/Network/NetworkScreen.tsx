@@ -80,6 +80,13 @@ const NetworkScreen = () => {
         visible={showMembersListModal}
         setVisible={setShowMembersListModal}
       />
+      <Pressable
+        onPress={() => {
+          setShowMembersListModal(true);
+        }}
+        style={styles.addContainerStyle}>
+        <Icons.AntDesign name="plus" size={25} color={colors.white} />
+      </Pressable>
     </View>
   );
 };
@@ -132,5 +139,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: colors.grey,
     paddingLeft: 10,
+  },
+  addContainerStyle: {
+    padding: 10,
+    backgroundColor: colors.primary,
+    borderRadius: 50,
+    position: 'absolute',
+    bottom: 20,
+    right: 15,
   },
 });

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   ActivityIndicator,
   FlatList,
@@ -30,7 +31,7 @@ const MenuContextCmp = (props: any) => {
   const {close, navigation} = props;
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
-  const {myInstitutions, myPartners, loading} = useSelector(
+  const {myInstitutions, myPartners, defaultPartner, loading} = useSelector(
     (state: any) => state?.Inst,
   );
   const {user} = useSelector((state: any) => state?.User);
@@ -93,6 +94,7 @@ const MenuContextCmp = (props: any) => {
             flex: 1,
           }}>
           <Text
+            numberOfLines={1}
             adjustsFontSizeToFit
             style={[
               styles.instTitleTextStyle,
@@ -153,15 +155,14 @@ const MenuContextCmp = (props: any) => {
           }}>
           <Text
             adjustsFontSizeToFit
+            numberOfLines={1}
             style={[
               styles.instTitleTextStyle,
               {
                 color: empty ? colors.primary : colors.grey,
               },
             ]}>
-            {empty
-              ? I18n.t('add_new')
-              : `${params?.first_name} ${params?.last_name}`}
+            {empty ? I18n.t('add_new') : `${params?.first_name}`}
           </Text>
         </View>
       </TouchableOpacity>
@@ -198,7 +199,7 @@ const MenuContextCmp = (props: any) => {
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
-          data={myPartners}
+          data={myPartners?.filter((v: any) => v?._id !== defaultPartner)}
           renderItem={({item}) => renderPartners(item)}
           ListFooterComponent={() => renderPartners({}, true)}
           refreshControl={

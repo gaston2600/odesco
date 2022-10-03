@@ -5,7 +5,7 @@ import {
   GET_TRAININGS_LIST_SUCCESS,
 } from '../types/trainingActionsTypes';
 
-export const getTrainingList = (
+export const getTrainingList: any = (
   data: any,
   callback: any,
   callbackError: any,
@@ -18,6 +18,8 @@ export const getTrainingList = (
     trainingSrv
       .getList(data)
       .then((response: any) => {
+        console.log({response});
+
         dispatch({
           type: GET_TRAININGS_LIST_SUCCESS,
           payload: response?.data,

@@ -5,6 +5,8 @@ import MenuScreen from '../../components/modules/Menu/MenuScreen';
 import EventsStack from './EventsStack';
 import EventTabNavigator from '../tabs/EventTabNavigator';
 import TeachersStack from './TeachersStack';
+import TrainingScreen from '../../components/modules/Training/TrainingScreen';
+import I18n from 'react-native-i18n';
 
 const MenuStack = () => {
   const Stack = createNativeStackNavigator();
@@ -29,6 +31,15 @@ const MenuStack = () => {
         component={TeachersStack}
         options={{
           headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="TrainingScreen"
+        component={TrainingScreen}
+        options={{
+          title: I18n.t('trainings'),
+          //   headerShown: false,
         }}
       />
       {/* <Stack.Screen name="EventsScreen" component={EventsStack}
