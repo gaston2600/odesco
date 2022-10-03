@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import I18n from 'react-native-i18n';
@@ -6,6 +6,7 @@ import fonts from '../../theme/fonts';
 import MySpacesScreen from '../../components/modules/MySpaces/MySpacesScreen';
 import ProfileScreen from '../../components/modules/MySpaces/ProfileScreen';
 import TrainingScreen from '../../components/modules/Training/TrainingScreen';
+import Icons from '../../styles/icons';
 
 const MySpacesStack = (props: any) => {
   const {space, navigation} = props?.route?.params;
@@ -17,11 +18,17 @@ const MySpacesStack = (props: any) => {
         name="MySpacesScreen"
         children={(props: any) => <MySpacesScreen space={space} {...props} />}
         options={{
-          headerTitle: I18n.t('myPartners'),
+          headerTitle: '',
+          // headerTitle: I18n.t('myPartners'),
           headerTitleStyle: {
             fontFamily: fonts.type.NunitoSemiBold,
             fontSize: fonts.size.font16,
           },
+          headerLeft: () => (
+            <Pressable onPress={() => props?.navigation?.goBack()}>
+              <Icons.AntDesign name="left" size={25} />
+            </Pressable>
+          ),
         }}
       />
       <Stack.Screen

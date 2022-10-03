@@ -110,6 +110,7 @@ const fr = {
   features: 'Caractéristiques',
   plus_details: "Plus d'informations",
   details: 'Détails',
+  menu: 'Menu',
 
   code_access: "Code D'accés",
   myInsts: 'Mes Établissement',

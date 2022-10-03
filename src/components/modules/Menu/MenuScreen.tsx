@@ -24,6 +24,7 @@ const MenuScreen = (props: any) => {
   const {myInstitutions, myPartners, defaultPartner, loading} = useSelector(
     (state: any) => state?.Inst,
   );
+  const [showMore, setShowMore] = useState(false);
 
   const listMenu = [
     {
@@ -96,9 +97,9 @@ const MenuScreen = (props: any) => {
           <Image
             source={require('../../../../assets/images/inst.png')}
             style={{
-              height: 40,
-              width: 40,
-              borderRadius: 40,
+              height: 60,
+              width: 60,
+              borderRadius: 60,
               borderWidth: 1,
               borderColor: colors.primary,
             }}
@@ -132,7 +133,7 @@ const MenuScreen = (props: any) => {
           <AvatarCmp
             name={String(data?.first_name)?.slice(0, 2)}
             uri={extractImage(data?.avatar?.path)}
-            size={data?._id === defaultPartner ? 60 : 40}
+            size={data?._id === defaultPartner ? 80 : 60}
             inversed={inversed}
           />
         </View>
@@ -199,6 +200,7 @@ const MenuScreen = (props: any) => {
       <Pressable
         onPress={() => {
           // toggleInst({id: data?._id, type: 'Partner'});
+          setShowMore(!showMore);
         }}
         style={styles.instContainerStyle}>
         <View
@@ -209,8 +211,8 @@ const MenuScreen = (props: any) => {
             padding: 5,
           }}>
           <Icons.AntDesign
-            name={plus ? 'plus' : 'close'}
-            size={20}
+            name={!plus ? 'plus' : 'minus'}
+            size={40}
             color={colors.primary}
           />
         </View>
@@ -223,14 +225,14 @@ const MenuScreen = (props: any) => {
               color: colors.primary,
             },
           ]}>
-          {plus ? 'Plus' : 'Moins'}
+          {!plus ? 'Plus' : 'Moins'}
         </Text>
       </Pressable>
     );
   }
   return (
     <View style={styles.containerStyle}>
-      <HeaderHomeCmp />
+      <HeaderHomeCmp navigation={navigation} />
       <View
         style={{
           marginVertical: 5,
@@ -245,11 +247,13 @@ const MenuScreen = (props: any) => {
           }}
           horizontal
           keyExtractor={item => item?._id}
-          data={myPartners?.concat(myInstitutions)}
+          data={myPartners
+            ?.concat(myInstitutions)
+            ?.filter((_: any, i: any) => (showMore ? true : i < 3))}
           renderItem={({item}) =>
             item?.institute ? renderInst(item) : renderPartners(item)
           }
-          ListFooterComponent={() => renderPlus(true)}
+          ListFooterComponent={() => renderPlus(showMore)}
         />
       </View>
       <Divider orientation="horizontal" style={{marginVertical: 5}} />
