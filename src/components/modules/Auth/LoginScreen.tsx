@@ -9,7 +9,10 @@ const {screenWidth, screenHeight} = metrics;
 const LoginScreen = () => {
   const state = useSelector(state => state);
   const dispatch = useDispatch();
-  const [data, setData] = useState({email: 'test@gmail.com', password: '123'});
+  const [data, setData] = useState({
+    email: 'gaston2600@gmail.com',
+    password: '12345678',
+  });
 
   const handelChangeText = (key: string, value: 'string') => {
     switch (key) {
@@ -30,7 +33,9 @@ const LoginScreen = () => {
       login(
         email,
         password,
-        (res: any) => {},
+        (res: any) => {
+          console.log('-----------------login', {res});
+        },
         (err: any) => {
           console.log({err});
         },
