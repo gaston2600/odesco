@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {
   FlatList,
+  Image,
   Modal,
   Pressable,
   ScrollView,
@@ -17,6 +18,7 @@ import I18n from 'react-native-i18n';
 import globalStyles from '../../../styles/globalStyles';
 import moment from 'moment';
 import {ScreenWidth} from '@rneui/base';
+import {extractImage} from '../../../helpers/extractImage';
 
 const TrainingDetailsModal = (props: any) => {
   const {visible, setVisible, data} = props;
@@ -140,6 +142,19 @@ const TrainingDetailsModal = (props: any) => {
         <Divider orientation="horizontal" />
 
         <View style={styles.bodyContainerStyle}>
+          <Image
+            source={
+              data?.cover?.path
+                ? {
+                    uri: extractImage(data?.cover?.path),
+                  }
+                : require('../../../../assets/images/odesco_logo.jpg')
+            }
+            style={{
+              width: '100%',
+              height: 150,
+            }}
+          />
           <View
             style={{
               alignItems: 'center',
@@ -212,12 +227,12 @@ const TrainingDetailsModal = (props: any) => {
           </View>
           {!!data?.desc && (
             <View style={styles.contentContainerStyle}>
-              <View style={styles.lineContainerStyle}>
-                <Text style={styles.titleLineTextStyle}>{` ${I18n.t(
-                  'description',
-                )} : `}</Text>
-                <Text style={styles.descLineTextStyle}>{data?.desc}</Text>
-              </View>
+              {/* <View style={styles.lineContainerStyle}> */}
+              <Text style={styles.titleLineTextStyle}>{` ${I18n.t(
+                'description',
+              )} : `}</Text>
+              <Text style={styles.descLineTextStyle}>{data?.desc}</Text>
+              {/* </View> */}
             </View>
           )}
           {!!data?.periods?.length && (

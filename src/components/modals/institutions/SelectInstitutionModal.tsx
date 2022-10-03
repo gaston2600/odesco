@@ -114,7 +114,7 @@ const SelectInstitutionModal = (props: any) => {
       isVisible={visible}
       onBackdropPress={toggleOverlay}>
       {myPartners?.length ? (
-        <Text style={styles.titleTextStyle}>{I18n.t('partners')}</Text>
+        <Text style={styles.titleTextStyle}>{I18n.t('myPartners')}</Text>
       ) : null}
       {myPartners?.map((item: any) => renderPartner(item))}
       {myPartners?.length && myInstitutions?.length ? (

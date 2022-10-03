@@ -58,11 +58,11 @@ const MySpacesScreen = (props: any) => {
     },
     {
       name: 'Administration',
-      icon: require('../../../../assets/icons/menu/icon_soutien_scolaire.png'),
+      icon: require('../../../../assets/icons/menu/inst.png'),
     },
     {
-      name: 'Évenements',
-      icon: require('../../../../assets/icons/menu/events.png'),
+      name: 'Cours',
+      icon: require('../../../../assets/icons/menu/icon_soutien_scolaire.png'),
     },
     {
       name: 'Formations',
@@ -70,7 +70,11 @@ const MySpacesScreen = (props: any) => {
       route: 'TrainingScreen',
     },
     {
-      name: 'Cours',
+      name: 'Évenements',
+      icon: require('../../../../assets/icons/menu/events.png'),
+    },
+    {
+      name: 'Soutien Scolaire',
       icon: require('../../../../assets/icons/menu/icon_soutien_scolaire.png'),
     },
   ];
@@ -116,7 +120,7 @@ const MySpacesScreen = (props: any) => {
           <View style={styles.headerContainerStyle}>
             <AvatarCmp
               name={String(data?.name)?.slice(0, 2)}
-              uri={extractImage(data?.avatar)}
+              uri={extractImage(data?.avatar?.path)}
               size={70}
             />
             <View>

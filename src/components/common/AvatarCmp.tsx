@@ -1,8 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Avatar} from '@rneui/base';
-import {extractImage} from '../../helpers/extractImage';
 import colors from '../../styles/colors';
 import Icons from '../../styles/icons';
 import {useSelector} from 'react-redux';

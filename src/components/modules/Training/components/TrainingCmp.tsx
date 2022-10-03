@@ -8,6 +8,7 @@ import moment from 'moment';
 import I18n from 'react-native-i18n';
 import Icons from '../../../../styles/icons';
 import TrainingDetailsModal from '../../../modals/Training/TrainingDetailsModal';
+import {extractImage} from '../../../../helpers/extractImage';
 const TrainingCmp = (props: any) => {
   const {data} = props;
   const [showTrainingModal, setShowTrainingModal] = useState(false);
@@ -24,12 +25,16 @@ const TrainingCmp = (props: any) => {
           justifyContent: 'center',
         }}>
         <Image
-          source={require('../../../../../assets/images/odesco_logo.jpg')}
+          source={
+            data?.cover?.path
+              ? {uri: extractImage(data?.cover?.path)}
+              : require('../../../../../assets/images/odesco_logo.jpg')
+          }
           style={{
-            width: ScreenWidth * 0.35,
+            width: '100%',
             height: 120,
           }}
-          resizeMode="contain"
+          resizeMode="cover"
         />
       </View>
 
@@ -42,6 +47,16 @@ const TrainingCmp = (props: any) => {
           style={[styles.descTextStyle, {color: colors.gray, marginLeft: 0}]}>
           {data?.theme}
         </Text>
+        <View style={styles.rowContainer}>
+          <Icons.FontAwesome
+            name="building-o"
+            size={10}
+            color={colors.primary}
+          />
+          <Text numberOfLines={1} style={styles.descTextStyle}>
+            {data?.institution?.name}
+          </Text>
+        </View>
         <View style={styles.rowContainer}>
           <Icons.AntDesign name="team" size={10} color={colors.grey} />
           <Text style={styles.descTextStyle}>{data?.subscribers?.length}</Text>
@@ -79,6 +94,18 @@ const TrainingCmp = (props: any) => {
             <Text style={styles.statusTextStyle}>{I18n.t('presential')}</Text>
           </View>
         ) : null}
+        {data?.price ? (
+          <View
+            style={[
+              styles.statusContainerStyle,
+              {backgroundColor: colors.red},
+            ]}>
+            <Text
+              style={
+                styles.statusTextStyle
+              }>{`${data?.price} ${data?.currency}`}</Text>
+          </View>
+        ) : null}
       </View>
       <TrainingDetailsModal
         visible={showTrainingModal}
@@ -95,7 +122,9 @@ const styles = StyleSheet.create({
   containerStyle: {
     borderRadius: 5,
     margin: 15,
-    width: ScreenWidth * 0.4,
+    width: ScreenWidth * 0.9,
+    alignSelf: 'center',
+    backgroundColor: colors.lightGray,
   },
   bodyContainerStyle: {
     padding: 10,

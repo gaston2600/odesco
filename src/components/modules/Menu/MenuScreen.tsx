@@ -18,12 +18,16 @@ import {extractImage} from '../../../helpers/extractImage';
 import fonts from '../../../theme/fonts';
 import {Divider} from '@rneui/themed';
 import Icons from '../../../styles/icons';
+import {ScreenWidth} from '@rneui/base';
+import I18n from 'react-native-i18n';
 
 const MenuScreen = (props: any) => {
   const {navigation} = props;
   const {myInstitutions, myPartners, defaultPartner, loading} = useSelector(
     (state: any) => state?.Inst,
   );
+  const compteSize = ScreenWidth / 7;
+  const [showMoreInst, setShowMoreInst] = useState(false);
 
   const listMenu = [
     {
@@ -52,6 +56,7 @@ const MenuScreen = (props: any) => {
       icon: require('../../../../assets/icons/menu/job.png'),
       desc: "description Offre d'emploi",
       img: 'projector-screen-outline',
+      route: 'TrainingScreen',
     },
     {
       name: 'Soutien Scolaire',
@@ -96,6 +101,11 @@ const MenuScreen = (props: any) => {
           <Image
             source={require('../../../../assets/images/inst.png')}
             style={{
+              height: compteSize,
+              width: compteSize,
+              borderRadius: compteSize,
+              borderWidth: inversed ? 2 : 1,
+              borderColor: inversed ? colors.primary : colors.grey,
               height: 40,
               width: 40,
               borderRadius: 40,
@@ -132,7 +142,7 @@ const MenuScreen = (props: any) => {
           <AvatarCmp
             name={String(data?.first_name)?.slice(0, 2)}
             uri={extractImage(data?.avatar?.path)}
-            size={data?._id === defaultPartner ? 60 : 40}
+            size={data?._id === defaultPartner ? compteSize * 1.5 : compteSize}
             inversed={inversed}
           />
         </View>
@@ -155,6 +165,8 @@ const MenuScreen = (props: any) => {
     return (
       <TouchableOpacity
         onPress={() => {
+          console.log({data});
+
           if (data?.route) {
             navigation?.navigate(data?.route);
           }
@@ -228,24 +240,26 @@ const MenuScreen = (props: any) => {
       </Pressable>
     );
   }
+
+  const list = myPartners?.concat(myInstitutions);
   return (
     <View style={styles.containerStyle}>
       <HeaderHomeCmp />
       <View
         style={{
           marginVertical: 5,
-          justifyContent: 'center',
+          // justifyContent: 'center',
         }}>
         <FlatList
+          horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
             alignItems: 'center',
             justifyContent: 'center',
             alignContent: 'center',
           }}
-          horizontal
           keyExtractor={item => item?._id}
-          data={myPartners?.concat(myInstitutions)}
+          data={list.filter((v: any, i: any) => (showMoreInst ? true : i < 3))}
           renderItem={({item}) =>
             item?.institute ? renderInst(item) : renderPartners(item)
           }

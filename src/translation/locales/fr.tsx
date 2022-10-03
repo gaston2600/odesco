@@ -88,6 +88,8 @@ const fr = {
   required: 'Champ obligatoire',
   dont_match: 'different de',
   min_3: 'Minimum 3 carachtère',
+  plus: 'Plus',
+  less: 'Moins',
 
   delete: 'Supprimer',
   createdAt: 'Fondé à',
@@ -112,8 +114,8 @@ const fr = {
   details: 'Détails',
 
   code_access: "Code D'accés",
-  myInsts: 'Mes Établissement',
-  myPartners: 'Mes Espaces',
+  myInsts: 'Mes Espaces',
+  myPartners: 'Mes Comptes',
   seeMore: 'Voir plus ...',
   seeLess: 'Voir moins ...',
   like: "J'aime",
