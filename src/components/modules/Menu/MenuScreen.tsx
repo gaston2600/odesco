@@ -211,6 +211,7 @@ const MenuScreen = (props: any) => {
       <Pressable
         onPress={() => {
           // toggleInst({id: data?._id, type: 'Partner'});
+          setShowMore(!showMore);
         }}
         style={styles.instContainerStyle}>
         <View
@@ -221,8 +222,8 @@ const MenuScreen = (props: any) => {
             padding: 5,
           }}>
           <Icons.AntDesign
-            name={plus ? 'plus' : 'close'}
-            size={20}
+            name={!plus ? 'plus' : 'minus'}
+            size={40}
             color={colors.primary}
           />
         </View>
@@ -235,7 +236,7 @@ const MenuScreen = (props: any) => {
               color: colors.primary,
             },
           ]}>
-          {plus ? 'Plus' : 'Moins'}
+          {!plus ? 'Plus' : 'Moins'}
         </Text>
       </Pressable>
     );
@@ -244,7 +245,7 @@ const MenuScreen = (props: any) => {
   const list = myPartners?.concat(myInstitutions);
   return (
     <View style={styles.containerStyle}>
-      <HeaderHomeCmp />
+      <HeaderHomeCmp navigation={navigation} />
       <View
         style={{
           marginVertical: 5,
@@ -263,7 +264,7 @@ const MenuScreen = (props: any) => {
           renderItem={({item}) =>
             item?.institute ? renderInst(item) : renderPartners(item)
           }
-          ListFooterComponent={() => renderPlus(true)}
+          ListFooterComponent={() => renderPlus(showMore)}
         />
       </View>
       <Divider orientation="horizontal" style={{marginVertical: 5}} />

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import I18n from 'react-native-i18n';
@@ -18,7 +18,8 @@ const MySpacesStack = (props: any) => {
         name="MySpacesScreen"
         children={(props: any) => <MySpacesScreen space={space} {...props} />}
         options={{
-          headerTitle: I18n.t('myPartners'),
+          headerTitle: '',
+          // headerTitle: I18n.t('myPartners'),
           headerTitleStyle: {
             fontFamily: fonts.type.NunitoSemiBold,
             fontSize: fonts.size.font16,

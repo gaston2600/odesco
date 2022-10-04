@@ -28,6 +28,8 @@ import {selectSpace} from '../../../../store/actions';
 import SelectInstitutionModal from '../../../modals/institutions/SelectInstitutionModal';
 import I18n from 'react-native-i18n';
 import SearchHomeModal from '../../../modals/Home/SearchHomeModal';
+import HomeMenuModal from '../../../modals/Home/HomeMenuModal';
+import MembersListModal from '../../../modals/network/MembersListModal';
 
 const HeaderHomeCmp = (props: any) => {
   const {navigation} = props;
@@ -41,7 +43,9 @@ const HeaderHomeCmp = (props: any) => {
   const [visibleSelectInst, setVisibleSelectInst] = useState(false);
 
   const [showSearchModal, setshowSearchModal] = useState(false);
+  const [showMenuModal, setShowMenuModal] = useState(false);
 
+  const [showMembersListModal, setShowMembersListModal] = useState(false);
   function confirmSelecInstModal(params: any) {
     let temp = null;
     if (params?.type === 'Partner') {
@@ -115,26 +119,32 @@ const HeaderHomeCmp = (props: any) => {
         }}>
         {/* <SearchCmp value={searchText} setValue={setSearchText} /> */}
         <Pressable
-          onPress={() => setshowSearchModal(true)}
+          onPress={() => {
+            setShowMembersListModal(true);
+            // setshowSearchModal(true)
+          }}
           style={styles.searchContainerStyle}>
           <Text>{I18n.t('search')}</Text>
         </Pressable>
       </View>
 
-      <View>
-        <Pressable
-          onPress={() => {
-            menuRef?.current?.open();
-          }}
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 5,
-          }}>
-          <Icons.AntDesign name="appstore-o" size={30} color={colors.white} />
-        </Pressable>
-        <Menu ref={menuRef}>
+      {/* <View> */}
+      <Pressable
+        onPress={() => {
+          // menuRef?.current?.open();
+          console.log('open menu ', showMenuModal);
+
+          setShowMenuModal(true);
+        }}
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 5,
+        }}>
+        <Icons.AntDesign name="appstore-o" size={30} color={colors.white} />
+      </Pressable>
+      {/* <Menu ref={menuRef}>
           <MenuTrigger />
           <MenuOptions
             optionsContainerStyle={[
@@ -150,18 +160,33 @@ const HeaderHomeCmp = (props: any) => {
               navigation={navigation}
             />
           </MenuOptions>
-        </Menu>
-      </View>
+        </Menu> */}
+      {/* </View> */}
       <SelectInstitutionModal
         visible={visibleSelectInst}
         setVisible={setVisibleSelectInst}
         confirm={confirmSelecInstModal}
         selectedList={[{_id: selectedSpace?._id, type: selectedSpace?.type}]}
       />
-      <SearchHomeModal
-        visible={showSearchModal}
-        setVisible={setshowSearchModal}
-      />
+      {showSearchModal && (
+        <SearchHomeModal
+          visible={showSearchModal}
+          setVisible={setshowSearchModal}
+        />
+      )}
+      {showMenuModal && (
+        <HomeMenuModal
+          visible={showMenuModal}
+          setVisible={setShowMenuModal}
+          navigation={navigation}
+        />
+      )}
+      {showMembersListModal && (
+        <MembersListModal
+          visible={showMembersListModal}
+          setVisible={setShowMembersListModal}
+        />
+      )}
     </View>
   );
 };
