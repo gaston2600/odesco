@@ -53,7 +53,7 @@ const NetworkScreen = () => {
           onPress={() => {
             setShowSearchInput(!showSearchInput);
             if (!showSearchInput) {
-              refSearchInput?.current?.focus();
+              refSearchInput?.current?.blur();
             } else {
               setSearchInput('');
             }
@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: colors.grey,
+    paddingLeft: 10,
   },
   addContainerStyle: {
     padding: 10,

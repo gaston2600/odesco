@@ -9,7 +9,11 @@ import I18n from 'react-native-i18n';
 const SearchHomeModal = (props: any) => {
   const {visible, setVisible} = props;
   return (
-    <Modal visible={visible}>
+    <Modal
+      visible={visible}
+      onRequestClose={() => {
+        setVisible(false);
+      }}>
       <View style={styles.containerStyle}>
         <View style={styles.headerContainerStyle}>
           <Text style={styles.titleTextStyle}>{I18n.t('search')}</Text>
