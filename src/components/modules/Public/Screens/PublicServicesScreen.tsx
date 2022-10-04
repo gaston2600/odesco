@@ -68,7 +68,7 @@ const PublicServicesScreen = (props: any) => {
       <FlatList
         data={list}
         renderItem={({item}) => renderItem(item)}
-        keyExtractor={(item: any) => item?._id}
+        keyExtractor={(item: any) => item?.title}
         contentContainerStyle={{
           alignItems: 'center',
         }}
