@@ -92,6 +92,7 @@ const TabNavigator = () => {
         name="Chat"
         component={ChatScreen}
         options={{
+          headerShown: false,
           headerTitle: I18n.t('chat'),
           headerTitleStyle: {
             fontSize: fonts.size.font16,
