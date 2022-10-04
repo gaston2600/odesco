@@ -1,4 +1,4 @@
-import {LOGIN_USER_SUCCESS} from '../types';
+import {LOGIN_USER_SUCCESS, LOGOUT} from '../types';
 import {
   GET_MY_INSTITUTIONS,
   GET_MY_INSTITUTIONS_FAILED,
@@ -62,7 +62,10 @@ export default (state = INITIAL_STATE, action: {type: any; payload: any}) => {
         loading: false,
         defaultPartner: action?.payload?.partner?._id,
       };
-
+    case LOGOUT:
+      return {
+        INITIAL_STATE,
+      };
     //NOTHING TO DO
     default:
       return {

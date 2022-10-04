@@ -1,3 +1,4 @@
+import {LOGOUT} from '../types';
 import {
   GET_CHAT_ROOM_LIST,
   GET_CHAT_ROOM_LIST_FAILED,
@@ -29,6 +30,10 @@ export default (state = INITIAL_STATE, action: {type: any; payload: any}) => {
       return {
         ...state,
         loading: false,
+      };
+    case LOGOUT:
+      return {
+        INITIAL_STATE,
       };
 
     //NOTHING TO DO

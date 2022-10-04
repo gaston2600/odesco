@@ -2,6 +2,8 @@
 // const baseURL = "https://api.preprod.odesco.l-wa.com";
 //DEV
 const baseURL = 'https://dev-saas-api.odesco.education';
+//NGROK
+// const baseURL = 'https://cb9a-196-203-206-45.ngrok.io';
 
 export const urls = {
   //DEV
@@ -24,5 +26,4 @@ export const urls = {
   schoolingNetwork: '/api/schooling/network',
   chat: '/api/chat',
   trainings: '/api/trainings',
-
 };
