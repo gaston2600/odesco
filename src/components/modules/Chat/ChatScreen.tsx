@@ -17,6 +17,9 @@ import ChatRoomCmp from './components/ChatRoomCmp';
 import {Divider} from '@rneui/themed';
 import Icons from '../../../styles/icons';
 import AddConversationModal from '../../modals/Chat/AddConversationModal';
+import fonts from '../../../theme/fonts';
+import ChatScreenModal from '../../modals/Chat/ChatScreenModal';
+import {getNetwork} from '../../../store/actions/networkActions';
 const ChatScreen = (props: any) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -24,6 +27,8 @@ const ChatScreen = (props: any) => {
   const {chatRooms, loading} = useSelector((state: any) => state?.Chat);
   const [showAddConversationModal, setshowAddConversationModal] =
     useState(false);
+  const [showChatModal, setShowChatModal] = useState(false);
+  const [contact, setContact] = useState(null);
 
   function getPage() {
     dispatch(
@@ -38,6 +43,11 @@ const ChatScreen = (props: any) => {
         },
       ),
     );
+    dispatch(
+      getNetwork({
+        partner: defaultPartner,
+      }),
+    );
   }
   useEffect(() => {
     getPage();
@@ -46,12 +56,30 @@ const ChatScreen = (props: any) => {
   useEffect(() => {
     const interval = setInterval(() => {
       getPage();
-    }, 10000);
+    }, 100000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <View style={styles.containerStyle}>
+      <View style={styles.headerContainerStyle}>
+        <Text style={styles.titleTextStyle}>{I18n.t('chat')}</Text>
+
+        <Pressable
+          onPress={() => {
+            setshowAddConversationModal(true);
+            // setShowSearchInput(!showSearchInput);
+            // if (!showSearchInput) {
+            //   refSearchInput?.current?.focus();
+            // } else {
+            //   setSearchInput('');
+            // }
+          }}
+          style={styles.closeContainerStyle}>
+          <Icons.Feather name="edit" size={20} color={colors.black} />
+        </Pressable>
+      </View>
+      <Divider orientation="horizontal" />
       <FlatList
         data={chatRooms}
         renderItem={({item}: any) => (
@@ -76,17 +104,27 @@ const ChatScreen = (props: any) => {
           </View>
         )}
       />
-      <Pressable
+      {/* <Pressable
         onPress={() => {
           setshowAddConversationModal(true);
         }}
         style={styles.addConversationContainerStyle}>
         <Icons.AntDesign name="adduser" size={20} color={colors.white} />
-      </Pressable>
+      </Pressable> */}
       {showAddConversationModal && (
         <AddConversationModal
           visible={showAddConversationModal}
           setVisible={setshowAddConversationModal}
+          setShowChatModal={setShowChatModal}
+          setContact={setContact}
+        />
+      )}
+      {showChatModal && (
+        <ChatScreenModal
+          data={contact}
+          visible={showChatModal}
+          setVisible={setShowChatModal}
+          refresh={getPage}
         />
       )}
     </View>
@@ -107,5 +145,22 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: colors.primary,
     borderRadius: 50,
+  },
+  headerContainerStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    height: 60,
+  },
+  titleTextStyle: {
+    fontFamily: fonts.type.NunitoSemiBold,
+    fontSize: fonts.size.font14,
+  },
+  closeContainerStyle: {
+    padding: 10,
+    // position: 'absolute',
+    // left: 15,
+    // right: 15,
   },
 });

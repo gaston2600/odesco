@@ -79,12 +79,7 @@ export default (state = INITIAL_STATE, action: {type: any; payload: any}) => {
 
     case LOGOUT:
       return {
-        ...state,
-        user: null,
-        token: '',
-        auth: false,
-        userLoading: false,
-        selectedSpace: null,
+        INITIAL_STATE,
       };
 
     case SELECT_SPACE:

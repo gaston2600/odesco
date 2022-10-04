@@ -82,6 +82,8 @@ const ChatScreenModal = (props: any) => {
           data: {message, partner: defaultPartner},
         },
         (res: any) => {
+          console.log({res});
+
           getPage();
         },
         (err: any) => {

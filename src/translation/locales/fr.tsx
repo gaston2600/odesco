@@ -30,6 +30,8 @@ const fr = {
   discussion: 'Discussion',
   chat: 'Messagerie',
   note: 'Note',
+  new_message: 'Nouveau Message',
+  suggestions: 'Suggestions',
 
   add_new: 'Nouveau',
   save: 'Enregistrer',

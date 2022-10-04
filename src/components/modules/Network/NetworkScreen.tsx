@@ -32,6 +32,7 @@ const NetworkScreen = () => {
 
   useEffect(() => {
     getPage();
+    return () => {};
   }, []);
 
   return (
