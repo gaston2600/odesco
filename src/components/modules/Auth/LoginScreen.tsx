@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import metrics from '../../../theme/metrics';
 import ButtonCmp from '../../common/ButtonCmp';
 import {login} from '../../../store/actions';
+import {ScreenWidth} from '@rneui/base';
 
 const {screenWidth, screenHeight} = metrics;
 const LoginScreen = () => {
@@ -13,6 +14,7 @@ const LoginScreen = () => {
     email: 'gaston2600@gmail.com',
     password: '12345678',
   });
+  const [loadingLogin, setLoadingLogin] = useState(false);
 
   const handelChangeText = (key: string, value: 'string') => {
     switch (key) {
@@ -29,14 +31,17 @@ const LoginScreen = () => {
   };
 
   const submit = ({email, password}: any) => {
+    setLoadingLogin(true);
     dispatch(
       login(
         email,
         password,
         (res: any) => {
           console.log('-----------------login', {res});
+          setLoadingLogin(false);
         },
         (err: any) => {
+          setLoadingLogin(false);
           console.log({err});
         },
       ),
@@ -62,9 +67,11 @@ const LoginScreen = () => {
       <View style={{}}>
         <ButtonCmp
           label={'Connexion'}
+          width={ScreenWidth * 0.3}
           action={() => {
             submit(data);
           }}
+          loading={loadingLogin}
         />
       </View>
     </View>

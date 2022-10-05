@@ -65,8 +65,8 @@ const HeaderHomeCmp = (props: any) => {
       <Pressable
         onPress={() => {
           console.log('open menu ', showMenuModal);
-
-          setShowMenuModal(true);
+          navigation?.navigate('HomeMenuScreen');
+          // setShowMenuModal(!showMenuModal);
         }}
         style={[styles.itemContainerStyle]}>
         <Icons.AntDesign name="appstore-o" size={35} color={colors.white} />

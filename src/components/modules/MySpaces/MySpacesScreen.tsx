@@ -1,12 +1,13 @@
 import {
   FlatList,
   Image,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import colors from '../../../styles/colors';
 import AvatarCmp from '../../common/AvatarCmp';
 import {extractImage} from '../../../helpers/extractImage';
@@ -15,6 +16,7 @@ import I18n from 'react-native-i18n';
 import metrics from '../../../theme/metrics';
 import globalStyles from '../../../styles/globalStyles';
 import {Divider} from '@rneui/themed';
+import Icons from '../../../styles/icons';
 const {screenWidth} = metrics;
 
 const MySpacesScreen = (props: any) => {
@@ -112,9 +114,19 @@ const MySpacesScreen = (props: any) => {
       </TouchableOpacity>
     );
   }
-
   return (
     <View style={styles.containerStyle}>
+      <View style={styles.headerNavContainerStyle}>
+        <Text style={styles.titleTextStyle}> </Text>
+        <Pressable
+          onPress={() => {
+            navigation?.goBack();
+          }}
+          style={styles.closeContainerStyle}>
+          <Icons.AntDesign name="left" size={20} color={colors.black} />
+        </Pressable>
+      </View>
+      <Divider orientation="horizontal" />
       {space?.type === 'Partner' ? (
         <View style={{flex: 1}}>
           <View style={styles.headerContainerStyle}>
@@ -224,5 +236,19 @@ const styles = StyleSheet.create({
     fontFamily: fonts.type.NunitoRegular,
     fontSize: fonts.size.font12,
     color: colors.gray,
+  },
+  headerNavContainerStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 15,
+  },
+  titleTextStyle: {
+    fontFamily: fonts.type.NunitoSemiBold,
+    fontSize: fonts.size.font14,
+  },
+  closeContainerStyle: {
+    position: 'absolute',
+    left: 15,
+    right: 15,
   },
 });
