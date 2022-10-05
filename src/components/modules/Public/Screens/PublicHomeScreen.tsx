@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 50,
+    padding: 20,
     // borderWidth: 1,
   },
   dotStyle: {

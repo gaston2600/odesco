@@ -50,7 +50,7 @@ const PublicServicesScreen = (props: any) => {
           />
         </View>
         <View style={styles.itemContentStyle}>
-          <Text style={styles.titleTextStyle}>{data?.title}</Text>
+          <Text style={styles.itemTitleTextStyle}>{data?.title}</Text>
 
           <Text style={styles.noteTextStyle} numberOfLines={1}>
             {data?.note}
@@ -65,6 +65,7 @@ const PublicServicesScreen = (props: any) => {
 
   return (
     <View style={styles.containerStyle}>
+      <Text style={styles.titleTextStyle}>Services</Text>
       <FlatList
         data={list}
         renderItem={({item}) => renderItem(item)}
@@ -73,7 +74,6 @@ const PublicServicesScreen = (props: any) => {
           alignItems: 'center',
         }}
       />
-      {/* <Text>PublicServicesScreen</Text> */}
     </View>
   );
 };
@@ -83,7 +83,7 @@ export default PublicServicesScreen;
 const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
-    backgroundColor: colors.white,
+    // backgroundColor: colors.white,
   },
   itemContainerStyle: {
     width: ScreenWidth * 0.95,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flex: 1,
   },
-  titleTextStyle: {
+  itemTitleTextStyle: {
     fontFamily: fonts.type.NunitoSemiBold,
     fontSize: fonts.size.font14,
     color: colors.gray,
@@ -117,5 +117,12 @@ const styles = StyleSheet.create({
     fontFamily: fonts.type.NunitoRegular,
     fontSize: fonts.size.font12,
     color: colors.grey,
+  },
+  titleTextStyle: {
+    fontFamily: fonts.type.NunitoSemiBold,
+    fontSize: fonts.size.font16,
+    color: colors.darkBlue,
+    marginVertical: 30,
+    alignSelf: 'center',
   },
 });

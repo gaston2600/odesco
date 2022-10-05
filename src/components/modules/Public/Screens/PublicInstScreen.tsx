@@ -52,9 +52,17 @@ const PublicInstScreen = () => {
       <Text style={styles.titleTextStyle}>Meilleurs établissements</Text>
       <FlatList
         data={list}
+        horizontal
+        pagingEnabled
         renderItem={({item}) => renderItem(item)}
         keyExtractor={item => item?.title}
       />
+      <View style={styles.dotsContainerStyle}>
+        <View style={styles.SelectedDotStyle} />
+        <View style={styles.dotStyle} />
+        <View style={styles.dotStyle} />
+        <View style={styles.dotStyle} />
+      </View>
     </View>
   );
 };
@@ -67,12 +75,14 @@ const styles = StyleSheet.create({
   },
   titleTextStyle: {
     fontFamily: fonts.type.NunitoSemiBold,
-    fontSize: fonts.size.font14,
+    fontSize: fonts.size.font16,
     color: colors.darkBlue,
-    padding: 15,
+    marginVertical: 30,
+    alignSelf: 'center',
   },
   itemContainerStyle: {
     width: ScreenWidth * 0.9,
+    marginHorizontal: ScreenWidth * 0.05,
     // height: 250,
     padding: 10,
     borderRadius: 5,
@@ -104,5 +114,28 @@ const styles = StyleSheet.create({
     fontSize: fonts.size.font12,
     color: colors.grey,
     marginVertical: 5,
+  },
+  dotsContainerStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    // borderWidth: 1,
+  },
+  dotStyle: {
+    height: 10,
+    width: 10,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderRadius: 50,
+    margin: 5,
+  },
+  SelectedDotStyle: {
+    height: 15,
+    width: 15,
+    backgroundColor: colors.primary,
+    borderRadius: 50,
+    margin: 5,
   },
 });
