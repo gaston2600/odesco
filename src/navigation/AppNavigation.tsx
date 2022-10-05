@@ -11,6 +11,7 @@ import I18n from 'react-native-i18n';
 import fonts from '../theme/fonts';
 import NewPostScreen from '../components/modules/Home/components/NewPostScreen';
 import AddInstScreen from '../components/modules/Institution/AddInstScreen';
+import PublicStack from './stacks/PublicStack';
 
 const AppNavigation = () => {
   const {auth, token} = useSelector((state: any) => state.User);
@@ -78,7 +79,7 @@ const AppNavigation = () => {
           />
         </Stack.Navigator>
       ) : (
-        <AuthStack />
+        <PublicStack />
       )}
     </View>
   );
