@@ -28,6 +28,7 @@ const MenuScreen = (props: any) => {
   );
   const compteSize = ScreenWidth / 7;
   const [showMoreInst, setShowMoreInst] = useState(false);
+  const [showMore, setShowMore] = useState(false);
 
   const listMenu = [
     {
@@ -245,7 +246,7 @@ const MenuScreen = (props: any) => {
   const list = myPartners?.concat(myInstitutions);
   return (
     <View style={styles.containerStyle}>
-      <HeaderHomeCmp navigation={navigation} />
+      {/* <HeaderHomeCmp navigation={navigation} /> */}
       <View
         style={{
           marginVertical: 5,

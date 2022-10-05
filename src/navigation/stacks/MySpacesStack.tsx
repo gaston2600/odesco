@@ -7,6 +7,7 @@ import MySpacesScreen from '../../components/modules/MySpaces/MySpacesScreen';
 import ProfileScreen from '../../components/modules/MySpaces/ProfileScreen';
 import TrainingScreen from '../../components/modules/Training/TrainingScreen';
 import GoBackNavigation from '../../components/common/GoBackNavigation';
+import HomeMenuScreen from '../../components/modules/MySpaces/HomeMenuScreen';
 
 const MySpacesStack = (props: any) => {
   const {space, navigation} = props?.route?.params;
@@ -18,6 +19,7 @@ const MySpacesStack = (props: any) => {
         name="MySpacesScreen"
         children={(props: any) => <MySpacesScreen space={space} {...props} />}
         options={{
+          headerShown: false,
           headerTitle: '',
           // headerTitle: I18n.t('myPartners'),
           headerTitleStyle: {
@@ -57,15 +59,17 @@ const MySpacesStack = (props: any) => {
           },
         }}
       />
-      {/* <Stack.Screen name="CommentsScreen" component={CommentsScreen}
-                options={{
-                    headerTitle: I18n.t("comments"),
-                    headerTitleStyle: {
-                        fontFamily: fonts.type.NunitoSemiBold,
-                        fontSize: fonts.size.font16
-                    }
-                }}
-            /> */}
+      <Stack.Screen
+        name="HomeMenuScreen"
+        component={HomeMenuScreen}
+        options={{
+          headerTitle: I18n.t('comments'),
+          headerTitleStyle: {
+            fontFamily: fonts.type.NunitoSemiBold,
+            fontSize: fonts.size.font16,
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 };
