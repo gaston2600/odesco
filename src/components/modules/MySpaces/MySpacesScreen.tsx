@@ -62,6 +62,7 @@ const MySpacesScreen = (props: any) => {
     {
       name: 'Administration',
       icon: require('../../../../assets/icons/menu/inst.png'),
+      route: 'AdminisrationScreen',
     },
     {
       name: 'Cours',
