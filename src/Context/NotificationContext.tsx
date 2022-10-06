@@ -32,38 +32,10 @@ export default function ({children}: any) {
     console.log('Message handled in the background!', remoteMessage);
   });
 
-  const sendLocalNotif = (data: any) => {
-    console.log({data});
-    try {
-      const local = JSON.parse(data?.data?.createdBy);
-      console.log({local});
-
-      PushNotification.localNotification({
-        channelId: 'remote-notification',
-        title: data?.notification?.title,
-        // title: data?.notification?.ititle,
-        message: data?.notification?.body, // (required)
-        // color: colors.primary,
-        allowWhileIdle: true, // (optional) set notification to work while on doze, default: false
-        largeIcon: 'ic_launcher', // (optional) default: "ic_launcher". Use "" for no large icon.
-        // largeIconUrl: "https://www.example.tld/picture.jpg", // (optional) default: undefined
-        smallIcon: 'ic_notification',
-        // bigPictureUrl: `${urls.baseURL}/${data?.notification?.android?.imageUrl}`, // (optional) default: undefined
-        vibrate: true, // (optional) default: true
-        vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
-        /* Android Only Properties */
-        repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('A new FCM message arrived!', remoteMessage);
       handelSendNotif(remoteMessage);
-      sendLocalNotif(remoteMessage);
 
       // Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
     });
@@ -71,34 +43,20 @@ export default function ({children}: any) {
     return unsubscribe;
   }, []);
 
+  async function getToken() {
+    await messaging().registerDeviceForRemoteMessages();
+    const token = await messaging().getToken();
+    console.log({token});
+
+    // save the token to the db
+  }
+  useEffect(() => {
+    getToken();
+  }, []);
+
   function handelSendNotif(params: any) {
-    // console.log(params);
-    switch (params?.data?.action) {
-      case 'UPDATE_PLANNING':
-        // sendLocalNotifPlanning({
-        //   title: params?.notification?.title,
-        //   message: params?.data?.message,
-        // });
-        break;
-      case 'TASK_WITH_NO_TEAM':
-        console.log(
-          '-------------------------------------',
-          'Task with no team',
-        );
-
-        // sendLocalNotifTaskWithNoTeam(params);
-        break;
-      case 'TEST':
-        // sendLocalNotif({
-        //   title: params?.notification?.title,
-        //   message: params?.data?.message,
-        // });
-        break;
-
-      default:
-        sendLocalNotif(params);
-        break;
-    }
+    console.log(params);
+    sendLocalNotif(params);
   }
 
   const initiate = (hideNotif = false) => {
@@ -112,30 +70,8 @@ export default function ({children}: any) {
         console.log('NOTIFICATION:', notification);
         try {
           const data = JSON.parse(notification?.data);
+          console.log({data});
         } catch (error) {}
-        // if (notification?.foreground) {
-        //   sendLocalNotif({ notification });
-        // } else {
-        //   console.log("forground Notification");
-        // }
-
-        if (notification?.category == 'POINTING') {
-          Linking.openURL(
-            notification?.data?.type === 'start'
-              ? 'applibtp://app/Pointings'
-              : 'applibtp://app/Report',
-          )
-            .then(res => console.log(res))
-            .catch(e => console.log(e));
-        } else if (notification?.userInteraction) {
-          Linking.openURL('applibtp://app/Notifications')
-            .then(res => {
-              console.log(res);
-            })
-            .catch(e => {
-              console.log(e);
-            });
-        }
       },
       onAction: function (notification) {
         console.log('ACTION:', notification.action);
@@ -154,19 +90,6 @@ export default function ({children}: any) {
       popInitialNotification: false,
       requestPermissions: Platform.OS === 'ios',
     });
-
-    PushNotification.createChannel(
-      {
-        channelId: 'working-time',
-        channelName: 'Working time channel',
-        channelDescription: 'A channel to receive working times notifications',
-        playSound: true,
-        soundName: 'default',
-        importance: Importance.HIGH,
-        vibrate: true,
-      },
-      created => {},
-    );
     PushNotification.createChannel(
       {
         channelId: 'remote-notification',

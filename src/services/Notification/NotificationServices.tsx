@@ -6,9 +6,6 @@ import moment from 'moment';
 export const sendLocalNotif = (data: any) => {
   console.log({data});
   try {
-    const local = JSON.parse(data?.data?.createdBy);
-    console.log({local});
-
     PushNotification.localNotification({
       channelId: 'remote-notification',
       title: data?.notification?.title,
@@ -19,7 +16,8 @@ export const sendLocalNotif = (data: any) => {
       largeIcon: 'ic_launcher', // (optional) default: "ic_launcher". Use "" for no large icon.
       // largeIconUrl: "https://www.example.tld/picture.jpg", // (optional) default: undefined
       smallIcon: 'ic_notification',
-      bigPictureUrl: `${urls.baseURL}/${data?.notification?.android?.imageUrl}`, // (optional) default: undefined
+      bigPictureUrl: `${data?.notification?.android?.imageUrl}`, // (optional) default: undefined
+      // bigPictureUrl: `${urls.baseURL}/${data?.notification?.android?.imageUrl}`, // (optional) default: undefined
       vibrate: true, // (optional) default: true
       vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
       /* Android Only Properties */
