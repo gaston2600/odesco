@@ -108,8 +108,8 @@ const MenuScreen = (props: any) => {
               height: compteSize,
               width: compteSize,
               borderRadius: compteSize,
-              borderWidth: inversed ? 2 : 1,
-              borderColor: inversed ? colors.primary : colors.grey,
+              borderWidth: !inversed ? 2 : 1,
+              borderColor: !inversed ? colors.primary : colors.grey,
               // height: 40,
               // width: 40,
               // borderRadius: 40,
@@ -152,7 +152,7 @@ const MenuScreen = (props: any) => {
             name={String(data?.first_name)?.slice(0, 2)}
             uri={extractImage(data?.avatar?.path)}
             size={data?._id === defaultPartner ? compteSize * 1.5 : compteSize}
-            inversed={inversed}
+            inversed={!inversed}
           />
         </View>
 
