@@ -73,19 +73,17 @@ const PublicHomeScreen = () => {
       <View style={styles.bodyConatainerStyle}>
         <FlatList
           horizontal
-          bounces
-          pagingEnabled
           data={list}
           renderItem={({item}) => renderItem(item)}
           keyExtractor={item => item?.title}
         />
       </View>
-      <View style={styles.dotsContainerStyle}>
+      {/* <View style={styles.dotsContainerStyle}>
         <View style={styles.SelectedDotStyle} />
         <View style={styles.dotStyle} />
         <View style={styles.dotStyle} />
         <View style={styles.dotStyle} />
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -102,7 +100,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
   },
   itemContainerStyle: {
-    width: ScreenWidth * 0.9,
+    width: ScreenWidth * 0.75,
     margin: ScreenWidth * 0.05,
     height: 280,
     // borderWidth: 1,

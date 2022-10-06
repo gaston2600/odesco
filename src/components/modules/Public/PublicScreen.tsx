@@ -32,6 +32,7 @@ const PublicScreen = (props: any) => {
         <PublicHomeScreen navigation={navigation} />
         <PublicServicesScreen navigation={navigation} />
         <PublicInstScreen navigation={navigation} />
+        <PublicHeaderCmp navigation={navigation} />
       </ScrollView>
     </View>
   );

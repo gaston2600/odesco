@@ -53,16 +53,15 @@ const PublicInstScreen = () => {
       <FlatList
         data={list}
         horizontal
-        pagingEnabled
         renderItem={({item}) => renderItem(item)}
         keyExtractor={item => item?.title}
       />
-      <View style={styles.dotsContainerStyle}>
+      {/* <View style={styles.dotsContainerStyle}>
         <View style={styles.SelectedDotStyle} />
         <View style={styles.dotStyle} />
         <View style={styles.dotStyle} />
         <View style={styles.dotStyle} />
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   itemContainerStyle: {
-    width: ScreenWidth * 0.9,
+    width: ScreenWidth * 0.75,
     marginHorizontal: ScreenWidth * 0.05,
     // height: 250,
     padding: 10,
@@ -89,6 +88,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     alignSelf: 'center',
     marginVertical: 10,
+    marginBottom: 25,
     ...globalStyles.shadow,
   },
   imageContainerStyle: {

@@ -22,7 +22,8 @@ const PublicHeaderCmp = (props: any) => {
             navigation?.navigate('AuthStack');
           }}
           style={styles.buttonStyle}>
-          <Icons.AntDesign name="login" size={25} color={colors.white} />
+          <Text style={styles.buttonTextStyle}>Connexion</Text>
+          {/* <Icons.AntDesign name="login" size={25} color={colors.white} /> */}
         </Pressable>
       </View>
     </View>
@@ -60,14 +61,14 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     padding: 5,
-    // paddingHorizontal: 10,
-    // borderWidth: 1,
+    paddingHorizontal: 10,
+    borderWidth: 1,
     borderRadius: 20,
     borderColor: colors.white,
   },
   buttonTextStyle: {
     fontFamily: fonts.type.NunitoMedium,
-    fontSize: fonts.size.font12,
+    fontSize: fonts.size.font10,
     color: colors.white,
   },
 });
