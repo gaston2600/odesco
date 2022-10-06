@@ -32,7 +32,7 @@ import configAxios from '../../services';
 import authSrv from '../../services/authSrv';
 import userSrv from '../../services/userSrv';
 
-export const login = (
+export const login: any = (
   email: any,
   password: any,
   callback: any,

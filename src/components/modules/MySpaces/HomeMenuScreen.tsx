@@ -27,8 +27,8 @@ import {
 } from '../../../store/actions';
 import {extractImage} from '../../../helpers/extractImage';
 
-const HomeMenuModal = (props: any) => {
-  const {visible, setVisible, navigation} = props;
+const HomeMenuScreen = (props: any) => {
+  const {navigation} = props;
 
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -193,21 +193,18 @@ const HomeMenuModal = (props: any) => {
   useEffect(() => {
     getMyInsitutions();
   }, [isFocused]);
-  console.log('====================================');
-  console.log(visible);
-  console.log('====================================');
-
   return (
-    <Modal
-      visible={visible}
-      onRequestClose={() => {
-        setVisible(false);
+    <View
+      style={{
+        flex: 1,
       }}>
       <View style={styles.containerStyle}>
         <View style={styles.headerContainerStyle}>
           <Text style={styles.headerTitleTextStyle}></Text>
           <Pressable
-            onPress={() => setVisible(false)}
+            onPress={() => {
+              navigation?.goBack();
+            }}
             style={styles.closeContainerStyle}>
             <Icons.AntDesign name="left" size={20} color={colors.black} />
           </Pressable>
@@ -288,11 +285,11 @@ const HomeMenuModal = (props: any) => {
           </View>
         </View>
       </View>
-    </Modal>
+    </View>
   );
 };
 
-export default HomeMenuModal;
+export default HomeMenuScreen;
 
 const styles = StyleSheet.create({
   containerStyle: {

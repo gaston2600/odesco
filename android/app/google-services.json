@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "833454381306",
+    "project_id": "odesco-ae31a",
+    "storage_bucket": "odesco-ae31a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833454381306:android:33036581a3608b02169143",
+        "android_client_info": {
+          "package_name": "com.odesco"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833454381306-le1jdo2oj54baki51qe1qfqmr5hsagdu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYVw_iwuxATBSm0IGpfD5cocU5GyL-dhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833454381306-le1jdo2oj54baki51qe1qfqmr5hsagdu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
