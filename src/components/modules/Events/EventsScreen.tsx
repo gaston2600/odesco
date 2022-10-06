@@ -8,7 +8,7 @@ import {Divider} from '@rneui/themed';
 import I18n from 'react-native-i18n';
 
 const EventsScreen = (props: any) => {
-  const {navigation} = props;
+  const {navigation, space} = props;
   const [searchInput, setSearchInput] = useState('');
   const [showSearchInput, setShowSearchInput] = useState(false);
   return (
@@ -58,7 +58,7 @@ const EventsScreen = (props: any) => {
         style={{
           flex: 1,
         }}>
-        <EventTabNavigator searchInput={searchInput} />
+        <EventTabNavigator searchInput={searchInput} space={space} />
       </View>
     </View>
   );

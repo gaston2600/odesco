@@ -28,9 +28,7 @@ const {screenWidth, screenHeight} = metrics;
 const EventCmp = (props: any) => {
   const dispatch = useDispatch();
   const {data, isInvitation, status} = props;
-  const {user} = useSelector((state: any) => state?.User);
-  console.log({data});
-
+  
   const [visibleSelectInst, setVisibleSelectInst] = useState(false);
   const [loading, setLoading] = useState(false);
   function subscribe(params: any) {

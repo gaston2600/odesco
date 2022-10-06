@@ -49,6 +49,7 @@ const MySpacesScreen = (props: any) => {
     {
       name: 'Évenements',
       icon: require('../../../../assets/icons/menu/events.png'),
+      route: 'EventsScreen',
     },
   ];
 
@@ -74,6 +75,7 @@ const MySpacesScreen = (props: any) => {
     {
       name: 'Évenements',
       icon: require('../../../../assets/icons/menu/events.png'),
+      route: 'EventsScreen',
     },
     {
       name: 'Soutien Scolaire',
@@ -85,8 +87,10 @@ const MySpacesScreen = (props: any) => {
     return (
       <TouchableOpacity
         onPress={() => {
+          console.log({space});
+
           if (params?.route) {
-            navigation?.navigate(params?.route);
+            navigation?.navigate(params?.route, {space});
           }
         }}
         style={[globalStyles.shadow, styles.menuItemContainerStyle]}>

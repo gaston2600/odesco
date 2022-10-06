@@ -90,7 +90,10 @@ const MenuScreen = (props: any) => {
     return (
       <Pressable
         onPress={() => {
-          toggleInst({id: data?.institute?._id, type: 'Institution'});
+          // toggleInst({id: data?.institute?._id, type: 'Institution'});
+          navigation?.navigate('MySpaces', {
+            space: {...data?.institute, type: 'Institution'},
+          });
         }}
         style={styles.instContainerStyle}>
         <View
@@ -107,11 +110,11 @@ const MenuScreen = (props: any) => {
               borderRadius: compteSize,
               borderWidth: inversed ? 2 : 1,
               borderColor: inversed ? colors.primary : colors.grey,
-              height: 40,
-              width: 40,
-              borderRadius: 40,
-              borderWidth: 1,
-              borderColor: colors.primary,
+              // height: 40,
+              // width: 40,
+              // borderRadius: 40,
+              // borderWidth: 1,
+              // borderColor: colors.primary,
             }}
           />
         </View>
@@ -131,7 +134,12 @@ const MenuScreen = (props: any) => {
     return (
       <Pressable
         onPress={() => {
-          toggleInst({id: data?._id, type: 'Partner'});
+          if (data?._id !== defaultPartner) {
+            navigation?.navigate('MySpaces', {
+              space: {...data, type: 'Partner'},
+            });
+          }
+          // toggleInst({id: data?._id, type: 'Partner'});
         }}
         style={styles.instContainerStyle}>
         <View
@@ -224,7 +232,7 @@ const MenuScreen = (props: any) => {
           }}>
           <Icons.AntDesign
             name={!plus ? 'plus' : 'minus'}
-            size={40}
+            size={35}
             color={colors.primary}
           />
         </View>
