@@ -15,7 +15,7 @@ const HomeScreen = (props: any) => {
   const dispatch = useDispatch();
 
   const {user} = useSelector((state: any) => state?.User);
-  console.log({user});
+  // console.log({user});
   const {navigation} = props;
   const modalizeRef = useRef(null);
   const openCommentModalize = () => {
@@ -30,7 +30,7 @@ const HomeScreen = (props: any) => {
     dispatch(getMyPartners({user: user?._id}));
   }
   const state = useSelector(s => s);
-  console.log({state});
+  // console.log({state});
   useEffect(() => {
     if (!!user) {
       getMyInsitutions();

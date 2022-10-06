@@ -12,8 +12,8 @@ import AllEventsScreen from '../../components/modules/Events/Screens/AllEventsSc
 const Tab = createMaterialTopTabNavigator();
 
 function EventTabNavigator(props: any) {
-  console.log({props});
-  const {searchInput} = props;
+  // console.log({props});
+  const {searchInput, space} = props;
   return (
     <Tab.Navigator
       showPageIndicator
@@ -36,7 +36,7 @@ function EventTabNavigator(props: any) {
         name="AllEventScreen"
         // component={AllEventsScreen}
         children={(props: any) => (
-          <AllEventsScreen searchInput={searchInput} {...props} />
+          <AllEventsScreen searchInput={searchInput} {...props} space={space} />
         )}
       />
       {/* <Tab.Screen
@@ -45,20 +45,26 @@ function EventTabNavigator(props: any) {
                 }}
                 name="MyEventScreen"
                 // component={MyEventScreen}
-                children={(props: any) => <MyEventScreen searchInput={searchInput} {...props} />}
+                children={(props: any) => <MyEventScreen searchInput={searchInput} {...props} space={space} />}
             /> */}
-      <Tab.Screen
-        options={{
-          tabBarLabel: () => (
-            <Text style={styles.labelTextStyle}>{I18n.t('invitations')}</Text>
-          ),
-        }}
-        name="InvitEventsScreen"
-        //  component={InvitEventsScreen}
-        children={(props: any) => (
-          <InvitEventsScreen searchInput={searchInput} {...props} />
-        )}
-      />
+      {!space && (
+        <Tab.Screen
+          options={{
+            tabBarLabel: () => (
+              <Text style={styles.labelTextStyle}>{I18n.t('invitations')}</Text>
+            ),
+          }}
+          name="InvitEventsScreen"
+          //  component={InvitEventsScreen}
+          children={(props: any) => (
+            <InvitEventsScreen
+              searchInput={searchInput}
+              {...props}
+              space={space}
+            />
+          )}
+        />
+      )}
     </Tab.Navigator>
   );
 }

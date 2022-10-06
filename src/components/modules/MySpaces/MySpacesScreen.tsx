@@ -17,6 +17,7 @@ import metrics from '../../../theme/metrics';
 import globalStyles from '../../../styles/globalStyles';
 import {Divider} from '@rneui/themed';
 import Icons from '../../../styles/icons';
+import {ScreenWidth} from '@rneui/base';
 const {screenWidth} = metrics;
 
 const MySpacesScreen = (props: any) => {
@@ -49,6 +50,7 @@ const MySpacesScreen = (props: any) => {
     {
       name: 'Évenements',
       icon: require('../../../../assets/icons/menu/events.png'),
+      route: 'EventsScreen',
     },
   ];
 
@@ -61,6 +63,7 @@ const MySpacesScreen = (props: any) => {
     {
       name: 'Administration',
       icon: require('../../../../assets/icons/menu/inst.png'),
+      route: 'AdminisrationScreen',
     },
     {
       name: 'Cours',
@@ -74,6 +77,7 @@ const MySpacesScreen = (props: any) => {
     {
       name: 'Évenements',
       icon: require('../../../../assets/icons/menu/events.png'),
+      route: 'EventsScreen',
     },
     {
       name: 'Soutien Scolaire',
@@ -86,7 +90,7 @@ const MySpacesScreen = (props: any) => {
       <TouchableOpacity
         onPress={() => {
           if (params?.route) {
-            navigation?.navigate(params?.route);
+            navigation?.navigate(params?.route, {space});
           }
         }}
         style={[globalStyles.shadow, styles.menuItemContainerStyle]}>
@@ -98,8 +102,8 @@ const MySpacesScreen = (props: any) => {
           <Image
             source={params.icon}
             style={{
-              height: 50,
-              width: 50,
+              height: ScreenWidth * 0.2,
+              width: ScreenWidth * 0.2,
             }}
             resizeMode="contain"
           />
@@ -219,18 +223,20 @@ const styles = StyleSheet.create({
   menuItemContainerStyle: {
     borderWidth: 0.1,
     width: screenWidth * 0.4,
-    padding: 10,
+    // padding: 10,
+    paddingHorizontal: 5,
+    paddingVertical: 25,
     // flexDirection: "row",
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 15,
+    marginTop: 5,
     // borderRadius: 5,
     // shadowColor: colors.primary
   },
   menuTitleTextStyle: {
-    fontFamily: fonts.type.NunitoSemiBold,
+    fontFamily: fonts.type.NunitoBold,
     fontSize: fonts.size.font12,
-    color: colors.gray,
+    color: colors.primary,
   },
   menuDescTextStyle: {
     fontFamily: fonts.type.NunitoRegular,
