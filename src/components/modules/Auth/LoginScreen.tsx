@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     top: 10,
     left: 10,
     borderRadius: 50,
-    borderWidth: 0.5,
+    // borderWidth: 0.5,
     borderColor: colors.gray,
   },
 });

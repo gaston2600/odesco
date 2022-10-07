@@ -18,30 +18,30 @@ const PublicHomeScreen = () => {
     {
       title: 'ETABLISSEMENT',
       note: 'Le programme avancé reflète la culture de votre école. Statistique du temps de lecture: meilleur étudiant, meilleur professeur... Chat entre les administrateurs, les parents et les enseignants. Envoyer des emails et des SMS filtrés selon vos besoins.',
-      icon: 'school',
+      icon: 'graduation-cap',
     },
     {
       title: 'ETUDIANT',
       note: 'Dévéloppez vos compétances grâce aux conseils et aux observations des enseignants. Dévéloppez votre relation avec vos professeurs. Vous pouvez partager vos nouvelles et vos photos avec vos amis.',
-      icon: 'school',
+      icon: 'user-graduate',
     },
     {
       title: 'ENSEIGNANTS',
       note: 'Vous pouvez communiquer facilement avec vos élèves et leurs parents. Facilitez votre travail et vous obtenez le soutien des parents. Vous pouvez partager vos cours et exercices en ligne',
-      icon: 'school',
+      icon: 'chalkboard-teacher',
     },
     {
       title: 'PARENTS',
       note: "Suivez le moment spécial de votre enfant par moment. Discutez avec les enseignants via le site social de l'école. Suivez l'absence, les notes et les examens de votre enfants.",
-      icon: 'school',
+      icon: 'user-tie',
     },
   ];
   function renderItem(data: any) {
     return (
       <View style={[styles.itemContainerStyle, globalStyles.shadow]}>
         <View style={styles.iconCotainerStyle}>
-          <Icons.Ionicons
-            name="ios-school-outline"
+          <Icons.FontAwesome5
+            name={data?.icon}
             size={20}
             color={colors.white}
           />
@@ -111,8 +111,12 @@ const styles = StyleSheet.create({
   },
   iconCotainerStyle: {
     backgroundColor: colors.primary,
-    padding: 10,
+    // padding: 10,
     borderRadius: 50,
+    height: 40,
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   itemTitleTextStyle: {
     fontFamily: fonts.type.NunitoSemiBold,
