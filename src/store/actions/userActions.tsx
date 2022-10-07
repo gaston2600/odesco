@@ -35,6 +35,7 @@ import userSrv from '../../services/userSrv';
 export const login: any = (
   email: any,
   password: any,
+  deviceId: any,
   callback: any,
   callbackError: any,
 ) => {
@@ -46,7 +47,7 @@ export const login: any = (
     // console.log({ email, password, deviceId, platform });
 
     authSrv
-      .login(email, password)
+      .login(email, password, deviceId)
       .then(async (response: any) => {
         console.log({response});
 

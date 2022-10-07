@@ -82,7 +82,9 @@ const PostsListCmp = (props: any) => {
     dispatch(
       getPostsList(
         {limit, offset: 0, partner: defaultPartner, filters: null},
-        res => console.log({res}),
+        (res) =>{
+          //  console.log({res})
+          },
         () => null,
       ),
     );

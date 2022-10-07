@@ -26,4 +26,5 @@ export const urls = {
   schoolingNetwork: '/api/schooling/network',
   chat: '/api/chat',
   trainings: '/api/trainings',
+  notifications: '/api/notifications',
 };

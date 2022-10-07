@@ -2,10 +2,10 @@ import axios from 'axios';
 import {urls} from '../utils';
 
 const authSrv = {
-  login: (email: String = '', password: String = '') => {
+  login: (email: String = '', password: String = '', deviceId = '') => {
     return new Promise((resolve, reject) => {
       return axios
-        .post(`${urls.login}`, {email, pass: password})
+        .post(`${urls.login}`, {email, pass: password, deviceId})
         .then(resp => {
           resolve(resp);
         })
@@ -22,7 +22,7 @@ const authSrv = {
         .catch(e => reject(e));
     });
   },
-  
+
   verifPhone: (data: any) => {
     const formData = new FormData();
     if (data?.userId) {

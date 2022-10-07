@@ -106,7 +106,13 @@ const TabNavigator = (props: any) => {
             },
           }}
         />
-        <Tab.Screen name="Notification" component={NotificationScreen} />
+        <Tab.Screen
+          name="Notification"
+          component={NotificationScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Tab.Screen
           options={{
             headerShown: false,
