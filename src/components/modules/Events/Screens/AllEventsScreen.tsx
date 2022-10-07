@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getEvents} from '../../../../store/actions/eventsActions';
+import {getEvents, getMyEvents} from '../../../../store/actions/eventsActions';
 import colors from '../../../../styles/colors';
 import Icons from '../../../../styles/icons';
 import EventCmp from '../components/EventCmp';
@@ -18,22 +18,43 @@ import fonts from '../../../../theme/fonts';
 const AllEventsScreen = (props: any) => {
   const dispatch = useDispatch();
 
-  const {events, loading} = useSelector((state: any) => state?.Events);
+  const {events, myEvents, loading} = useSelector(
+    (state: any) => state?.Events,
+  );
 
-  const {searchInput} = props;
+  const {searchInput, space} = props;
 
   function getPage() {
-    dispatch(
-      getEvents(
-        {
-          filters: {
-            searchInput,
+    if (!!space) {
+      dispatch(
+        getMyEvents(
+          {
+            filters: {
+              searchInput,
+              partner: space?.type === 'Partner' ? space?._id : '',
+              institution: space?.type === 'Institution' ? space?._id : '',
+            },
+            limit: 100,
+            offset: 0,
           },
-        },
-        () => null,
-        () => null,
-      ),
-    );
+          () => null,
+          () => null,
+        ),
+      );
+    } else {
+      dispatch(
+        getEvents(
+          {
+            filters: {
+              searchInput,
+              partner: space?._id,
+            },
+          },
+          () => null,
+          () => null,
+        ),
+      );
+    }
   }
   useEffect(() => {
     getPage();
@@ -74,7 +95,7 @@ const AllEventsScreen = (props: any) => {
 
             </View> */}
       <FlatList
-        data={events}
+        data={!!space ? myEvents : events}
         renderItem={({item}) => <EventCmp data={item} />}
         ListEmptyComponent={() => (
           <View

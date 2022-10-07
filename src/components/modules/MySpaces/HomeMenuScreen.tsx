@@ -28,7 +28,7 @@ import {
 import {extractImage} from '../../../helpers/extractImage';
 
 const HomeMenuScreen = (props: any) => {
-  const {visible, setVisible, navigation} = props;
+  const {navigation} = props;
 
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -202,7 +202,9 @@ const HomeMenuScreen = (props: any) => {
         <View style={styles.headerContainerStyle}>
           <Text style={styles.headerTitleTextStyle}></Text>
           <Pressable
-            onPress={() => setVisible(false)}
+            onPress={() => {
+              navigation?.goBack();
+            }}
             style={styles.closeContainerStyle}>
             <Icons.AntDesign name="left" size={20} color={colors.black} />
           </Pressable>
