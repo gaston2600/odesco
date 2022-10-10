@@ -55,7 +55,8 @@ const list = [
   },
 ];
 
-const NotificationScreen = () => {
+const NotificationScreen = (props: any) => {
+  const {navigation} = props;
   const dispatch = useDispatch();
 
   const {notifications, loading} = useSelector(
@@ -80,7 +81,9 @@ const NotificationScreen = () => {
       <FlatList
         // data={list}
         data={notifications}
-        renderItem={({item}) => <NotificationCmp data={item} />}
+        renderItem={({item}) => (
+          <NotificationCmp data={item} navigation={navigation} />
+        )}
         keyExtractor={item => item?._id}
         ItemSeparatorComponent={() => <Divider orientation="horizontal" />}
         refreshControl={
@@ -98,6 +101,7 @@ const NotificationScreen = () => {
             style={{
               alignItems: 'center',
               justifyContent: 'center',
+              flex: 1,
             }}>
             <Text
               style={{
@@ -105,7 +109,7 @@ const NotificationScreen = () => {
                 fontSize: fonts.size.font12,
                 color: colors.grey,
               }}>
-              Aucune Publication
+              Aucune Notification
             </Text>
           </View>
         )}

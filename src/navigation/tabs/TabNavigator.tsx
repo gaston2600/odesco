@@ -1,6 +1,6 @@
 /* eslint-disable no-fallthrough */
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../components/modules/Home/HomeScreen';
 import NetworkScreen from '../../components/modules/Network/NetworkScreen';
@@ -16,10 +16,24 @@ import fonts from '../../theme/fonts';
 import HomeDrawer from '../drawers/HomeDrawer';
 import HeaderHomeCmp from '../../components/modules/Home/components/HeaderHomeCmp';
 import MySpacesStack from '../stacks/MySpacesStack';
+import {useSelector} from 'react-redux';
 
 const TabNavigator = (props: any) => {
   const {navigation} = props;
   const Tab = createBottomTabNavigator();
+  const chatRooms = useSelector((state: any) => state?.Chat);
+  const [newMessage, setNewMessage] = useState(false);
+
+  function hasNewMessage() {
+    setNewMessage(
+      Array.from(chatRooms?.chatRooms || [])?.some((v: any) => !v?.isRead),
+    );
+  }
+
+  useEffect(() => {
+    hasNewMessage();
+  }, [chatRooms]);
+  console.log({newMessage});
 
   return (
     <View style={{flex: 1}}>
@@ -62,7 +76,23 @@ const TabNavigator = (props: any) => {
 
             // You can return any component that you like here!
             return (
-              <Icons.Feather name={iconName} size={size} color={iconColor} />
+              <View>
+                <Icons.Feather name={iconName} size={size} color={iconColor} />
+                {route?.name === 'Chat' && newMessage && (
+                  <View
+                    style={{
+                      height: 10,
+                      width: 10,
+                      borderRadius: 50,
+                      backgroundColor: colors.orange,
+                      position: 'absolute',
+                      top: -5,
+                      right: -5,
+                      zIndex: 5,
+                    }}
+                  />
+                )}
+              </View>
             );
           },
           tabBarShowLabel: false,
@@ -120,7 +150,7 @@ const TabNavigator = (props: any) => {
           name="Menu"
           component={MenuStack}
         />
-        {/* 
+        {/*
         <Tab.Screen
           name="MySpaces"
           component={MySpacesStack}

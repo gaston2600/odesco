@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import fonts from '../../../../theme/fonts';
 import colors from '../../../../styles/colors';
@@ -9,7 +9,7 @@ import {getOneNotifcation} from '../../../../store/actions/notificationActions';
 
 const NotificationCmp = (props: any) => {
   const dispatch = useDispatch();
-  const {data} = props;
+  const {data, navigation} = props;
   console.log({data});
 
   function renderIconModel(params: any) {
@@ -32,6 +32,22 @@ const NotificationCmp = (props: any) => {
       </View>
     );
   }
+  function goTo(params: any) {
+    let to = '';
+    switch (params) {
+      case 'Network':
+        to = 'Network';
+        break;
+      case 'Event':
+        to = 'Event';
+        break;
+
+      default:
+        to = '';
+        break;
+    }
+    navigation?.navigate(to);
+  }
 
   function markRead() {
     dispatch(getOneNotifcation({id: data?._id}));
@@ -44,7 +60,10 @@ const NotificationCmp = (props: any) => {
   }, []);
 
   return (
-    <View
+    <Pressable
+      onPress={() => {
+        goTo(data?.data?.model);
+      }}
       style={[
         styles.containerStyle,
         data?.data?.isReaded && {backgroundColor: `${colors.primary}10`},
@@ -56,7 +75,7 @@ const NotificationCmp = (props: any) => {
         </Text>
         <Text style={styles.dateTextStyle}>{moment().format('llll')}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

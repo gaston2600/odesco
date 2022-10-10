@@ -9,12 +9,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getMyInstitutions} from '../../../store/actions/institutionsActions';
 import {getMyPartners} from '../../../store/actions';
 import NewPostCmp from './components/NewPostCmp';
+import {getRoomsList} from '../../../store/actions/chatActions';
 // import YoutubePlayer from "react-native-youtube-iframe";
 
 const HomeScreen = (props: any) => {
   const dispatch = useDispatch();
 
   const {user} = useSelector((state: any) => state?.User);
+
+  const {defaultPartner} = useSelector((state: any) => state?.Inst);
   // console.log({user});
   const {navigation} = props;
   const modalizeRef = useRef(null);
@@ -28,6 +31,18 @@ const HomeScreen = (props: any) => {
   function getMyInsitutions() {
     dispatch(getMyInstitutions({}));
     dispatch(getMyPartners({user: user?._id}));
+    dispatch(
+      getRoomsList(
+        {
+          partner: defaultPartner,
+          limit: 1000,
+        },
+        () => {},
+        (err: any) => {
+          console.log({err});
+        },
+      ),
+    );
   }
   const state = useSelector(s => s);
   // console.log({state});
