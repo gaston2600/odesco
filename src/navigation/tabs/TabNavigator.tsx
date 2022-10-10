@@ -33,7 +33,6 @@ const TabNavigator = (props: any) => {
   useEffect(() => {
     hasNewMessage();
   }, [chatRooms]);
-  console.log({newMessage});
 
   return (
     <View style={{flex: 1}}>
