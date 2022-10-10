@@ -21,7 +21,9 @@ const NotificationCmp = (props: any) => {
       case 'Event':
         iconName = 'calendar';
         break;
-
+      case 'ChatMessage':
+        iconName = 'message-circle';
+        break;
       default:
         iconName = 'bell';
         break;
@@ -70,9 +72,23 @@ const NotificationCmp = (props: any) => {
       ]}>
       {renderIconModel(data?.data?.model)}
       <View style={styles.contentContainerStyle}>
-        <Text numberOfLines={2} style={styles.messageTextStyle}>
-          {data?.data?.message}
-        </Text>
+        {data?.data?.model === 'ChatMessage' ? (
+          <View>
+            <Text numberOfLines={2} style={styles.titleMessageTextStyle}>
+              {`${data?.data?.payload?.postedByPartner?.first_name} ${data?.data?.payload?.postedByPartner?.last_name}`}
+            </Text>
+            <Text
+              numberOfLines={2}
+              style={
+                styles.messageTextStyle
+              }>{`${data?.data?.payload?.message}`}</Text>
+          </View>
+        ) : (
+          <Text numberOfLines={2} style={styles.titleMessageTextStyle}>
+            {data?.data?.message}
+          </Text>
+        )}
+
         <Text style={styles.dateTextStyle}>{moment().format('llll')}</Text>
       </View>
     </Pressable>
@@ -95,7 +111,7 @@ const styles = StyleSheet.create({
     fontSize: fonts.size.font12,
     color: colors.darkBlue,
   },
-  messageTextStyle: {
+  titleMessageTextStyle: {
     fontFamily: fonts.type.NunitoMedium,
     fontSize: fonts.size.font12,
     color: colors.gray,
@@ -108,6 +124,11 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     flex: 6,
     padding: 10,
+  },
+  messageTextStyle: {
+    fontFamily: fonts.type.NunitoRegular,
+    fontSize: fonts.size.font10,
+    color: colors.grey,
   },
   dateTextStyle: {
     fontFamily: fonts.type.NunitoRegular,

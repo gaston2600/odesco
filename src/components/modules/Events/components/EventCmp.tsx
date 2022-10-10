@@ -32,7 +32,7 @@ const EventCmp = (props: any) => {
   const [visibleSelectInst, setVisibleSelectInst] = useState(false);
   const [loading, setLoading] = useState(false);
   const selectedSpace = useSelector((state: any) => state?.User);
-  console.log(data);
+  
   function subscribe() {
     setLoading(true);
     // setVisibleSelectInst(false);
@@ -78,7 +78,6 @@ const EventCmp = (props: any) => {
       (v: any) => v?.partner === selectedSpace?._id,
     );
   }
-  console.log({isSubscribed: isSubscribed()});
 
   return (
     <View style={[styles.containerStyle, globalStyles.shadow]}>
