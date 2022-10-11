@@ -43,7 +43,9 @@ const NotificationCmp = (props: any) => {
       case 'Event':
         to = 'Event';
         break;
-
+      case 'ChatMessage':
+        to = 'Chat';
+        break;
       default:
         to = '';
         break;

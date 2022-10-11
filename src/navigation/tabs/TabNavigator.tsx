@@ -1,38 +1,72 @@
-/* eslint-disable no-fallthrough */
-import {StyleSheet, Text, View} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import {StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../components/modules/Home/HomeScreen';
 import NetworkScreen from '../../components/modules/Network/NetworkScreen';
 import ChatScreen from '../../components/modules/Chat/ChatScreen';
 import NotificationScreen from '../../components/modules/Notification/NotificationScreen';
-import MenuScreen from '../../components/modules/Menu/MenuScreen';
 import Icons from '../../styles/icons';
 import colors from '../../styles/colors';
-import HomeStack from '../stacks/HomeStack';
 import MenuStack from '../stacks/MenuStack';
 import I18n from 'react-native-i18n';
 import fonts from '../../theme/fonts';
-import HomeDrawer from '../drawers/HomeDrawer';
 import HeaderHomeCmp from '../../components/modules/Home/components/HeaderHomeCmp';
-import MySpacesStack from '../stacks/MySpacesStack';
 import {useSelector} from 'react-redux';
 
 const TabNavigator = (props: any) => {
   const {navigation} = props;
   const Tab = createBottomTabNavigator();
   const chatRooms = useSelector((state: any) => state?.Chat);
+  const notifcations = useSelector((state: any) => state?.Notification);
+  const state = useSelector(s => s);
+  console.log(state);
+
   const [newMessage, setNewMessage] = useState(false);
+  const [newNotfication, setNewNotfication] = useState(false);
 
   function hasNewMessage() {
     setNewMessage(
       Array.from(chatRooms?.chatRooms || [])?.some((v: any) => !v?.isRead),
     );
   }
+  function hasNewNotfication() {
+    console.log(
+      Array.from(notifcations || [])?.some((v: any) => !v?.is_readed),
+      notifcations,
+    );
+
+    setNewNotfication(
+      Array.from(notifcations || [])?.some((v: any) => {
+        console.log(v?.is_readed);
+
+        return !v?.is_readed;
+      }),
+    );
+  }
 
   useEffect(() => {
     hasNewMessage();
   }, [chatRooms]);
+
+  useEffect(() => {
+    hasNewNotfication();
+  }, [notifcations]);
+
+  const badge = (
+    <View
+      style={{
+        height: 10,
+        width: 10,
+        borderRadius: 50,
+        backgroundColor: colors.orange,
+        position: 'absolute',
+        top: -5,
+        right: -5,
+        zIndex: 5,
+      }}
+    />
+  );
 
   return (
     <View style={{flex: 1}}>
@@ -77,20 +111,8 @@ const TabNavigator = (props: any) => {
             return (
               <View>
                 <Icons.Feather name={iconName} size={size} color={iconColor} />
-                {route?.name === 'Chat' && newMessage && (
-                  <View
-                    style={{
-                      height: 10,
-                      width: 10,
-                      borderRadius: 50,
-                      backgroundColor: colors.orange,
-                      position: 'absolute',
-                      top: -5,
-                      right: -5,
-                      zIndex: 5,
-                    }}
-                  />
-                )}
+                {route?.name === 'Chat' && newMessage && badge}
+                {route?.name === 'Notification' && newNotfication && badge}
               </View>
             );
           },
