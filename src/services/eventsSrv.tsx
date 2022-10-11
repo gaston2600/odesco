@@ -46,6 +46,21 @@ const eventsSrv = {
         .catch(e => reject(e));
     });
   },
+  post: (data: any) => {
+    console.log({data});
+
+    return new Promise(async (resolve, reject) => {
+      return axios
+        .post(`${urls.events}`, data, {
+          headers: {'Content-Type': 'multipart/form-data'},
+        })
+        .then(resp => {
+          console.log({resp});
+          resolve(resp);
+        })
+        .catch(e => reject(e));
+    });
+  },
 };
 
 export default eventsSrv;

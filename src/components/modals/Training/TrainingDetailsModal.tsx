@@ -28,7 +28,7 @@ const TrainingDetailsModal = (props: any) => {
     if (params?.is_hybrid) {
       return I18n.t('hybrid');
     } else if (params?.is_online) {
-      return I18n.t('onligne');
+      return I18n.t('online');
     } else {
       return I18n.t('presential');
     }

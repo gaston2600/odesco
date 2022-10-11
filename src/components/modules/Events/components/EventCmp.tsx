@@ -32,7 +32,7 @@ const EventCmp = (props: any) => {
   const [visibleSelectInst, setVisibleSelectInst] = useState(false);
   const [loading, setLoading] = useState(false);
   const selectedSpace = useSelector((state: any) => state?.User);
-  
+
   function subscribe() {
     setLoading(true);
     // setVisibleSelectInst(false);
@@ -98,7 +98,9 @@ const EventCmp = (props: any) => {
       </View>
       <View style={[styles.bodyContainerStyle]}>
         <Text style={styles.titleTextStyle}>{data?.name}</Text>
-        <Text style={styles.descTextStyle}>{I18n.t(data?.type)}</Text>
+        {!!data?.type && (
+          <Text style={styles.descTextStyle}>{I18n.t(data?.type)}</Text>
+        )}
         <View style={styles.rowContainer}>
           <Icons.FontAwesome name="university" size={15} color={colors.grey} />
           <Text style={styles.instTitleTextStyle}>
@@ -184,7 +186,7 @@ const EventCmp = (props: any) => {
         ) : null}
         {data?.is_online || data?.is_hybrid ? (
           <View style={styles.statusContainerStyle}>
-            <Text style={styles.statusTextStyle}>{I18n.t('onligne')}</Text>
+            <Text style={styles.statusTextStyle}>{I18n.t('online')}</Text>
           </View>
         ) : null}
         {data?.is_presential || data?.is_hybrid ? (
