@@ -107,24 +107,21 @@ const AddEventModal = (props: any) => {
   function submit() {
     if (!!checkData()) {
     } else {
-      console.log('====================================');
-      console.log(payload);
-      console.log('====================================');
-      //   setLoading(true);
-      //   dispatch(
-      //     createEvent(
-      //       payload,
-      //       () => {
-      //         setLoading(false);
-      //         refresh();
-      //         setVisible(!visible);
-      //       },
-      //       (err: any) => {
-      //         console.log({err});
-      //         setLoading(false);
-      //       },
-      //     ),
-      //   );
+      setLoading(true);
+      dispatch(
+        createEvent(
+          payload,
+          () => {
+            setLoading(false);
+            refresh();
+            setVisible(!visible);
+          },
+          (err: any) => {
+            console.log({err});
+            setLoading(false);
+          },
+        ),
+      );
     }
   }
 
