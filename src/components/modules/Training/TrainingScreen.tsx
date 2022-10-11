@@ -1,4 +1,11 @@
-import {FlatList, RefreshControl, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {getTrainingList} from '../../../store/actions/trainingActions';
@@ -6,12 +13,15 @@ import colors from '../../../styles/colors';
 import globalStyles from '../../../styles/globalStyles';
 import I18n from 'react-native-i18n';
 import TrainingCmp from './components/TrainingCmp';
+import Icons from '../../../styles/icons';
+import AddTrainingModal from '../../modals/Training/AddTrainingModal';
 
 const TrainingScreen = (props: any) => {
   const dispatch = useDispatch();
   const {space} = props;
   const [trainings, setTrainings] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showAddFormation, setShowAddFormation] = useState(false);
 
   function getPage() {
     setLoading(true);
@@ -65,6 +75,22 @@ const TrainingScreen = (props: any) => {
           </View>
         )}
       />
+      {!!space && (
+        <Pressable
+          onPress={() => {
+            setShowAddFormation(!showAddFormation);
+          }}
+          style={styles.addContainerStyle}>
+          <Icons.AntDesign name="plus" size={20} color={colors.white} />
+        </Pressable>
+      )}
+      {showAddFormation && (
+        <AddTrainingModal
+          visible={showAddFormation}
+          setVisible={setShowAddFormation}
+          space={space}
+        />
+      )}
     </View>
   );
 };
@@ -77,5 +103,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     // alignItems: 'center',
     // justifyContent: 'center',
+  },
+  addContainerStyle: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: colors.primary,
+    padding: 10,
+    borderRadius: 50,
   },
 });

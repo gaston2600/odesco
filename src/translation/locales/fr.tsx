@@ -79,6 +79,8 @@ const fr = {
 
   event_name: "Nom d'évenement",
   add_new_event: 'Ajouter évenement',
+  add_new_training: 'Ajouter Formation',
+  training_name: 'Nom de la formation',
 
   diplome: 'Diplôme',
   startDate: 'Date De Début',
