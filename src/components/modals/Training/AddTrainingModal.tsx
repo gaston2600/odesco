@@ -16,7 +16,7 @@ import Icons from '../../../styles/icons';
 import I18n from 'react-native-i18n';
 import {CheckBox, Divider} from '@rneui/themed';
 import {addImage, takeImage} from '../../common/CameraActions';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import DatePicker from 'react-native-date-picker';
 import ButtonCmp from '../../common/ButtonCmp';
 import {ScreenWidth} from '@rneui/base';
@@ -24,13 +24,18 @@ import {Picker} from '@react-native-picker/picker';
 import moment from 'moment';
 import ImagePicker from '../../common/ImagePicker';
 import {trainingThemes} from '../../../config/CONSTANTS';
+import AddDayCmp from './AddDayCmp';
+import AddPeriodCmp from './AddPeriodCmp';
+import {createTraining} from '../../../store/actions/trainingActions';
 
 const AddTrainingModal = (props: any) => {
   const {visible, setVisible, space} = props;
+  const dispatch = useDispatch();
 
   const {user} = useSelector((state: any) => state?.User);
   const [payload, setPayload] = useState({
     name: '',
+    duration: 10,
     cover: null,
     type: '',
     date_start: new Date(),
@@ -42,17 +47,41 @@ const AddTrainingModal = (props: any) => {
     is_online: false,
     is_hybrid: false,
     is_presential: false,
+    is_free: true,
+    price: '0',
+    currency: 'TND',
     address: '',
     link: '',
     user: user?._id,
     inst_id: space?._id,
+    days: [
+      {
+        day: null,
+        times: [{timeFrom: '', timeTo: '', duration: ''}],
+      },
+    ],
+    periods: [
+      {
+        dayFrom: null,
+        dayTo: null,
+        times: [{timeFrom: '', timeTo: '', duration: ''}],
+      },
+    ],
   });
 
   const [loading, setLoading] = useState(false);
   const refImageModal = useRef();
   const [showStartDate, setShowStartDate] = useState(false);
   const [showEndDate, setShowEndDate] = useState(false);
-  const [showBeforeDate, setShowBeforeDate] = useState(false);
+  const [isPeriod, setIsPeriod] = useState(false);
+
+  const [showDateJour, setShowDateJour] = useState(false);
+  const [tempDayIndex, setTempDayIndex] = useState(0);
+  const [tempDayType, setTempDayType] = useState('start');
+
+  const [showStartTimeJour, setShowStartTimeJour] = useState(false);
+  const [showEndTimeJour, setShowEndTimeJour] = useState(false);
+  const [tempTimeIndex, setTempTimeIndex] = useState(0);
 
   async function getImage(params: any) {
     if (params === 'ADD') {
@@ -86,6 +115,147 @@ const AddTrainingModal = (props: any) => {
       [key]: value,
     }));
   }
+
+  function AddDayJour() {
+    setPayload((prev: any) => ({
+      ...prev,
+      days: [
+        ...payload.days,
+        {
+          day: null,
+          times: [{timeFrom: '', timeTo: '', duration: ''}],
+        },
+      ],
+    }));
+  }
+
+  function removeDayJour(index) {
+    setPayload((prev: any) => ({
+      ...prev,
+      days: payload?.days?.filter((_: any, i: any) => i !== index),
+    }));
+  }
+  function editDayJour(index, value) {
+    setPayload((prev: any) => ({
+      ...prev,
+      days: payload?.days?.map((item: any, i: any) => {
+        let temp: any = item;
+        if (i === index) {
+          temp.day = value;
+        }
+        return temp;
+      }),
+    }));
+  }
+
+  function addTimeJour(index: any) {
+    setPayload((prev: any) => ({
+      ...prev,
+      days: payload.days?.map((item: any, i: any) => {
+        let temp = item;
+        if (index === i) {
+          temp?.times?.push({timeFrom: '', timeTo: '', duration: ''});
+        }
+        return temp;
+      }),
+    }));
+  }
+  function removeTimeJour(index: any, indexTime: any) {
+    setPayload((prev: any) => ({
+      ...prev,
+      days: payload.days?.map((item: any, i: any) => {
+        let temp = item;
+        if (index === i) {
+          temp.times = item?.times?.filter((_: any, j: any) => j !== indexTime);
+        }
+        return temp;
+      }),
+    }));
+  }
+
+  function editTimeJour(dayIndex: any, timeIndex: any, key: any, value: any) {
+    const new_times = [...payload?.days[dayIndex].times];
+    if (key === 'start') {
+      new_times[timeIndex].timeFrom = value;
+    } else {
+      new_times[timeIndex].timeTo = value;
+    }
+
+    const new_days = payload?.days;
+    new_days[dayIndex].times = new_times;
+    setPayload((prev: any) => ({
+      ...prev,
+      days: new_days,
+    }));
+  }
+
+  function addPeriod() {
+    setPayload((prev: any) => ({
+      ...prev,
+      periods: [
+        ...payload.periods,
+        {
+          dayFrom: null,
+          dayTo: null,
+          times: [{timeFrom: '', timeTo: '', duration: ''}],
+        },
+      ],
+    }));
+  }
+  function removePeriod(index: any) {
+    setPayload((prev: any) => ({
+      ...prev,
+      periods: payload?.periods?.filter((_: any, i: any) => i !== index),
+    }));
+  }
+
+  function addTimePeriod(index: any) {
+    setPayload((prev: any) => ({
+      ...prev,
+      periods: payload.periods?.map((item: any, i: any) => {
+        let temp = item;
+        if (index === i) {
+          temp?.times?.push({timeFrom: '', timeTo: '', duration: ''});
+        }
+        return temp;
+      }),
+    }));
+  }
+  function removeTimePeriod(index: any, indexTime: any) {
+    setPayload((prev: any) => ({
+      ...prev,
+      periods: payload.periods?.map((item: any, i: any) => {
+        let temp = item;
+        if (index === i) {
+          temp.times = item?.times?.filter((_: any, j: any) => j !== indexTime);
+        }
+        return temp;
+      }),
+    }));
+  }
+  function editTimePeriod(dayIndex: any, timeIndex: any, key: any, value: any) {
+    const new_times = [...payload?.periods[dayIndex].times];
+    if (key === 'start') {
+      new_times[timeIndex].timeFrom = value;
+    } else {
+      new_times[timeIndex].timeTo = value;
+    }
+
+    const new_periods = payload?.periods;
+    new_periods[dayIndex].times = new_times;
+    setPayload((prev: any) => ({
+      ...prev,
+      periods: new_periods,
+    }));
+  }
+  function editPeriod(index: any, key: any, value: any) {
+    const new_periods = payload?.periods;
+    if (key === 'start') {
+      new_periods[index].dayFrom = value;
+    } else {
+      new_periods[index].dayTo = value;
+    }
+  }
   function checkData() {
     let msg = '';
     if (!payload?.name) {
@@ -100,7 +270,102 @@ const AddTrainingModal = (props: any) => {
     return msg;
   }
   function submit() {
-    console.log({payload});
+    const {
+      name,
+      // theme,
+      date_start,
+      date_end,
+      address,
+      desc,
+      duration,
+      is_public,
+      is_free,
+      price,
+      days,
+      periods,
+      is_online,
+      is_presential,
+      is_hybrid,
+      link,
+      currency,
+    } = payload;
+    // const { user, token, inst, addTraining, history } = this.props
+    let data = {
+      name,
+      // theme,
+      is_free,
+      price,
+      currency,
+      is_online,
+      is_presential,
+      is_hybrid,
+      date_start: new Date(date_start).getTime(),
+      date_end: new Date(date_end).getTime(),
+      desc,
+      duration,
+      is_public,
+
+      user: user ? user._id : '',
+
+      inst_id: space?._id,
+    };
+    if (is_presential || is_hybrid) data.address = address;
+    if (is_online || is_hybrid) data.link = link;
+
+    if (!isPeriod) {
+      for (let i = 0; i < days.length; i++) {
+        const element = days[i];
+        if (element && (element.day === '' || !element.day)) {
+          days.splice(i, 1);
+          i--;
+        }
+      }
+    }
+
+    if (isPeriod) {
+      for (let i = 0; i < periods.length; i++) {
+        const element = periods[i];
+        if (
+          element &&
+          (element.dayFrom === '' ||
+            !element.dayTo ||
+            element.dayTo === '' ||
+            !element.dayFrom)
+        ) {
+          periods.splice(i, 1);
+          i--;
+        }
+      }
+    }
+    let tempPeriods = periods?.map((item: any) => ({
+      ...item,
+      dayFrom: moment(item?.dayFrom).format('DD-MM-YYYY'),
+      dayTo: moment(item?.dayTo).format('DD-MM-YYYY'),
+      times: item?.times?.map((t: any) => ({
+        ...t,
+        timeFrom: moment(item?.timeFrom).format('DD-MM-YYYY'),
+        timeTo: moment(item?.timeTo).format('DD-MM-YYYY'),
+      })),
+    }));
+
+    if (name !== '') {
+      if (days && days.length) data['days'] = days;
+      if (tempPeriods && tempPeriods.length) data['periods'] = tempPeriods;
+      console.log({data});
+      dispatch(
+        createTraining(
+          data,
+          res => {
+            console.log({res});
+          },
+          err => {
+            console.log('err :>> ', err);
+          },
+        ),
+      );
+    } else {
+      // NotificationManager.warning('Le champs nom est obligatoire');
+    }
   }
   return (
     <Modal
@@ -145,7 +410,6 @@ const AddTrainingModal = (props: any) => {
             style={styles.textInputStyle}
             placeholder={I18n.t('training_name')}
           />
-          {/* <Text style={styles.titleTextStyle}>{I18n.t('public')}</Text> */}
 
           <Pressable
             onPress={() => {
@@ -238,11 +502,29 @@ const AddTrainingModal = (props: any) => {
               handleChange('is_presential', !payload?.is_hybrid);
             }}
           />
-          <CheckBox
-            title={`${I18n.t('public')}`}
-            checked={payload?.is_public}
-            onPress={() => handleChange('is_public', !payload?.is_public)}
-          />
+          <View style={styles.checkBoxContainerStyle}>
+            <CheckBox
+              title={`${I18n.t('public')}`}
+              checked={payload?.is_public}
+              onPress={() => handleChange('is_public', !payload?.is_public)}
+            />
+            <CheckBox
+              title={`${I18n.t('free')}`}
+              checked={payload?.is_free}
+              onPress={() => handleChange('is_free', !payload?.is_free)}
+            />
+          </View>
+          {!payload?.is_free && (
+            <View>
+              <Text style={styles.titleTextStyle}>{I18n.t('price')}</Text>
+              <TextInput
+                value={payload?.price}
+                onChangeText={(price: any) => handleChange('price', price)}
+                style={styles.textInputStyle}
+                placeholder={I18n.t('price')}
+              />
+            </View>
+          )}
           {(payload?.is_online || payload?.is_hybrid) && (
             <View>
               <Text style={styles.titleTextStyle}>{I18n.t('link')}</Text>
@@ -283,6 +565,99 @@ const AddTrainingModal = (props: any) => {
             multiline
             numberOfLines={3}
           />
+
+          <Text style={styles.titleTextStyle}>{I18n.t('duration')}</Text>
+          <View style={styles.durationContainerStyle}>
+            <Pressable
+              onPress={() => setIsPeriod(!isPeriod)}
+              style={[
+                styles.durationButtonStyle,
+                !isPeriod && {backgroundColor: colors.white},
+              ]}>
+              <Text
+                style={[
+                  styles.durationButtonTextStyle,
+                  !isPeriod && {color: colors.primary},
+                ]}>
+                Jour
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setIsPeriod(!isPeriod)}
+              style={[
+                styles.durationButtonStyle,
+                isPeriod && {backgroundColor: colors.white},
+              ]}>
+              <Text
+                style={[
+                  styles.durationButtonTextStyle,
+                  isPeriod && {color: colors.primary},
+                ]}>
+                Période
+              </Text>
+            </Pressable>
+          </View>
+          {!isPeriod && (
+            <View style={styles.timeContainerStyle}>
+              {payload?.days?.map((item: any, index: any) => (
+                <AddDayCmp
+                  data={item}
+                  index={index}
+                  addDay={AddDayJour}
+                  removeDay={removeDayJour}
+                  days={payload?.days}
+                  showDate={(indx: any) => {
+                    setTempDayIndex(indx);
+                    setShowDateJour(!showDateJour);
+                  }}
+                  addTime={addTimeJour}
+                  removeTime={removeTimeJour}
+                  showStarTime={(dayIndex: any, timeIndex: any) => {
+                    setTempDayIndex(dayIndex);
+                    setTempTimeIndex(timeIndex);
+                    setShowStartTimeJour(!showStartTimeJour);
+                  }}
+                  showEndTime={(dayIndex: any, timeIndex: any) => {
+                    setTempDayIndex(dayIndex);
+                    setTempTimeIndex(timeIndex);
+                    setShowEndTimeJour(!showEndTimeJour);
+                  }}
+                />
+              ))}
+            </View>
+          )}
+
+          {isPeriod && (
+            <View style={styles.timeContainerStyle}>
+              {payload?.periods?.map((item: any, index: any) => (
+                <AddPeriodCmp
+                  data={item}
+                  index={index}
+                  addDay={addPeriod}
+                  removeDay={removePeriod}
+                  days={payload?.periods}
+                  showDate={(indx: any, type: any) => {
+                    setTempDayType(type);
+                    setTempDayIndex(indx);
+                    setShowDateJour(!showDateJour);
+                  }}
+                  addTime={addTimePeriod}
+                  removeTime={removeTimePeriod}
+                  showStarTime={(dayIndex: any, timeIndex: any) => {
+                    setTempDayIndex(dayIndex);
+                    setTempTimeIndex(timeIndex);
+                    setShowStartTimeJour(!showStartTimeJour);
+                  }}
+                  showEndTime={(dayIndex: any, timeIndex: any) => {
+                    setTempDayIndex(dayIndex);
+                    setTempTimeIndex(timeIndex);
+                    setShowEndTimeJour(!showEndTimeJour);
+                  }}
+                />
+              ))}
+            </View>
+          )}
+
           <View style={styles.buttonContainerStyle}>
             <ButtonCmp
               label={I18n.t('cancel')}
@@ -328,6 +703,79 @@ const AddTrainingModal = (props: any) => {
         }}
         onCancel={() => {
           setShowEndDate(!showEndDate);
+        }}
+      />
+      <DatePicker
+        modal
+        mode="date"
+        // title={I18n.t('endDate')}
+        // maximumDate={new Date(payload?.date_start) || new Date()}
+        open={showDateJour}
+        date={new Date()}
+        onConfirm={date => {
+          setShowDateJour(false);
+          if (isPeriod) {
+            editPeriod(tempDayIndex, 'start', date);
+          } else {
+            editDayJour(tempDayIndex, date);
+          }
+        }}
+        onCancel={() => {
+          setShowDateJour(!showDateJour);
+        }}
+      />
+      <DatePicker
+        modal
+        mode="time"
+        // title={I18n.t('endDate')}
+        // minimumDate={
+        //   moment(
+        //     payload?.days[tempDayIndex]?.times[tempTimeIndex]?.timeTo,
+        //   ).isValid()
+        //     ? new Date(
+        //         payload?.days[tempDayIndex]?.times[tempTimeIndex]?.timeTo,
+        //       )
+        //     : new Date()
+        // }
+        open={showStartTimeJour}
+        date={new Date()}
+        onConfirm={date => {
+          setShowStartTimeJour(false);
+          if (isPeriod) {
+            editTimePeriod(tempDayIndex, tempTimeIndex, 'start', date);
+          } else {
+            editTimeJour(tempDayIndex, tempTimeIndex, 'start', date);
+          }
+        }}
+        onCancel={() => {
+          setShowStartTimeJour(false);
+        }}
+      />
+      <DatePicker
+        modal
+        mode="time"
+        // title={I18n.t('endDate')}
+        // maximumDate={
+        //   moment(
+        //     payload?.days[tempDayIndex]?.times[tempTimeIndex]?.timeFrom,
+        //   ).isValid()
+        //     ? new Date(
+        //         payload?.days[tempDayIndex]?.times[tempTimeIndex]?.timeFrom,
+        //       )
+        //     : new Date()
+        // }
+        open={showEndTimeJour}
+        date={new Date()}
+        onConfirm={date => {
+          setShowEndTimeJour(false);
+          if (isPeriod) {
+            editTimePeriod(tempDayIndex, tempTimeIndex, 'end', date);
+          } else {
+            editTimeJour(tempDayIndex, tempTimeIndex, 'end', date);
+          }
+        }}
+        onCancel={() => {
+          setShowEndTimeJour(false);
         }}
       />
 
@@ -411,5 +859,32 @@ const styles = StyleSheet.create({
   imageStyle: {
     height: 150,
     width: '100%',
+  },
+  durationContainerStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  durationButtonStyle: {
+    width: ScreenWidth * 0.3,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: colors.primary,
+    backgroundColor: colors.primary,
+  },
+  durationButtonTextStyle: {
+    fontFamily: fonts.type.NunitoMedium,
+    fontSize: fonts.size.font12,
+    color: colors.white,
+  },
+  timeContainerStyle: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: colors.grey,
+    padding: 10,
+    marginVertical: 10,
   },
 });

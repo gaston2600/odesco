@@ -76,6 +76,7 @@ const fr = {
   link: 'Lien',
   email: 'E-mail',
   program: 'Programe',
+  duration: 'Durée',
 
   event_name: "Nom d'évenement",
   add_new_event: 'Ajouter évenement',
@@ -136,6 +137,8 @@ const fr = {
   select_inst: 'Selectionner une institution',
   new_post: 'Rédiger une publication',
   public: 'Public',
+  free: 'Gratuit',
+  price: 'Prix',
 };
 
 export default fr;

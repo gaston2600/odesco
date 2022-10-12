@@ -107,11 +107,13 @@ const TrainingCmp = (props: any) => {
           </View>
         ) : null}
       </View>
-      <TrainingDetailsModal
-        visible={showTrainingModal}
-        setVisible={setShowTrainingModal}
-        data={data}
-      />
+      {showTrainingModal && (
+        <TrainingDetailsModal
+          visible={showTrainingModal}
+          setVisible={setShowTrainingModal}
+          data={data}
+        />
+      )}
     </TouchableOpacity>
   );
 };

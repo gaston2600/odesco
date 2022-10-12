@@ -17,6 +17,18 @@ const trainingSrv = {
         .catch(e => reject(e));
     });
   },
+  post: (data: any) => {
+    return new Promise(async (resolve, reject) => {
+      return axios
+        .post(`${urls.trainings}`, data, {
+          headers: {'Content-Type': 'multipart/form-data'},
+        })
+        .then(resp => {
+          resolve(resp);
+        })
+        .catch(e => reject(e));
+    });
+  },
 };
 
 export default trainingSrv;
