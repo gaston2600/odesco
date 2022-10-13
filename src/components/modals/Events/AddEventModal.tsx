@@ -28,10 +28,7 @@ import {createEvent} from '../../../store/actions/eventsActions';
 const AddEventModal = (props: any) => {
   const dispatch = useDispatch();
   const {visible, setVisible, refresh, space} = props;
-  console.log(
-    '🚀 ~ file: AddEventModal.tsx ~ line 31 ~ AddEventModal ~ space',
-    space,
-  );
+
   const {user} = useSelector((state: any) => state?.User);
   const [payload, setPayload] = useState({
     name: '',
@@ -344,7 +341,7 @@ const AddEventModal = (props: any) => {
         modal
         title={I18n.t('startDate')}
         mode="date"
-        // maximumDate={new Date()}
+        minimumDate={new Date()}
         open={showStartDate}
         date={new Date()}
         onConfirm={date_start => {
@@ -359,7 +356,7 @@ const AddEventModal = (props: any) => {
         modal
         mode="date"
         title={I18n.t('endDate')}
-        maximumDate={new Date(payload?.date_start) || new Date()}
+        minimumDate={new Date(payload?.date_start) || new Date()}
         open={showEndDate}
         date={new Date()}
         onConfirm={date_end => {

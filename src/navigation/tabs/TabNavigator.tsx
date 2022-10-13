@@ -19,8 +19,8 @@ const TabNavigator = (props: any) => {
   const Tab = createBottomTabNavigator();
   const chatRooms = useSelector((state: any) => state?.Chat);
   const notifcations = useSelector((state: any) => state?.Notification);
-  const state = useSelector(s => s);
-  console.log(state);
+  // const state = useSelector(s => s);
+  // console.log(state);
 
   const [newMessage, setNewMessage] = useState(false);
   const [newNotfication, setNewNotfication] = useState(false);

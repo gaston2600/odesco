@@ -339,6 +339,7 @@ const AddTrainingModal = (props: any) => {
       is_hybrid,
       link,
       currency,
+      cover,
     } = payload;
     // const { user, token, inst, addTraining, history } = this.props
     let data = {
@@ -355,6 +356,7 @@ const AddTrainingModal = (props: any) => {
       desc,
       duration,
       is_public,
+      cover,
 
       user: user ? user._id : '',
 
