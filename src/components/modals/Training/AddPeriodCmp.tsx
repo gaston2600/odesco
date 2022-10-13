@@ -25,46 +25,48 @@ const AddPeriodCmp = (props: any) => {
 
   return (
     <View>
-      <View key={`${index}_days`}>
+      <View key={`${index}_periods`}>
         <Pressable style={styles.timeContainerStyle}>
-          <Pressable
-            onPress={() => {
-              showDate(index, 'start');
+          <View
+            style={{
+              // borderWidth: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              flex: 6,
             }}>
-            <Text style={[styles.titleTextStyle, {flex: 1}]}>Date Début</Text>
-            <TextInput
-              value={
-                moment(data?.dayFrom).isValid()
-                  ? moment(data?.dayFrom).format('ll')
-                  : 'JJ-MM-YYYY'
-              }
-              style={[styles.textInputStyle, {flex: 5}]}
-              placeholder={I18n.t('startDate')}
-              editable={false}
-            />
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              showDate(index, 'end');
-            }}>
-            <Text style={[styles.titleTextStyle, {flex: 1}]}>Date Fin</Text>
-            <TextInput
-              value={
-                moment(data?.dayTo).isValid()
-                  ? moment(data?.dayTo).format('ll')
-                  : 'JJ-MM-YYYY'
-              }
-              style={[styles.textInputStyle, {flex: 5}]}
-              placeholder={I18n.t('startDate')}
-              editable={false}
-            />
-          </Pressable>
+            <Pressable
+              onPress={() => {
+                showDate(index, 'start');
+              }}>
+              <Text style={[styles.titleTextStyle, {flex: 1}]}>Début</Text>
+              <TextInput
+                value={data?.dayFrom ? data?.dayFrom : 'JJ-MM-YYYY'}
+                style={[styles.textInputStyle, {flex: 5}]}
+                placeholder={I18n.t('startDate')}
+                editable={false}
+              />
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                showDate(index, 'end');
+              }}>
+              <Text style={[styles.titleTextStyle, {flex: 1}]}>Fin</Text>
+              <TextInput
+                value={data?.dayTo ? data?.dayTo : 'JJ-MM-YYYY'}
+                style={[styles.textInputStyle, {flex: 5}]}
+                placeholder={I18n.t('startDate')}
+                editable={false}
+              />
+            </Pressable>
+          </View>
+
           <View
             style={{
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
             }}>
+            <Text> </Text>
             {days?.length - 1 === index ? (
               <Pressable
                 onPress={() => addDay()}
@@ -102,8 +104,10 @@ export default AddPeriodCmp;
 const styles = StyleSheet.create({
   timeContainerStyle: {
     flexDirection: 'row',
-    alignItems: 'center',
+    // alignItems: 'center',
     marginVertical: 10,
+    width: '100%',
+    // borderWidth: 1,
   },
   titleTextStyle: {
     fontFamily: fonts.type.NunitoMedium,

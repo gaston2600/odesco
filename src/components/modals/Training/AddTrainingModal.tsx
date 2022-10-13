@@ -21,7 +21,7 @@ import DatePicker from 'react-native-date-picker';
 import ButtonCmp from '../../common/ButtonCmp';
 import {ScreenWidth} from '@rneui/base';
 import {Picker} from '@react-native-picker/picker';
-import moment from 'moment';
+import moment, {duration} from 'moment';
 import ImagePicker from '../../common/ImagePicker';
 import {trainingThemes} from '../../../config/CONSTANTS';
 import AddDayCmp from './AddDayCmp';
@@ -29,15 +29,15 @@ import AddPeriodCmp from './AddPeriodCmp';
 import {createTraining} from '../../../store/actions/trainingActions';
 
 const AddTrainingModal = (props: any) => {
-  const {visible, setVisible, space} = props;
+  const {visible, setVisible, space, refresh} = props;
   const dispatch = useDispatch();
 
   const {user} = useSelector((state: any) => state?.User);
   const [payload, setPayload] = useState({
     name: '',
-    duration: 10,
+    duration: '0',
     cover: null,
-    type: '',
+    theme: '',
     date_start: new Date(),
     date_end: new Date(),
     deadline_subscription: new Date(),
@@ -79,6 +79,9 @@ const AddTrainingModal = (props: any) => {
   const [tempDayIndex, setTempDayIndex] = useState(0);
   const [tempDayType, setTempDayType] = useState('start');
 
+  const [showStartDayPeriod, setShowStartDayPeriod] = useState(false);
+  const [showEndDayPeriod, setShowEndDayPeriod] = useState(false);
+
   const [showStartTimeJour, setShowStartTimeJour] = useState(false);
   const [showEndTimeJour, setShowEndTimeJour] = useState(false);
   const [tempTimeIndex, setTempTimeIndex] = useState(0);
@@ -116,6 +119,40 @@ const AddTrainingModal = (props: any) => {
     }));
   }
 
+  const calculDuration = (start: any, end: any) => {
+    try {
+      if (
+        start &&
+        end &&
+        start !== '' &&
+        end !== '' &&
+        end !== '00:00' &&
+        start !== '00:00'
+      ) {
+        const duration = moment.duration(
+          Number(
+            moment(moment().format('YYYY-MM-DD') + ' ' + end).diff(
+              moment().format('YYYY-MM-DD') + ' ' + start,
+              'milliseconds',
+            ) || 0,
+          ) || 0,
+          'milliseconds',
+        );
+
+        const hours = Math.floor(duration.asHours());
+        // return hours + ":" + Math.floor(duration.asMinutes()) - hours * 60;
+        const durationTime = String(
+          hours + ':' + (Math.floor(duration.asMinutes()) - hours * 60),
+        )
+          .padEnd(4, '0')
+          .padStart(5, '0');
+        return durationTime;
+      }
+    } catch (error) {
+      return '';
+    }
+  };
+
   function AddDayJour() {
     setPayload((prev: any) => ({
       ...prev,
@@ -141,7 +178,7 @@ const AddTrainingModal = (props: any) => {
       days: payload?.days?.map((item: any, i: any) => {
         let temp: any = item;
         if (i === index) {
-          temp.day = value;
+          temp.day = moment(value).format('YYYY-MM-DD');
         }
         return temp;
       }),
@@ -176,9 +213,16 @@ const AddTrainingModal = (props: any) => {
   function editTimeJour(dayIndex: any, timeIndex: any, key: any, value: any) {
     const new_times = [...payload?.days[dayIndex].times];
     if (key === 'start') {
-      new_times[timeIndex].timeFrom = value;
+      new_times[timeIndex].timeFrom = moment(value).format('HH:mm');
     } else {
-      new_times[timeIndex].timeTo = value;
+      new_times[timeIndex].timeTo = moment(value).format('HH:mm');
+    }
+    const new_duration = calculDuration(
+      new_times[timeIndex].timeFrom,
+      new_times[timeIndex].timeTo,
+    );
+    if (new_duration) {
+      new_times[timeIndex].duration = new_duration;
     }
 
     const new_days = payload?.days;
@@ -236,11 +280,17 @@ const AddTrainingModal = (props: any) => {
   function editTimePeriod(dayIndex: any, timeIndex: any, key: any, value: any) {
     const new_times = [...payload?.periods[dayIndex].times];
     if (key === 'start') {
-      new_times[timeIndex].timeFrom = value;
+      new_times[timeIndex].timeFrom = moment(value).format('HH:mm');
     } else {
-      new_times[timeIndex].timeTo = value;
+      new_times[timeIndex].timeTo = moment(value).format('HH:mm');
     }
-
+    const new_duration = calculDuration(
+      new_times[timeIndex].timeFrom,
+      new_times[timeIndex].timeTo,
+    );
+    if (new_duration) {
+      new_times[timeIndex].duration = new_duration;
+    }
     const new_periods = payload?.periods;
     new_periods[dayIndex].times = new_times;
     setPayload((prev: any) => ({
@@ -251,10 +301,11 @@ const AddTrainingModal = (props: any) => {
   function editPeriod(index: any, key: any, value: any) {
     const new_periods = payload?.periods;
     if (key === 'start') {
-      new_periods[index].dayFrom = value;
+      new_periods[index].dayFrom = moment(value).format('YYYY-MM-DD');
     } else {
-      new_periods[index].dayTo = value;
+      new_periods[index].dayTo = moment(value).format('YYYY-MM-DD');
     }
+    handleChange('periods', new_periods);
   }
   function checkData() {
     let msg = '';
@@ -272,7 +323,7 @@ const AddTrainingModal = (props: any) => {
   function submit() {
     const {
       name,
-      // theme,
+      theme,
       date_start,
       date_end,
       address,
@@ -292,7 +343,7 @@ const AddTrainingModal = (props: any) => {
     // const { user, token, inst, addTraining, history } = this.props
     let data = {
       name,
-      // theme,
+      theme,
       is_free,
       price,
       currency,
@@ -337,34 +388,29 @@ const AddTrainingModal = (props: any) => {
         }
       }
     }
-    let tempPeriods = periods?.map((item: any) => ({
-      ...item,
-      dayFrom: moment(item?.dayFrom).format('DD-MM-YYYY'),
-      dayTo: moment(item?.dayTo).format('DD-MM-YYYY'),
-      times: item?.times?.map((t: any) => ({
-        ...t,
-        timeFrom: moment(item?.timeFrom).format('DD-MM-YYYY'),
-        timeTo: moment(item?.timeTo).format('DD-MM-YYYY'),
-      })),
-    }));
 
     if (name !== '') {
-      if (days && days.length) data['days'] = days;
-      if (tempPeriods && tempPeriods.length) data['periods'] = tempPeriods;
+      if (!isPeriod && days && days.length) data['days'] = days;
+      if (isPeriod && periods && periods.length) data['periods'] = periods;
       console.log({data});
+      setLoading(true);
       dispatch(
         createTraining(
           data,
-          res => {
-            console.log({res});
+          (res: any) => {
+            // console.log({res});
+            setLoading(false);
+            refresh();
+            setVisible(false);
           },
-          err => {
+          (err: any) => {
             console.log('err :>> ', err);
+            setLoading(false);
           },
         ),
       );
     } else {
-      // NotificationManager.warning('Le champs nom est obligatoire');
+      ToastAndroid.show('Nom obligatoire', ToastAndroid.SHORT);
     }
   }
   return (
@@ -420,7 +466,7 @@ const AddTrainingModal = (props: any) => {
               value={
                 moment(payload?.date_start).isValid()
                   ? moment(payload?.date_start).format('ll')
-                  : 'JJ-MM-YYYY'
+                  : 'YYYY-MM-DD'
               }
               style={styles.textInputStyle}
               placeholder={I18n.t('startDate')}
@@ -437,7 +483,7 @@ const AddTrainingModal = (props: any) => {
               value={
                 moment(payload?.date_end).isValid()
                   ? moment(payload?.date_end).format('ll')
-                  : 'JJ-MM-YYYY'
+                  : 'YYYY-MM-DD'
               }
               style={styles.textInputStyle}
               placeholder={I18n.t('endDate')}
@@ -450,8 +496,8 @@ const AddTrainingModal = (props: any) => {
           <Text style={styles.titleTextStyle}>{I18n.t('type')}</Text>
           <View style={styles.itmeContainerStyle}>
             <Picker
-              selectedValue={payload?.type}
-              onValueChange={itemValue => handleChange('type', itemValue)}>
+              selectedValue={payload?.theme}
+              onValueChange={itemValue => handleChange('theme', itemValue)}>
               <Picker.Item
                 style={styles.itemPickerTextStyle}
                 value=""
@@ -522,6 +568,7 @@ const AddTrainingModal = (props: any) => {
                 onChangeText={(price: any) => handleChange('price', price)}
                 style={styles.textInputStyle}
                 placeholder={I18n.t('price')}
+                keyboardType="number-pad"
               />
             </View>
           )}
@@ -567,6 +614,13 @@ const AddTrainingModal = (props: any) => {
           />
 
           <Text style={styles.titleTextStyle}>{I18n.t('duration')}</Text>
+          <TextInput
+            value={payload?.duration}
+            style={styles.textInputStyle}
+            placeholder={I18n.t('duration')}
+            onChangeText={duration => handleChange('duration', duration)}
+            keyboardType="number-pad"
+          />
           <View style={styles.durationContainerStyle}>
             <Pressable
               onPress={() => setIsPeriod(!isPeriod)}
@@ -639,7 +693,11 @@ const AddTrainingModal = (props: any) => {
                   showDate={(indx: any, type: any) => {
                     setTempDayType(type);
                     setTempDayIndex(indx);
-                    setShowDateJour(!showDateJour);
+                    if (type === 'start') {
+                      setShowStartDayPeriod(true);
+                    } else {
+                      setShowEndDayPeriod(true);
+                    }
                   }}
                   addTime={addTimePeriod}
                   removeTime={removeTimePeriod}
@@ -679,7 +737,7 @@ const AddTrainingModal = (props: any) => {
         modal
         title={I18n.t('startDate')}
         mode="date"
-        // maximumDate={new Date()}
+        minimumDate={new Date()}
         open={showStartDate}
         date={new Date()}
         onConfirm={date_start => {
@@ -694,7 +752,7 @@ const AddTrainingModal = (props: any) => {
         modal
         mode="date"
         title={I18n.t('endDate')}
-        maximumDate={new Date(payload?.date_start) || new Date()}
+        minimumDate={new Date(payload?.date_start) || new Date()}
         open={showEndDate}
         date={new Date()}
         onConfirm={date_end => {
@@ -715,13 +773,45 @@ const AddTrainingModal = (props: any) => {
         onConfirm={date => {
           setShowDateJour(false);
           if (isPeriod) {
-            editPeriod(tempDayIndex, 'start', date);
+            editPeriod(tempDayIndex, tempDayType, date);
           } else {
             editDayJour(tempDayIndex, date);
           }
         }}
         onCancel={() => {
           setShowDateJour(!showDateJour);
+        }}
+      />
+      {/* -----------------------------starDate period */}
+      <DatePicker
+        modal
+        mode="date"
+        // title={I18n.t('endDate')}
+        // maximumDate={new Date(payload?.date_start) || new Date()}
+        open={showStartDayPeriod}
+        date={new Date()}
+        onConfirm={date => {
+          setShowStartDayPeriod(false);
+          editPeriod(tempDayIndex, 'start', date);
+        }}
+        onCancel={() => {
+          setShowStartDayPeriod(false);
+        }}
+      />
+      {/* -----------------------------endDate period */}
+      <DatePicker
+        modal
+        mode="date"
+        // title={I18n.t('endDate')}
+        // maximumDate={new Date(payload?.date_start) || new Date()}
+        open={showEndDayPeriod}
+        date={new Date()}
+        onConfirm={date => {
+          setShowEndDayPeriod(false);
+          editPeriod(tempDayIndex, 'end', date);
+        }}
+        onCancel={() => {
+          setShowEndDayPeriod(!showEndDayPeriod);
         }}
       />
       <DatePicker
@@ -864,6 +954,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
+    marginVertical: 10,
   },
   durationButtonStyle: {
     width: ScreenWidth * 0.3,

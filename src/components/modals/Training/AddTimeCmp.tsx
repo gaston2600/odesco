@@ -18,10 +18,10 @@ const AddTimeCmp = (props: any) => {
     showStarTime,
     showEndTime,
   } = props;
-//   console.log({data});
+  //   console.log({data});
 
   return (
-    <View>
+    <View key={`times_${Math.random() + 1000 * index}`}>
       <View style={styles.timeContainerStyle}>
         <Pressable
           onPress={() => {
@@ -29,12 +29,9 @@ const AddTimeCmp = (props: any) => {
           }}
           style={styles.timeContainerStyle}>
           <Text style={styles.titleTextStyle}>De</Text>
+          {/* <Icons.AntDesign name="clockcircleo" size={20} color={colors.green} /> */}
           <TextInput
-            value={
-              moment(data?.timeFrom).isValid()
-                ? moment(data?.timeFrom).format('HH:mm')
-                : 'HH:mm'
-            }
+            value={data?.timeFrom ? data?.timeFrom : 'HH:mm'}
             style={[styles.textInputStyle, {width: '50%', marginLeft: 10}]}
             placeholder={I18n.t('startDate')}
             editable={false}
@@ -46,12 +43,9 @@ const AddTimeCmp = (props: any) => {
           }}
           style={styles.timeContainerStyle}>
           <Text style={styles.titleTextStyle}>À</Text>
+          {/* <Icons.AntDesign name="clockcircleo" size={20} color={colors.red} /> */}
           <TextInput
-            value={
-              moment(data?.timeTo).isValid()
-                ? moment(data?.timeTo).format('HH:mm')
-                : 'HH:mm'
-            }
+            value={data?.timeTo ? data?.timeTo : 'HH:mm'}
             style={[styles.textInputStyle, {width: '50%', marginLeft: 10}]}
             placeholder={I18n.t('startDate')}
             editable={false}
@@ -69,7 +63,7 @@ const AddTimeCmp = (props: any) => {
                 addTime(dayIndex);
               }}
               style={styles.addButtonContainerstyle}>
-              <Icons.AntDesign name="plus" size={20} color={colors.white} />
+              <Icons.AntDesign name="plus" size={20} color={colors.primary} />
             </Pressable>
           ) : (
             <Pressable
@@ -77,7 +71,7 @@ const AddTimeCmp = (props: any) => {
                 removeTime(dayIndex, index);
               }}
               style={styles.addButtonContainerstyle}>
-              <Icons.AntDesign name="minus" size={20} color={colors.white} />
+              <Icons.AntDesign name="minus" size={20} color={colors.primary} />
             </Pressable>
           )}
         </View>
@@ -112,7 +106,9 @@ const styles = StyleSheet.create({
     fontSize: fonts.size.font12,
   },
   addButtonContainerstyle: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.primary,
     borderRadius: 50,
     padding: 5,
   },

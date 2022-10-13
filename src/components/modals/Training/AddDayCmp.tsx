@@ -19,7 +19,7 @@ const AddDayCmp = (props: any) => {
     addTime,
     removeTime,
     showStarTime,
-    showEndTime
+    showEndTime,
   } = props;
   console.log({data});
 
@@ -31,14 +31,11 @@ const AddDayCmp = (props: any) => {
             showDate(index);
           }}
           style={styles.timeContainerStyle}>
-          <Text style={[styles.titleTextStyle, {flex: 1}]}>Date</Text>
+          {/* <Text style={[styles.titleTextStyle, {flex: 1}]}>Date</Text> */}
+          <Icons.AntDesign name="calendar" size={20} color={colors.primary} />
           <TextInput
-            value={
-              moment(data?.day).isValid()
-                ? moment(data?.day).format('ll')
-                : 'JJ-MM-YYYY'
-            }
-            style={[styles.textInputStyle, {flex: 5}]}
+            value={data?.day ? data?.day : 'JJ-MM-YYYY'}
+            style={[styles.textInputStyle, {flex: 5, marginLeft: 5}]}
             placeholder={I18n.t('startDate')}
             editable={false}
           />

@@ -89,6 +89,7 @@ const TrainingScreen = (props: any) => {
           visible={showAddFormation}
           setVisible={setShowAddFormation}
           space={space}
+          refresh={getPage}
         />
       )}
     </View>
