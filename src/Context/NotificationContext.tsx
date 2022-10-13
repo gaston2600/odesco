@@ -7,7 +7,9 @@ import {
   sendLocalNotifPlanning,
   sendLocalNotifTaskWithNoTeam,
 } from '../services/Notification/NotificationServices';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {getRoomsList} from '../store/actions/chatActions';
+import {getMyNotifications} from '../store/actions/notificationActions';
 
 const NotificationContext = createContext(null);
 
@@ -15,6 +17,7 @@ export {NotificationContext};
 
 export default function ({children}: any) {
   const dispatch = useDispatch();
+  const {defaultPartner} = useSelector((state: any) => state?.Inst);
 
   let notif = null;
   let notifToken = '';
@@ -50,15 +53,31 @@ export default function ({children}: any) {
 
     // save the token to the db
   }
-  useEffect(() => {
-    getToken();
-  }, []);
 
   function handelSendNotif(params: any) {
     console.log(params);
+    if (params?.data?.model === 'ChatMessage') {
+      dispatch(
+        getRoomsList(
+          {
+            partner: defaultPartner,
+            limit: 1000,
+          },
+          () => {},
+          (err: any) => {
+            console.log({err});
+          },
+        ),
+      );
+    }
+    dispatch(getMyNotifications({}));
+
     sendLocalNotif(params);
   }
 
+  // useEffect(() => {
+  //   getToken();
+  // }, []);
   const initiate = (hideNotif = false) => {
     PushNotification.configure({
       onRegister: function ({token, os}) {

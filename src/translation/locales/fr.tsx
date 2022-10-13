@@ -41,7 +41,7 @@ const fr = {
   follow: 'Suivre',
   subscribed: 'Abonné',
   subscribers: 'Abonnés',
-  onligne: 'En ligne',
+  online: 'En ligne',
   hybrid: 'Hybride (en ligne et en présentiel)',
   addFormation: 'Ajouter une Formation',
   addExperience: 'Ajouter une Experience',
@@ -75,10 +75,18 @@ const fr = {
   profession: 'Profession',
   link: 'Lien',
   email: 'E-mail',
+  program: 'Programe',
+  duration: 'Durée',
+
+  event_name: "Nom d'évenement",
+  add_new_event: 'Ajouter évenement',
+  add_new_training: 'Ajouter Formation',
+  training_name: 'Nom de la formation',
 
   diplome: 'Diplôme',
   startDate: 'Date De Début',
   endDate: 'Date De Fin',
+  register_before_date: 'Inscription avant le',
 
   inst_name: "Nom de l'établissement",
   type: 'Type',
@@ -128,6 +136,9 @@ const fr = {
   publish: 'Publier',
   select_inst: 'Selectionner une institution',
   new_post: 'Rédiger une publication',
+  public: 'Public',
+  free: 'Gratuit',
+  price: 'Prix',
 };
 
 export default fr;

@@ -119,6 +119,7 @@ const MenuScreen = (props: any) => {
           />
         </View>
         <Text
+          numberOfLines={1}
           style={[
             styles.instTiteTextStyle,
             {

@@ -82,7 +82,7 @@ const TrainingCmp = (props: any) => {
         }}>
         {data?.is_online || data?.is_hybrid ? (
           <View style={styles.statusContainerStyle}>
-            <Text style={styles.statusTextStyle}>{I18n.t('onligne')}</Text>
+            <Text style={styles.statusTextStyle}>{I18n.t('online')}</Text>
           </View>
         ) : null}
         {data?.is_presential || data?.is_hybrid ? (
@@ -107,11 +107,13 @@ const TrainingCmp = (props: any) => {
           </View>
         ) : null}
       </View>
-      <TrainingDetailsModal
-        visible={showTrainingModal}
-        setVisible={setShowTrainingModal}
-        data={data}
-      />
+      {showTrainingModal && (
+        <TrainingDetailsModal
+          visible={showTrainingModal}
+          setVisible={setShowTrainingModal}
+          data={data}
+        />
+      )}
     </TouchableOpacity>
   );
 };

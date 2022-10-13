@@ -2,14 +2,14 @@ import axios from 'axios';
 import {extractFilters} from '../helpers/extractFilters';
 import {urls} from '../utils';
 
-const trainingSrv = {
-  getList: ({limit, offset, filters}: any) => {
+const notificationSrv = {
+  getList: (data: any) => {
     return new Promise(async (resolve, reject) => {
       return axios
         .get(
-          `${urls.trainings}/me/${offset || 0}/${limit || 10}?${extractFilters({
-            filters,
-          })}`,
+          `${urls.notifications}/list/${data?.offset || 0}/${
+            data?.limit || 10
+          }?${extractFilters({filters: data?.filters})}`,
         )
         .then(resp => {
           resolve(resp);
@@ -17,12 +17,10 @@ const trainingSrv = {
         .catch(e => reject(e));
     });
   },
-  post: (data: any) => {
+  getOne: (data: any) => {
     return new Promise(async (resolve, reject) => {
       return axios
-        .post(`${urls.trainings}`, data, {
-          headers: {'Content-Type': 'multipart/form-data'},
-        })
+        .get(`${urls.notifications}/get-one/${data?.id}`)
         .then(resp => {
           resolve(resp);
         })
@@ -31,4 +29,4 @@ const trainingSrv = {
   },
 };
 
-export default trainingSrv;
+export default notificationSrv;

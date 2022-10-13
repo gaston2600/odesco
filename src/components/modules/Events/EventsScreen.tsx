@@ -6,6 +6,8 @@ import Icons from '../../../styles/icons';
 import fonts from '../../../theme/fonts';
 import {Divider} from '@rneui/themed';
 import I18n from 'react-native-i18n';
+import AddEventModal from '../../modals/Events/AddEventModal';
+import AllEventsScreen from './Screens/AllEventsScreen';
 
 const EventsScreen = (props: any) => {
   const {navigation, space} = props;
@@ -58,7 +60,11 @@ const EventsScreen = (props: any) => {
         style={{
           flex: 1,
         }}>
-        <EventTabNavigator searchInput={searchInput} space={space} />
+        {!!space ? (
+          <AllEventsScreen searchInput={searchInput} {...props} space={space} />
+        ) : (
+          <EventTabNavigator searchInput={searchInput} space={space} />
+        )}
       </View>
     </View>
   );

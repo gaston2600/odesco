@@ -14,10 +14,11 @@ import colors from '../../../../styles/colors';
 import Icons from '../../../../styles/icons';
 import EventCmp from '../components/EventCmp';
 import fonts from '../../../../theme/fonts';
+import AddEventModal from '../../../modals/Events/AddEventModal';
 
 const AllEventsScreen = (props: any) => {
   const dispatch = useDispatch();
-
+  const [showAddEventModal, setShowAddEventModal] = useState(false);
   const {events, myEvents, loading} = useSelector(
     (state: any) => state?.Events,
   );
@@ -124,6 +125,23 @@ const AllEventsScreen = (props: any) => {
           />
         }
       />
+      {!!space && (
+        <Pressable
+          onPress={() => {
+            setShowAddEventModal(!showAddEventModal);
+          }}
+          style={styles.addContainerStyle}>
+          <Icons.AntDesign name="plus" size={20} color={colors.white} />
+        </Pressable>
+      )}
+      {showAddEventModal && (
+        <AddEventModal
+          visible={showAddEventModal}
+          setVisible={setShowAddEventModal}
+          refresh={getPage}
+          space={space}
+        />
+      )}
     </View>
   );
 };
@@ -141,5 +159,13 @@ const styles = StyleSheet.create({
     color: colors.gray,
     paddingHorizontal: 5,
     flex: 8,
+  },
+  addContainerStyle: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    backgroundColor: colors.primary,
+    padding: 10,
+    borderRadius: 50,
   },
 });

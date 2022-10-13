@@ -28,17 +28,25 @@ const {screenWidth, screenHeight} = metrics;
 const EventCmp = (props: any) => {
   const dispatch = useDispatch();
   const {data, isInvitation, status} = props;
-  
+
   const [visibleSelectInst, setVisibleSelectInst] = useState(false);
   const [loading, setLoading] = useState(false);
-  function subscribe(params: any) {
+  const selectedSpace = useSelector((state: any) => state?.User);
+
+  function subscribe() {
     setLoading(true);
-    setVisibleSelectInst(false);
+    // setVisibleSelectInst(false);
+    let temp;
+    if (selectedSpace?.type === 'Partner') {
+      temp = {partner: selectedSpace?._id};
+    } else {
+      temp = {institution: selectedSpace?._id};
+    }
     dispatch(
       subscribeEvent(
         {
           id: data?._id,
-          data: params,
+          data: temp,
         },
         () => {
           setLoading(false);
@@ -65,6 +73,12 @@ const EventCmp = (props: any) => {
       subscribe({institution: params?._id});
     }
   }
+  function isSubscribed() {
+    return data?.subscribers?.some(
+      (v: any) => v?.partner === selectedSpace?._id,
+    );
+  }
+
   return (
     <View style={[styles.containerStyle, globalStyles.shadow]}>
       <View style={styles.imageContainerStyle}>
@@ -84,7 +98,9 @@ const EventCmp = (props: any) => {
       </View>
       <View style={[styles.bodyContainerStyle]}>
         <Text style={styles.titleTextStyle}>{data?.name}</Text>
-        <Text style={styles.descTextStyle}>{I18n.t(data?.type)}</Text>
+        {!!data?.type && (
+          <Text style={styles.descTextStyle}>{I18n.t(data?.type)}</Text>
+        )}
         <View style={styles.rowContainer}>
           <Icons.FontAwesome name="university" size={15} color={colors.grey} />
           <Text style={styles.instTitleTextStyle}>
@@ -135,7 +151,8 @@ const EventCmp = (props: any) => {
           }}>
           <Pressable
             onPress={() => {
-              setVisibleSelectInst(true);
+              // setVisibleSelectInst(true);
+              subscribe();
             }}
             style={[styles.buttonContainerStyle, styles.rowContainer]}>
             <Icons.FontAwesome name="star-o" size={15} color={colors.white} />
@@ -143,7 +160,9 @@ const EventCmp = (props: any) => {
               <ActivityIndicator size={'small'} color={colors.white} />
             ) : (
               <Text style={styles.buttonTextStyle}>
-                {I18n.t(isInvitation ? 'accept' : 'subscribe')}
+                {isSubscribed()
+                  ? 'Annuler'
+                  : I18n.t(isInvitation ? 'accept' : 'subscribe')}
               </Text>
             )}
           </Pressable>
@@ -167,7 +186,7 @@ const EventCmp = (props: any) => {
         ) : null}
         {data?.is_online || data?.is_hybrid ? (
           <View style={styles.statusContainerStyle}>
-            <Text style={styles.statusTextStyle}>{I18n.t('onligne')}</Text>
+            <Text style={styles.statusTextStyle}>{I18n.t('online')}</Text>
           </View>
         ) : null}
         {data?.is_presential || data?.is_hybrid ? (
@@ -180,7 +199,7 @@ const EventCmp = (props: any) => {
           </View>
         ) : null}
       </View>
-      <SelectInstitutionModal
+      {/* <SelectInstitutionModal
         visible={visibleSelectInst}
         setVisible={setVisibleSelectInst}
         confirm={confirmSelecInstModal}
@@ -188,7 +207,7 @@ const EventCmp = (props: any) => {
           _id: v?._id,
           type: v?.partner ? 'Partner' : 'Institution',
         }))}
-      />
+      /> */}
     </View>
   );
 };

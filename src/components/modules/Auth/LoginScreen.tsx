@@ -10,7 +10,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import metrics from '../../../theme/metrics';
 import ButtonCmp from '../../common/ButtonCmp';
@@ -19,6 +19,7 @@ import {ScreenHeight, ScreenWidth} from '@rneui/base';
 import colors from '../../../styles/colors';
 import Icons from '../../../styles/icons';
 import fonts from '../../../theme/fonts';
+import messaging from '@react-native-firebase/messaging';
 
 const {screenWidth, screenHeight} = metrics;
 const LoginScreen = (props: any) => {
@@ -27,6 +28,7 @@ const LoginScreen = (props: any) => {
   const [data, setData] = useState({
     email: 'gaston2600@gmail.com',
     password: '12345678',
+    deviceId: '',
   });
   const [loadingLogin, setLoadingLogin] = useState(false);
 
@@ -44,12 +46,13 @@ const LoginScreen = (props: any) => {
     }
   };
 
-  const submit = ({email, password}: any) => {
+  const submit = ({email, password, deviceId}: any) => {
     setLoadingLogin(true);
     dispatch(
       login(
         email,
         password,
+        deviceId,
         (res: any) => {
           console.log('-----------------login', {res});
           setLoadingLogin(false);
@@ -61,6 +64,15 @@ const LoginScreen = (props: any) => {
       ),
     );
   };
+
+  async function getDeviceToken() {
+    await messaging().registerDeviceForRemoteMessages();
+    const token = await messaging().getToken();
+    setData((prev: any) => ({...prev, deviceId: token}));
+  }
+  useEffect(() => {
+    getDeviceToken();
+  }, []);
 
   return (
     <KeyboardAvoidingView
