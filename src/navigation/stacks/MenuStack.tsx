@@ -7,6 +7,7 @@ import EventTabNavigator from '../tabs/EventTabNavigator';
 import TeachersStack from './TeachersStack';
 import TrainingScreen from '../../components/modules/Training/TrainingScreen';
 import I18n from 'react-native-i18n';
+import AllInstScreen from '../../components/modules/Institution/AllInstScreen';
 
 const MenuStack = () => {
   const Stack = createNativeStackNavigator();
@@ -40,6 +41,14 @@ const MenuStack = () => {
         options={{
           title: I18n.t('trainings'),
           //   headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="AllInstScreen"
+        component={AllInstScreen}
+        options={{
+          title: I18n.t('institutions'),
+          headerShown: false,
         }}
       />
       {/* <Stack.Screen name="EventsScreen" component={EventsStack}

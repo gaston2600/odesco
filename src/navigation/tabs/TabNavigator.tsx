@@ -31,10 +31,10 @@ const TabNavigator = (props: any) => {
     );
   }
   function hasNewNotfication() {
-    console.log(
-      Array.from(notifcations || [])?.some((v: any) => !v?.is_readed),
-      notifcations,
-    );
+    // console.log(
+    //   Array.from(notifcations || [])?.some((v: any) => !v?.is_readed),
+    //   notifcations,
+    // );
 
     setNewNotfication(
       Array.from(notifcations || [])?.some((v: any) => {
