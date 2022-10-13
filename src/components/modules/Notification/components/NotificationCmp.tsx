@@ -10,7 +10,7 @@ import {getOneNotifcation} from '../../../../store/actions/notificationActions';
 const NotificationCmp = (props: any) => {
   const dispatch = useDispatch();
   const {data, navigation} = props;
-  console.log({data});
+  // console.log({data});
 
   function renderIconModel(params: any) {
     let iconName = '';

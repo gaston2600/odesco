@@ -15,6 +15,7 @@ import InstCmp from './components/InstCmp';
 import Icons from '../../../styles/icons';
 import I18n from 'react-native-i18n';
 import fonts from '../../../theme/fonts';
+import {Divider} from '@rneui/themed';
 
 const AllInstScreen = (props: any) => {
   const {navigation} = props;
@@ -109,6 +110,7 @@ const AllInstScreen = (props: any) => {
           />
         </Pressable>
       </View>
+      <Divider orientation="horizontal" />
       <FlatList
         numColumns={2}
         data={institutions}

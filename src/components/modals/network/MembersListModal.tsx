@@ -18,6 +18,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getPartnersList} from '../../../store/actions';
 import MemberCmp from '../../modules/Network/components/MemberCmp';
 import globalStyles from '../../../styles/globalStyles';
+import {getNetwork} from '../../../store/actions/networkActions';
 
 const MembersListModal = (props: any) => {
   const {visible, setVisible} = props;
@@ -61,6 +62,11 @@ const MembersListModal = (props: any) => {
         },
       ),
     );
+    dispatch(
+      getNetwork({
+        partner: defaultPartner,
+      }),
+    );
   }
   useEffect(() => {
     getPage();
@@ -68,6 +74,10 @@ const MembersListModal = (props: any) => {
       setPartners([]);
     };
   }, [searchInput]);
+
+  useEffect(() => {
+    console.log({partners});
+  }, [partners]);
 
   return (
     <Modal
@@ -114,7 +124,11 @@ const MembersListModal = (props: any) => {
           <FlatList
             data={partners}
             renderItem={({item}: any) => (
-              <MemberCmp data={item} type={memberType(item?._id)} />
+              <MemberCmp
+                data={item}
+                type={memberType(item?._id)}
+                refresh={getPage}
+              />
             )}
             keyExtractor={item => item?._id}
             numColumns={2}

@@ -37,7 +37,7 @@ const AllNetworkScreen = (props: any) => {
         )}
         // extraData={members}
         renderItem={({item}: any) => (
-          <MemberCmp data={item?.user} type="member" />
+          <MemberCmp data={item?.user} type="member" refresh={refresh} />
         )}
         keyExtractor={item => item?._id}
         numColumns={2}

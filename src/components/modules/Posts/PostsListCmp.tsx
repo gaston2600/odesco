@@ -30,7 +30,7 @@ const PostsListCmp = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [posts_list, setPosts_list] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(1000);
 
   // const getPage = (page = 1) => {
   //     const offset = page === 1 || page === 0 ? 0 : limit * (page - 1);
