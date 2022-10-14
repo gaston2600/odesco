@@ -51,6 +51,7 @@ const MenuScreen = (props: any) => {
       icon: require('../../../../assets/icons/menu/members.png'),
       desc: 'description Membres',
       img: 'book-multiple-outline',
+      route: 'CoursStack',
     },
     {
       name: 'Formations',

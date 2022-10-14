@@ -8,6 +8,7 @@ import TeachersStack from './TeachersStack';
 import TrainingScreen from '../../components/modules/Training/TrainingScreen';
 import I18n from 'react-native-i18n';
 import AllInstScreen from '../../components/modules/Institution/AllInstScreen';
+import CoursStack from './CoursStack';
 
 const MenuStack = () => {
   const Stack = createNativeStackNavigator();
@@ -48,6 +49,14 @@ const MenuStack = () => {
         component={AllInstScreen}
         options={{
           title: I18n.t('institutions'),
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CoursStack"
+        component={CoursStack}
+        options={{
+          title: I18n.t('Cours'),
           headerShown: false,
         }}
       />

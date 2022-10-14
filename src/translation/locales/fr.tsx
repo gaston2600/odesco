@@ -78,6 +78,8 @@ const fr = {
   program: 'Programe',
   duration: 'Durée',
 
+  cours: 'Cours',
+
   event_name: "Nom d'évenement",
   add_new_event: 'Ajouter évenement',
   add_new_training: 'Ajouter Formation',
