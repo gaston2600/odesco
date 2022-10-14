@@ -27,7 +27,7 @@ const InvitNetwokScreen = (props: any) => {
             ?.includes(String(searchInput)?.toUpperCase()),
         )}
         renderItem={({item}: any) => (
-          <MemberCmp data={item?.user} type="invitation" />
+          <MemberCmp data={item?.user} type="invitation" refresh={refresh} />
         )}
         keyExtractor={item => item?._id}
         numColumns={2}

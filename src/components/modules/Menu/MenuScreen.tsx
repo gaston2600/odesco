@@ -71,6 +71,7 @@ const MenuScreen = (props: any) => {
       icon: require('../../../../assets/icons/menu/inst.png'),
       desc: 'description Établissements',
       img: 'office-building-outline',
+      route: 'AllInstScreen',
     },
   ];
 

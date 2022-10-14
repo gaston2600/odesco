@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import colors from '../../../../styles/colors';
 import metrics from '../../../../theme/metrics';
 import {extractImage} from '../../../../helpers/extractImage';
@@ -22,20 +22,19 @@ import {
   getEvents,
   subscribeEvent,
 } from '../../../../store/actions/eventsActions';
-import SelectInstitutionModal from '../../../modals/institutions/SelectInstitutionModal';
 
-const {screenWidth, screenHeight} = metrics;
+const {screenWidth} = metrics;
 const EventCmp = (props: any) => {
   const dispatch = useDispatch();
   const {data, isInvitation, status} = props;
 
-  const [visibleSelectInst, setVisibleSelectInst] = useState(false);
   const [loading, setLoading] = useState(false);
-  const selectedSpace = useSelector((state: any) => state?.User);
+  const [isSub, setIsSub] = useState(false);
+
+  const {selectedSpace} = useSelector((state: any) => state?.User);
 
   function subscribe() {
     setLoading(true);
-    // setVisibleSelectInst(false);
     let temp;
     if (selectedSpace?.type === 'Partner') {
       temp = {partner: selectedSpace?._id};
@@ -48,7 +47,8 @@ const EventCmp = (props: any) => {
           id: data?._id,
           data: temp,
         },
-        () => {
+        (res: any) => {
+          console.log('------------subscribe event', {res});
           setLoading(false);
           dispatch(
             getEvents(
@@ -65,19 +65,15 @@ const EventCmp = (props: any) => {
     );
   }
 
-  function confirmSelecInstModal(params: any) {
-    console.log({params});
-    if (params?.type === 'Partner') {
-      subscribe({partner: params?._id});
-    } else {
-      subscribe({institution: params?._id});
-    }
-  }
   function isSubscribed() {
-    return data?.subscribers?.some(
-      (v: any) => v?.partner === selectedSpace?._id,
+    setIsSub(
+      data?.subscribers?.some((v: any) => v?.partner === selectedSpace?._id),
     );
   }
+
+  useEffect(() => {
+    isSubscribed();
+  }, [selectedSpace, data]);
 
   return (
     <View style={[styles.containerStyle, globalStyles.shadow]}>
@@ -151,17 +147,32 @@ const EventCmp = (props: any) => {
           }}>
           <Pressable
             onPress={() => {
-              // setVisibleSelectInst(true);
               subscribe();
             }}
-            style={[styles.buttonContainerStyle, styles.rowContainer]}>
-            <Icons.FontAwesome name="star-o" size={15} color={colors.white} />
+            style={[
+              styles.buttonContainerStyle,
+              styles.rowContainer,
+              !isSub && {
+                backgroundColor: colors.white,
+                borderColor: colors.primary,
+              },
+            ]}>
+            {!loading && isSub && (
+              <Icons.FontAwesome name="star-o" size={15} color={colors.white} />
+            )}
             {loading ? (
-              <ActivityIndicator size={'small'} color={colors.white} />
+              <ActivityIndicator
+                size={'small'}
+                color={isSub ? colors.white : colors.primary}
+              />
             ) : (
-              <Text style={styles.buttonTextStyle}>
-                {isSubscribed()
-                  ? 'Annuler'
+              <Text
+                style={[
+                  styles.buttonTextStyle,
+                  !isSub && {color: colors.primary},
+                ]}>
+                {isSub
+                  ? 'Abonnée'
                   : I18n.t(isInvitation ? 'accept' : 'subscribe')}
               </Text>
             )}
@@ -180,7 +191,6 @@ const EventCmp = (props: any) => {
               styles.statusContainerStyle,
               {backgroundColor: colors.orange},
             ]}>
-            {/* <Text style={styles.statusTextStyle}>{status}</Text> */}
             <Text style={styles.statusTextStyle}>{I18n.t(status)}</Text>
           </View>
         ) : null}
@@ -199,15 +209,6 @@ const EventCmp = (props: any) => {
           </View>
         ) : null}
       </View>
-      {/* <SelectInstitutionModal
-        visible={visibleSelectInst}
-        setVisible={setVisibleSelectInst}
-        confirm={confirmSelecInstModal}
-        selectedList={data?.subscribers?.map((v: any) => ({
-          _id: v?._id,
-          type: v?.partner ? 'Partner' : 'Institution',
-        }))}
-      /> */}
     </View>
   );
 };
@@ -261,7 +262,7 @@ const styles = StyleSheet.create({
   buttonContainerStyle: {
     borderWidth: 1,
     borderColor: colors.sereneBlue,
-    borderRadius: 5,
+    borderRadius: 20,
     backgroundColor: colors.sereneBlue,
     padding: 5,
     width: screenWidth * 0.3,

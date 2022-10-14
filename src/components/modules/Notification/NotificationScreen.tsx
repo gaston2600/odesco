@@ -62,7 +62,7 @@ const NotificationScreen = (props: any) => {
   const {notifications, loading} = useSelector(
     (state: any) => state?.Notification,
   );
-  console.log({notifications, loading});
+  // console.log({notifications, loading});
 
   function getPage() {
     dispatch(getMyNotifications({}));

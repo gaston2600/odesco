@@ -8,41 +8,62 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {getTeachersList} from '../../../store/actions/teachersActions';
-import TeacherCmp from './components/TeacherCmp';
+import {useDispatch} from 'react-redux';
+import {getAllInstList, getAllInstListFilters} from '../../../store/actions';
 import colors from '../../../styles/colors';
+import InstCmp from './components/InstCmp';
 import Icons from '../../../styles/icons';
 import I18n from 'react-native-i18n';
 import fonts from '../../../theme/fonts';
 import {Divider} from '@rneui/themed';
 
-const TeachersScreen = (props: any) => {
+const AllInstScreen = (props: any) => {
   const {navigation} = props;
   const dispatch = useDispatch();
-  const {loading} = useSelector((state: any) => state?.Teachers);
-  const [list, setList] = useState([]);
+  const [institutions, setInstitutions] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [showSearchInput, setShowSearchInput] = useState(false);
-
   function getPage() {
-    dispatch(
-      getTeachersList(
-        {
-          filters: {
-            searchInput,
+    setLoading(true);
+    if (searchInput) {
+      dispatch(
+        getAllInstListFilters(
+          {
+            data: {
+              query: searchInput,
+            },
+            limit: 100,
           },
-        },
-        (res: any) => {
-          // console.log({ res });
-          setList(res?.teachers);
-        },
-        (err: any) => {
-          console.log({err});
-        },
-      ),
-    );
+          (res: any) => {
+            setInstitutions(res?.institutions);
+            setLoading(false);
+          },
+          (err: any) => {
+            console.log({err});
+            setLoading(false);
+          },
+        ),
+      );
+    } else {
+      dispatch(
+        getAllInstList(
+          {
+            limit: 100,
+          },
+          (res: any) => {
+            setInstitutions(res?.institutions);
+            setLoading(false);
+          },
+          (err: any) => {
+            console.log({err});
+            setLoading(false);
+          },
+        ),
+      );
+    }
   }
+
   useEffect(() => {
     getPage();
   }, [searchInput]);
@@ -61,7 +82,7 @@ const TeachersScreen = (props: any) => {
           />
         </Pressable>
         {!showSearchInput ? (
-          <Text style={styles.titleTextStyle}>{I18n.t('teachers')}</Text>
+          <Text style={styles.titleTextStyle}>{I18n.t('institutions')}</Text>
         ) : (
           <TextInput
             // ref={refSearchInput}
@@ -91,10 +112,9 @@ const TeachersScreen = (props: any) => {
       </View>
       <Divider orientation="horizontal" />
       <FlatList
-        data={list}
-        renderItem={({item}) => (
-          <TeacherCmp data={item} navigation={navigation} refresh={getPage} />
-        )}
+        numColumns={2}
+        data={institutions}
+        renderItem={({item}) => <InstCmp data={item} refresh={getPage} />}
         keyExtractor={(item: any) => item?._id}
         refreshControl={
           <RefreshControl
@@ -111,7 +131,7 @@ const TeachersScreen = (props: any) => {
   );
 };
 
-export default TeachersScreen;
+export default AllInstScreen;
 
 const styles = StyleSheet.create({
   containerStyle: {

@@ -25,7 +25,7 @@ const PendingInvitaionNetworkScreen = (props: any) => {
             ?.includes(String(searchInput)?.toUpperCase()),
         )}
         renderItem={({item}: any) => (
-          <MemberCmp data={item?.user} type="pending" />
+          <MemberCmp data={item?.user} type="pending" refresh={refresh} />
         )}
         keyExtractor={item => item?._id}
         numColumns={2}

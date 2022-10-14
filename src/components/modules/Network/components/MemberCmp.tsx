@@ -25,18 +25,18 @@ import ChatScreenModal from '../../../modals/Chat/ChatScreenModal';
 const {screenWidth} = metrics;
 
 const MemberCmp = (props: any) => {
-  const {data, type, refresh = () => null} = props;
+  const {data, type, refresh} = props;
   const {defaultPartner} = useSelector((state: any) => state?.Inst);
   const dispatch = useDispatch();
   const [loadingAccept, setLoadingAccept] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
-  const [contact, setContact] = useState({
+  const [contact, setContact]: any = useState({
     first_name: '',
     last_name: '',
     _id: '',
   });
   const [showChatModal, setShowChatModal] = useState(false);
-
+  
   function initiateChat(params: any) {
     dispatch(
       initiateChatRoom(
@@ -71,11 +71,14 @@ const MemberCmp = (props: any) => {
             member_id: data?._id,
           },
         },
-        () => {
+        (res: any) => {
+          console.log('accept network', {res});
+
           setLoadingAccept(false);
           refresh();
         },
         (err: any) => {
+          console.log('accept network', {err});
           setLoadingAccept(false);
         },
       ),
@@ -92,11 +95,13 @@ const MemberCmp = (props: any) => {
             member_id: data?._id,
           },
         },
-        () => {
+        (res: any) => {
+          console.log('add network', {res});
           setLoadingAdd(false);
           refresh();
         },
         (err: any) => {
+          console.log('add network', {err});
           setLoadingAdd(false);
         },
       ),
@@ -131,20 +136,22 @@ const MemberCmp = (props: any) => {
             {loadingAccept ? (
               <ActivityIndicator color={colors.primary} size="small" />
             ) : (
-              // <Text style={[styles.buttonTextStyle, { color: colors.white }]}>{I18n.t("accept")}</Text>
-              <Icons.Ionicons
-                name="checkmark-outline"
-                size={20}
-                color={colors.primary}
-              />
+              <Text style={[styles.buttonTextStyle, {color: colors.white}]}>
+                {I18n.t('accept')}
+              </Text>
+              // <Icons.Ionicons
+              //   name="checkmark-outline"
+              //   size={20}
+              //   color={colors.primary}
+              // />
             )}
           </Pressable>
         );
       case 'pending':
-        return <View />;
+        // return <View />;
         return (
           <Pressable style={styles.buttonContainerStyle}>
-            <Text style={styles.buttonTextStyle}>{I18n.t('cancel')}</Text>
+            <Text style={styles.buttonTextStyle}>En Attente</Text>
           </Pressable>
         );
       case 'add':

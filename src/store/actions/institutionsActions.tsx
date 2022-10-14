@@ -1,5 +1,8 @@
 import institutionSvr from '../../services/institutionSrv';
 import {
+  GET_ALL_INSTITUTION_lIST,
+  GET_ALL_INSTITUTION_lIST_FAILED,
+  GET_ALL_INSTITUTION_lIST_SUCCESS,
   GET_INSTITUTIONS_POSTS,
   GET_INSTITUTIONS_POSTS_FAILED,
   GET_INSTITUTIONS_POSTS_SUCCESS,
@@ -15,6 +18,9 @@ import {
   GET_ONE_INSTITUTION,
   GET_ONE_INSTITUTION_FAILED,
   GET_ONE_INSTITUTION_SUCCESS,
+  SUBSCRIBE_INST,
+  SUBSCRIBE_INST_FAILED,
+  SUBSCRIBE_INST_SUCCESS,
 } from '../types/institutionsActionTypes';
 import {
   GET_PARTNER_POSTS,
@@ -175,6 +181,91 @@ export const getInstTeachersList: any = (
         console.log('GET_INSTITUTION_TEACHERS_LIST error === ', e);
         dispatch({
           type: GET_INSTITUTION_TEACHERS_LIST_FAILED,
+          payload: e,
+        });
+        callbackError(e.response);
+      });
+  };
+};
+
+export const getAllInstList: any = (
+  data: any,
+  callback: any,
+  callbackError: any,
+) => {
+  return (dispatch: (arg0: {type: string; payload?: any}) => any) => {
+    dispatch({
+      type: GET_ALL_INSTITUTION_lIST,
+    });
+    institutionSvr
+      .getAll(data)
+      .then((response: any) => {
+        dispatch({
+          type: GET_ALL_INSTITUTION_lIST_SUCCESS,
+          payload: response?.data,
+        });
+        callback(response?.data);
+      })
+      .catch(e => {
+        console.log('GET_ALL_INSTITUTION_lIST error === ', e);
+        dispatch({
+          type: GET_ALL_INSTITUTION_lIST_FAILED,
+          payload: e,
+        });
+        callbackError(e.response);
+      });
+  };
+};
+export const getAllInstListFilters: any = (
+  data: any,
+  callback: any,
+  callbackError: any,
+) => {
+  return (dispatch: (arg0: {type: string; payload?: any}) => any) => {
+    dispatch({
+      type: GET_ALL_INSTITUTION_lIST,
+    });
+    institutionSvr
+      .getAllFilters(data)
+      .then((response: any) => {
+        dispatch({
+          type: GET_ALL_INSTITUTION_lIST_SUCCESS,
+          payload: response?.data,
+        });
+        callback(response?.data);
+      })
+      .catch(e => {
+        console.log('GET_ALL_INSTITUTION_lIST error === ', e);
+        dispatch({
+          type: GET_ALL_INSTITUTION_lIST_FAILED,
+          payload: e,
+        });
+        callbackError(e.response);
+      });
+  };
+};
+export const subscribeInst: any = (
+  data: any,
+  callback: any,
+  callbackError: any,
+) => {
+  return (dispatch: (arg0: {type: string; payload?: any}) => any) => {
+    dispatch({
+      type: SUBSCRIBE_INST,
+    });
+    institutionSvr
+      .subscribe(data)
+      .then((response: any) => {
+        dispatch({
+          type: SUBSCRIBE_INST_SUCCESS,
+          payload: response?.data,
+        });
+        callback(response?.data);
+      })
+      .catch(e => {
+        console.log('SUBSCRIBE_INST error === ', e);
+        dispatch({
+          type: SUBSCRIBE_INST_FAILED,
           payload: e,
         });
         callbackError(e.response);
