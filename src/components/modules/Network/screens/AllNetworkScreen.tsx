@@ -15,17 +15,7 @@ import I18n from 'react-native-i18n';
 
 const AllNetworkScreen = (props: any) => {
   const {refresh, searchInput} = props;
-  const {members, pendings, requests, loading} = useSelector(
-    (state: any) => state?.Network,
-  );
-  console.log({
-    members: members?.filter((v: any) =>
-      String(`${v?.user?.first_name} ${v?.user?.last_name}`)
-        ?.toUpperCase()
-        ?.includes(String(searchInput)?.toUpperCase()),
-    ),
-    searchInput,
-  });
+  const {members, loading} = useSelector((state: any) => state?.Network);
 
   return (
     <View style={styles.containerStyle}>

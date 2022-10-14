@@ -10,7 +10,7 @@ const eventsSrv = {
           .get(`${urls.events}/list?${extractFilters(data)}`)
           // .get(`${urls.comments}/${offset || 0}/${limit || 10}?${extractFilters({ filters })}`)
           .then(resp => {
-            console.log({resp});
+            // console.log({resp});
             resolve(resp);
           })
           .catch(e => reject(e))
@@ -36,6 +36,8 @@ const eventsSrv = {
     });
   },
   subscribe: (data: any) => {
+    console.log({data});
+
     return new Promise(async (resolve, reject) => {
       return axios
         .post(`${urls.events}/subscribe/${data?.id}`, data?.data)

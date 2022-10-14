@@ -16,6 +16,9 @@ import MembersListModal from '../../../modals/network/MembersListModal';
 const HeaderHomeCmp = (props: any) => {
   const {navigation} = props;
   const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
+  console.log({state});
+
   const {selectedSpace} = useSelector((state: any) => state?.User);
   const {myPartners, defaultPartner} = useSelector((state: any) => state?.Inst);
 

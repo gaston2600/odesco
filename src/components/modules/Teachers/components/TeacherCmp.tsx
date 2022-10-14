@@ -21,30 +21,22 @@ const TeacherCmp = (props: any) => {
   const dispatch = useDispatch();
   const [loadingFollow, setLoadingFollow] = useState(false);
   const [isSub, setIsSub] = useState(false);
-  const {selectedSpace} = useSelector((state: any) => state?.User);
+  const {defaultPartner} = useSelector((state: any) => state?.Inst);
 
   function isSubscribed() {
     setIsSub(
-      data?.subscribers?.some((v: any) => v?.partner === selectedSpace?._id),
+      data?.subscribers?.some((v: any) => v?.partner === defaultPartner),
     );
   }
   function subscribe() {
     setLoadingFollow(true);
-    let temp;
-    if (selectedSpace?.type === 'Partner') {
-      temp = {
-        partner: selectedSpace?._id,
-      };
-    } else {
-      temp = {
-        institution: selectedSpace?._id,
-      };
-    }
     dispatch(
       subscribeToTeacher(
         {
           teacher: data?._id,
-          data: temp,
+          data: {
+            partner: defaultPartner,
+          },
         },
         () => {
           refresh();
@@ -61,7 +53,7 @@ const TeacherCmp = (props: any) => {
 
   useEffect(() => {
     isSubscribed();
-  }, [selectedSpace, data]);
+  }, [defaultPartner, data]);
 
   return (
     <Pressable
@@ -96,7 +88,6 @@ const TeacherCmp = (props: any) => {
       <View
         style={{
           flex: 1.5,
-          // alignItems: "center",
           justifyContent: 'center',
         }}>
         {hideFollow ? null : (
@@ -135,11 +126,9 @@ export default TeacherCmp;
 const styles = StyleSheet.create({
   containerStyle: {
     margin: 10,
-    // borderWidth: 1,
     borderRadius: 5,
     padding: 10,
     flexDirection: 'row',
-    // width: "100%"
   },
   titleTextStyle: {
     fontFamily: fonts.type.NunitoMedium,
@@ -153,7 +142,6 @@ const styles = StyleSheet.create({
   },
   followContainerStyle: {
     padding: 5,
-    // paddingHorizontal: 10,
     borderRadius: 20,
     backgroundColor: colors.sereneBlue,
     alignItems: 'center',

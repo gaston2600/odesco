@@ -22,29 +22,22 @@ const InstCmp = (props: any) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [isSub, setIsSub] = useState(false);
-  const {selectedSpace} = useSelector((state: any) => state?.User);
+
+  const {defaultPartner} = useSelector((state: any) => state?.Inst);
   function isSubscribed() {
     setIsSub(
-      data?.subscribers?.some((v: any) => v?.partner === selectedSpace?._id),
+      data?.subscribers?.some((v: any) => v?.partner === defaultPartner),
     );
   }
   function subscribe() {
     setLoading(true);
-    let temp;
-    if (selectedSpace?.type === 'Partner') {
-      temp = {
-        partner: selectedSpace?._id,
-      };
-    } else {
-      temp = {
-        institution: selectedSpace?._id,
-      };
-    }
     dispatch(
       subscribeInst(
         {
           id: data?._id,
-          data: temp,
+          data: {
+            partner: defaultPartner,
+          },
         },
         () => {
           setLoading(false);
@@ -60,7 +53,7 @@ const InstCmp = (props: any) => {
   }
   useEffect(() => {
     isSubscribed();
-  }, [selectedSpace, data]);
+  }, [defaultPartner, data]);
 
   return (
     <View style={styles.containerStyle}>
@@ -119,9 +112,6 @@ const styles = StyleSheet.create({
     ...globalStyles.shadow,
     width: ScreenWidth * 0.45,
     margin: ScreenWidth * 0.025,
-    // borderRadius: 5,
-    // alignSelf: 'center',
-    // padding: 10,
     marginVertical: 10,
   },
   imageContainer: {
@@ -148,7 +138,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     padding: 10,
-    // borderWidth: 1,
   },
   buttonStyle: {
     borderWidth: 1,
