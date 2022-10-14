@@ -27,4 +27,5 @@ export const urls = {
   chat: '/api/chat',
   trainings: '/api/trainings',
   notifications: '/api/notifications',
+  courses: '/api/courses',
 };
