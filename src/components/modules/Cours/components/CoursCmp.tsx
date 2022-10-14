@@ -10,12 +10,12 @@ import I18n from 'react-native-i18n';
 const CoursCmp = (props: any) => {
   const {data, navigation} = props;
 
-  console.log({data}, data?.name);
+//   console.log({data}, data?.name);
 
   return (
     <Pressable
       onPress={() => {
-        navigation?.navigate('CoursDetailsScreen');
+        navigation?.navigate('CoursDetailsScreen', {id: data?._id});
       }}
       style={styles.containerStyle}>
       <View style={styles.imageContainer}>

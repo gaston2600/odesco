@@ -28,4 +28,5 @@ export const urls = {
   trainings: '/api/trainings',
   notifications: '/api/notifications',
   courses: '/api/courses',
+  quiz: '/api/quiz',
 };
